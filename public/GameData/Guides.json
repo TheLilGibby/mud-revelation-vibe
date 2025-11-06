@@ -1,0 +1,269 @@
+{
+  "guides": [
+    {
+      "id": "icewind-melee-ranger",
+      "title": "IceWind's Melee Ranger Guide",
+      "author": "IceWind",
+      "contact": "greaper@gmail.com",
+      "characterClass": "Ranger",
+      "buildType": "Melee",
+      "version": "0.34",
+      "status": "Outdated",
+      "lastUpdated": "May 15, 2008",
+      "sections": [
+        {
+          "title": "Stats",
+          "content": "Strength (STR) - Equipment requirements mostly\nToughness (TOG) - only put 10 points into for Salty Bone Bracers or leave it at starting amount at invest into agility or focus\nAgility (AGI) - Equipment requirements mostly\nFocus (FOC) - Minimum of 20 to 30.\n\nBy 100 you can have 160 strength, 20 toughness, 100 agility and 22 focus. Alternatively, drop 10 str and put it into agility or focus probably best putting it into focus to improve regen rate, overall mana, proc chance and keeping effectiveness of spells at 100%. Also by getting EAs you can improve these further. You can also leave toughness at its starting number of 10 to put those 10 points into focus or even agility.",
+          "recommendations": {
+            "level100": {
+              "strength": 160,
+              "toughness": 20,
+              "agility": 100,
+              "focus": 22
+            },
+            "alternative": {
+              "strength": 150,
+              "toughness": 10,
+              "agility": 100,
+              "focus": 32,
+              "note": "Drop 10 str and put it into focus to improve regen rate, overall mana, proc chance and keeping effectiveness of spells at 100%"
+            }
+          }
+        },
+        {
+          "title": "Skills",
+          "content": "Every melee Ranger should max these skills",
+          "skills": [
+            {
+              "name": "Swords",
+              "maxLevel": null,
+              "priority": 1,
+              "description": "Max this ASAP needed to kill mobs faster and do more damage."
+            },
+            {
+              "name": "Dodge",
+              "maxLevel": 7,
+              "priority": 2,
+              "description": "A MUST helps to stay alive longer."
+            },
+            {
+              "name": "Parry",
+              "maxLevel": 5,
+              "priority": 3,
+              "description": "Handy to have, if not dodging you will parry most of the time."
+            },
+            {
+              "name": "Dual Wield",
+              "maxLevel": 7,
+              "priority": 4,
+              "description": "Max this ASAP. Improves off hand damage."
+            },
+            {
+              "name": "Battle Mastery",
+              "maxLevel": 6,
+              "priority": 5,
+              "description": "Same as Combat Precision."
+            },
+            {
+              "name": "Combat Precision",
+              "maxLevel": 6,
+              "priority": 6,
+              "description": "A must at higher levels."
+            },
+            {
+              "name": "Double Attack",
+              "maxLevel": 6,
+              "priority": 7,
+              "description": "Increases chance of hitting twice."
+            },
+            {
+              "name": "Triple Attack",
+              "maxLevel": 4,
+              "priority": 8,
+              "description": "Increases chance of hitting 3 times. Can be left to AA."
+            },
+            {
+              "name": "Rapid Attack",
+              "maxLevel": 2,
+              "priority": 9,
+              "description": "Adds 3% haste per point. Can be left to AA."
+            },
+            {
+              "name": "Critical Hit",
+              "maxLevel": 3,
+              "priority": 10,
+              "description": "Improves chance of doing double damage to a mob."
+            },
+            {
+              "name": "Rampage",
+              "maxLevel": 6,
+              "priority": 11,
+              "description": "Adds between 30 and 60 damage per point in it."
+            },
+            {
+              "name": "Mastery of Pain",
+              "maxLevel": 5,
+              "priority": 12,
+              "description": "Improves damage absorb by 2% per point invested."
+            },
+            {
+              "name": "Stealth",
+              "maxLevel": 8,
+              "priority": 13,
+              "description": "Handy to have, adds to dodge as well (0.5% per point). AA this, unless you want to try and PK or avoid getting killed in a guild war."
+            },
+            {
+              "name": "Evade",
+              "maxLevel": 3,
+              "priority": 14,
+              "description": "Improves dodge 5% per point but only lasts for 20 seconds and takes 2 minutes to recharge. AA this, unless you really want to max as soon as you get it."
+            }
+          ],
+          "notes": "From memory I had worked it out to between 20 and 30 AAs to have ALL melee skills maxed."
+        },
+        {
+          "title": "Spells",
+          "content": "Depending on how you go about maxing your self buffs, you can max one line which is AWN -> SWN -> OWN or even them out and AA both to max.",
+          "spellLines": [
+            {
+              "line": "Strength/Toughness Buffs",
+              "spells": [
+                {
+                  "name": "Attenuation With Nature",
+                  "level": 32,
+                  "maxLevel": 10,
+                  "effects": {
+                    "strength": "+40",
+                    "toughness": "+23",
+                    "duration": "600 seconds"
+                  }
+                },
+                {
+                  "name": "Solidarity With Nature",
+                  "level": null,
+                  "maxLevel": 10,
+                  "effects": {
+                    "strength": "+80",
+                    "toughness": "+44",
+                    "duration": "600 seconds"
+                  }
+                },
+                {
+                  "name": "Oneness With Nature",
+                  "level": null,
+                  "maxLevel": 10,
+                  "effects": {
+                    "strength": "+120",
+                    "toughness": "+66",
+                    "duration": "600 seconds"
+                  }
+                }
+              ]
+            },
+            {
+              "line": "Damage/Haste Buffs",
+              "spells": [
+                {
+                  "name": "Spirit of the Wolf",
+                  "level": 25,
+                  "maxLevel": 10,
+                  "effects": {
+                    "damage": "+30",
+                    "haste": "+12",
+                    "duration": "360 seconds"
+                  }
+                },
+                {
+                  "name": "Spirit of The Beast",
+                  "level": null,
+                  "maxLevel": 10,
+                  "effects": {
+                    "damage": "+62",
+                    "haste": "+22",
+                    "duration": "700 seconds"
+                  }
+                },
+                {
+                  "name": "Spirit of The Wild",
+                  "level": null,
+                  "maxLevel": 10,
+                  "effects": {
+                    "damage": "+108",
+                    "haste": "+32",
+                    "duration": "730 seconds"
+                  }
+                }
+              ]
+            }
+          ],
+          "recommendations": "You really only have one choice at the beginning of which self buff to train up and that is Spirit of the Wolf at level 25. You can max the Spirit of the Wolf line first and AA Attenuation With Nature line or vice versa. Around 8 AAs to finish off self buff (Str/Tog or Dmg/Haste line)."
+        },
+        {
+          "title": "Equipment",
+          "content": "By Level 100 you should try to have all this equip (that is if you can afford to buy it all). If you cannot afford it there are other items you can use instead, until you can afford them or win them on a boss run.",
+          "slots": {
+            "helmet": [
+              "Crown of Light",
+              "Helm of Ancient Power",
+              "Lizard Hide Helm",
+              "Troll Crown"
+            ],
+            "necklace": [
+              "Timeless Sedgeway Family Seal",
+              "Idol of Suffering",
+              "Elysian Solitaire Choker",
+              "Drake Talon Necklace"
+            ],
+            "wrists": [
+              "Hellforged Bracers",
+              "Emerald Wristbands",
+              "Greeanjok Bone Bracers",
+              "Salty Bone Bracers",
+              "Grass Heart Bracelets",
+              "Forest Spirit Bracers"
+            ],
+            "body": [
+              "Rugged Nightmare Tunic",
+              "Vestage of Torment",
+              "Mastadon Shanks",
+              "Coranin Wolf Hide Tunic",
+              "Virtuous Brigandine Tunic",
+              "Eternity Weave Tunic"
+            ],
+            "hands": [
+              "Trollskin Gloves",
+              "Shiney Imp Gloves",
+              "Spectral Gloves",
+              "Rugged Nightmare Gloves"
+            ],
+            "weapons": [
+              "Dual BloodDrinkers",
+              "Barbarian Greatsword and Blade of VanGosel",
+              "Frost Bourne Ice Axe and Blade of VanGosel",
+              "Ancient Lizardfolk Blade and Naraikos Sword",
+              "Frostwraith and BD or combo of other swords mentioned"
+            ],
+            "rings": [
+              "Shadow Bound Rings",
+              "Greeanjok Skull Rings",
+              "Ring of the High Seas"
+            ],
+            "legs": [
+              "Virtuous Brigandine Trousers",
+              "Rugged Nightmare Legs",
+              "Spectral Leggings"
+            ],
+            "boots": [
+              "Sassaren Spiked Boots",
+              "Rugged Nightmare Boots",
+              "Coranin Wolf Hide Boots",
+              "Horror Spined Boots"
+            ]
+          },
+          "notes": "Items like Crown of Light, Timeless Sedgeway Family Seal, and Shadow Bound Ring are quest items that can only be obtained and completed when you reach 100. You will need to win the other items on boss runs (which comes down to luck and the other ppl rolling lower than you), or buy them from other players or the bazaar."
+        }
+      ]
+    }
+  ]
+}
+

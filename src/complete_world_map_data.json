@@ -1,0 +1,972 @@
+{
+  "metadata": {
+    "title": "Complete Revelation World Map",
+    "description": "Comprehensive world map grid showing all 79 zones organized by geographic region",
+    "totalZones": 79,
+    "gridSize": "20x20",
+    "version": "1.0"
+  },
+  "regions": {
+    "northern_territories": {
+      "name": "Northern Territories",
+      "color": "#87ceeb",
+      "zones": ["northern_wastes", "NorthPole", "frozen_vale", "Drakkarloch", "Western_Drakkarloch_Mines"]
+    },
+    "central_lands": {
+      "name": "Central Lands",
+      "color": "#90ee90",
+      "zones": ["myronmet", "myronmet_graveyard", "myronmet_swamp", "forest", "eastforest", "westforest", "Pines", "druidgrove"]
+    },
+    "eastern_empire": {
+      "name": "Eastern Empire",
+      "color": "#ffd700",
+      "zones": ["epiach", "EpiachFields", "eastern_epiach_highway", "Tur'issik", "greeanjok", "silverspirehills", "silverspiremountains", "western_foothills", "Dragonspire_Reach"]
+    },
+    "southern_regions": {
+      "name": "Southern Regions",
+      "color": "#dda0dd",
+      "zones": ["southmaj", "sassarenfields", "Forsaken_Wastelands", "Wilderness", "westeros", "black_marsh"]
+    },
+    "western_coast": {
+      "name": "Western Coast",
+      "color": "#4169e1",
+      "zones": ["Atlaand", "road_to_atlaand", "naraikos", "VastOcean", "Ship", "Lighthouse"]
+    },
+    "underground_realms": {
+      "name": "Underground Realms",
+      "color": "#8b4513",
+      "zones": ["lakeconosiat", "old_conosiat_mines", "mercadepth", "deepest_mines", "deep_mines", "Catacombs", "ancient_caverns", "Dungeon", "Underworld", "Underworld_2", "SubWaterways", "grotto", "hollows", "vault", "Halls", "great_chasm"]
+    },
+    "mystical_places": {
+      "name": "Mystical & Special Places",
+      "color": "#ff00ff",
+      "zones": ["SpiritRealm", "Hall_of_Fallen_Gods", "Mirror", "altar", "Rainbow", "Secret", "Undiscovered"]
+    },
+    "dungeons_lairs": {
+      "name": "Dungeons & Lairs",
+      "color": "#dc143c",
+      "zones": ["Skelly", "Hive", "Manor", "Chessboard", "The_Gauntlet", "Lava", "PP", "sg"]
+    },
+    "settlements": {
+      "name": "Settlements & Outposts",
+      "color": "#ffa500",
+      "zones": ["brevaran", "coranin", "vatlan", "serpolis", "pastserp", "Ghal", "Icarus", "Skaan", "TinkWorkshop"]
+    },
+    "wilderness_zones": {
+      "name": "Wilderness & Natural Areas",
+      "color": "#228b22",
+      "zones": ["veratinefalls", "Lagoon", "Oasis"]
+    }
+  },
+  "locations": {
+    "myronmet": {
+      "name": "myronmet",
+      "displayName": "Myronmet",
+      "type": "City",
+      "region": "central_lands",
+      "gridX": 10,
+      "gridY": 10,
+      "description": "The central hub city of Revelation",
+      "exits": {
+        "north": "forest",
+        "south": "lakeconosiat",
+        "east": "vatlan",
+        "west": "road_to_atlaand",
+        "northeast": "myronmet_graveyard",
+        "southwest": "myronmet_swamp"
+      }
+    },
+    "myronmet_graveyard": {
+      "name": "myronmet_graveyard",
+      "displayName": "Myronmet Graveyard",
+      "type": "Graveyard",
+      "region": "central_lands",
+      "gridX": 11,
+      "gridY": 9,
+      "description": "Haunted graveyard north of Myronmet",
+      "exits": {
+        "southwest": "myronmet"
+      }
+    },
+    "myronmet_swamp": {
+      "name": "myronmet_swamp",
+      "displayName": "Myronmet Swamp",
+      "type": "Swamp",
+      "region": "central_lands",
+      "gridX": 9,
+      "gridY": 11,
+      "description": "Murky swamp southwest of Myronmet",
+      "exits": {
+        "northeast": "myronmet"
+      }
+    },
+    "road_to_atlaand": {
+      "name": "road_to_atlaand",
+      "displayName": "Road to Atlaand",
+      "type": "Road",
+      "region": "western_coast",
+      "gridX": 7,
+      "gridY": 10,
+      "description": "Western highway connecting to the port",
+      "exits": {
+        "east": "myronmet",
+        "west": "Atlaand"
+      }
+    },
+    "Atlaand": {
+      "name": "Atlaand",
+      "displayName": "Atlaand",
+      "type": "Port City",
+      "region": "western_coast",
+      "gridX": 5,
+      "gridY": 10,
+      "description": "Major western port city",
+      "exits": {
+        "east": "road_to_atlaand",
+        "south": "naraikos",
+        "west": "VastOcean"
+      }
+    },
+    "naraikos": {
+      "name": "naraikos",
+      "displayName": "Naraikos",
+      "type": "City",
+      "region": "western_coast",
+      "gridX": 5,
+      "gridY": 12,
+      "description": "Ancient city with deep catacombs",
+      "exits": {
+        "north": "Atlaand",
+        "down": "Catacombs"
+      }
+    },
+    "Catacombs": {
+      "name": "Catacombs",
+      "displayName": "Catacombs",
+      "type": "Dungeon",
+      "region": "underground_realms",
+      "gridX": 5,
+      "gridY": 13,
+      "description": "Underground catacombs beneath Naraikos",
+      "exits": {
+        "up": "naraikos"
+      }
+    },
+    "VastOcean": {
+      "name": "VastOcean",
+      "displayName": "Vast Ocean",
+      "type": "Ocean",
+      "region": "western_coast",
+      "gridX": 3,
+      "gridY": 10,
+      "description": "Endless ocean to the west",
+      "exits": {
+        "east": "Atlaand",
+        "south": "Ship",
+        "north": "Lighthouse"
+      }
+    },
+    "Ship": {
+      "name": "Ship",
+      "displayName": "The Ship",
+      "type": "Ship",
+      "region": "western_coast",
+      "gridX": 3,
+      "gridY": 12,
+      "description": "Mysterious ship at sea",
+      "exits": {
+        "north": "VastOcean"
+      }
+    },
+    "Lighthouse": {
+      "name": "Lighthouse",
+      "displayName": "Lighthouse",
+      "type": "Landmark",
+      "region": "western_coast",
+      "gridX": 3,
+      "gridY": 8,
+      "description": "Beacon tower on the coast",
+      "exits": {
+        "south": "VastOcean"
+      }
+    },
+    "forest": {
+      "name": "forest",
+      "displayName": "Illundium Forest",
+      "type": "Forest",
+      "region": "central_lands",
+      "gridX": 10,
+      "gridY": 7,
+      "description": "Dense forest north of Myronmet",
+      "exits": {
+        "south": "myronmet",
+        "north": "Pines",
+        "east": "Tur'issik",
+        "west": "druidgrove"
+      }
+    },
+    "Pines": {
+      "name": "Pines",
+      "displayName": "The Pines",
+      "type": "Forest",
+      "region": "central_lands",
+      "gridX": 10,
+      "gridY": 5,
+      "description": "Pine forest in the north",
+      "exits": {
+        "south": "forest",
+        "north": "northern_wastes"
+      }
+    },
+    "northern_wastes": {
+      "name": "northern_wastes",
+      "displayName": "Northern Wastes",
+      "type": "Wasteland",
+      "region": "northern_territories",
+      "gridX": 10,
+      "gridY": 3,
+      "description": "Frozen wastes of the far north",
+      "exits": {
+        "south": "Pines",
+        "north": "NorthPole",
+        "east": "frozen_vale",
+        "west": "Drakkarloch"
+      }
+    },
+    "NorthPole": {
+      "name": "NorthPole",
+      "displayName": "North Pole",
+      "type": "Arctic",
+      "region": "northern_territories",
+      "gridX": 10,
+      "gridY": 1,
+      "description": "Frozen pole at the top of the world",
+      "exits": {
+        "south": "northern_wastes"
+      }
+    },
+    "frozen_vale": {
+      "name": "frozen_vale",
+      "displayName": "Frozen Vale",
+      "type": "Valley",
+      "region": "northern_territories",
+      "gridX": 12,
+      "gridY": 3,
+      "description": "Icy valley in the northeast",
+      "exits": {
+        "west": "northern_wastes"
+      }
+    },
+    "Drakkarloch": {
+      "name": "Drakkarloch",
+      "displayName": "Drakkarloch",
+      "type": "City",
+      "region": "northern_territories",
+      "gridX": 8,
+      "gridY": 3,
+      "description": "Northern mining city",
+      "exits": {
+        "east": "northern_wastes",
+        "down": "Western_Drakkarloch_Mines"
+      }
+    },
+    "Western_Drakkarloch_Mines": {
+      "name": "Western_Drakkarloch_Mines",
+      "displayName": "Western Drakkarloch Mines",
+      "type": "Mines",
+      "region": "northern_territories",
+      "gridX": 7,
+      "gridY": 3,
+      "description": "Deep mines beneath Drakkarloch",
+      "exits": {
+        "up": "Drakkarloch"
+      }
+    },
+    "druidgrove": {
+      "name": "druidgrove",
+      "displayName": "Druid Grove",
+      "type": "Grove",
+      "region": "central_lands",
+      "gridX": 8,
+      "gridY": 7,
+      "description": "Sacred grove of the druids",
+      "exits": {
+        "east": "forest"
+      }
+    },
+    "westforest": {
+      "name": "westforest",
+      "displayName": "Western Forest",
+      "type": "Forest",
+      "region": "central_lands",
+      "gridX": 7,
+      "gridY": 8,
+      "description": "Dense western woods",
+      "exits": {
+        "north": "druidgrove",
+        "east": "forest"
+      }
+    },
+    "eastforest": {
+      "name": "eastforest",
+      "displayName": "Eastern Forest",
+      "type": "Forest",
+      "region": "central_lands",
+      "gridX": 12,
+      "gridY": 8,
+      "description": "Eastern woodland region",
+      "exits": {
+        "west": "forest",
+        "east": "vatlan"
+      }
+    },
+    "vatlan": {
+      "name": "vatlan",
+      "displayName": "Vatlan Cliffs",
+      "type": "Cliffs",
+      "region": "settlements",
+      "gridX": 13,
+      "gridY": 10,
+      "description": "Dramatic cliffs east of Myronmet",
+      "exits": {
+        "west": "myronmet",
+        "north": "Tur'issik"
+      }
+    },
+    "Tur'issik": {
+      "name": "Tur'issik",
+      "displayName": "Tur'issik",
+      "type": "Settlement",
+      "region": "eastern_empire",
+      "gridX": 13,
+      "gridY": 7,
+      "description": "Eastern trading settlement",
+      "exits": {
+        "south": "vatlan",
+        "west": "forest",
+        "east": "epiach"
+      }
+    },
+    "epiach": {
+      "name": "epiach",
+      "displayName": "Epiach",
+      "type": "Imperial City",
+      "region": "eastern_empire",
+      "gridX": 16,
+      "gridY": 7,
+      "description": "Grand imperial capital",
+      "exits": {
+        "west": "Tur'issik",
+        "south": "EpiachFields",
+        "east": "eastern_epiach_highway",
+        "north": "western_foothills"
+      }
+    },
+    "EpiachFields": {
+      "name": "EpiachFields",
+      "displayName": "Epiach Fields",
+      "type": "Fields",
+      "region": "eastern_empire",
+      "gridX": 16,
+      "gridY": 9,
+      "description": "Fertile farming fields",
+      "exits": {
+        "north": "epiach",
+        "south": "southmaj"
+      }
+    },
+    "eastern_epiach_highway": {
+      "name": "eastern_epiach_highway",
+      "displayName": "Eastern Epiach Highway",
+      "type": "Highway",
+      "region": "eastern_empire",
+      "gridX": 18,
+      "gridY": 7,
+      "description": "Major eastern road",
+      "exits": {
+        "west": "epiach",
+        "east": "coranin"
+      }
+    },
+    "coranin": {
+      "name": "coranin",
+      "displayName": "Coranin Forest",
+      "type": "Forest",
+      "region": "settlements",
+      "gridX": 20,
+      "gridY": 7,
+      "description": "Eastern frontier forest",
+      "exits": {
+        "west": "eastern_epiach_highway"
+      }
+    },
+    "western_foothills": {
+      "name": "western_foothills",
+      "displayName": "Western Foothills",
+      "type": "Foothills",
+      "region": "eastern_empire",
+      "gridX": 16,
+      "gridY": 5,
+      "description": "Foothills below the mountains",
+      "exits": {
+        "south": "epiach",
+        "north": "silverspirehills"
+      }
+    },
+    "silverspirehills": {
+      "name": "silverspirehills",
+      "displayName": "Silverspire Hills",
+      "type": "Hills",
+      "region": "eastern_empire",
+      "gridX": 16,
+      "gridY": 3,
+      "description": "Rolling hills region",
+      "exits": {
+        "south": "western_foothills",
+        "north": "silverspiremountains"
+      }
+    },
+    "silverspiremountains": {
+      "name": "silverspiremountains",
+      "displayName": "Silverspire Mountains",
+      "type": "Mountains",
+      "region": "eastern_empire",
+      "gridX": 16,
+      "gridY": 1,
+      "description": "Towering mountain range",
+      "exits": {
+        "south": "silverspirehills",
+        "east": "Dragonspire_Reach"
+      }
+    },
+    "Dragonspire_Reach": {
+      "name": "Dragonspire_Reach",
+      "displayName": "Dragonspire Reach",
+      "type": "Mountains",
+      "region": "eastern_empire",
+      "gridX": 18,
+      "gridY": 1,
+      "description": "Dragon-inhabited peaks",
+      "exits": {
+        "west": "silverspiremountains"
+      }
+    },
+    "greeanjok": {
+      "name": "greeanjok",
+      "displayName": "Greeanjok",
+      "type": "City",
+      "region": "eastern_empire",
+      "gridX": 19,
+      "gridY": 3,
+      "description": "Eastern mountain city",
+      "exits": {
+        "south": "eastern_epiach_highway"
+      }
+    },
+    "southmaj": {
+      "name": "southmaj",
+      "displayName": "Southern Majestia",
+      "type": "Territory",
+      "region": "southern_regions",
+      "gridX": 16,
+      "gridY": 11,
+      "description": "Southern imperial territory",
+      "exits": {
+        "north": "EpiachFields",
+        "south": "sassarenfields",
+        "west": "lakeconosiat",
+        "down": "ancient_caverns"
+      }
+    },
+    "sassarenfields": {
+      "name": "sassarenfields",
+      "displayName": "Sassaren Fields",
+      "type": "Fields",
+      "region": "southern_regions",
+      "gridX": 16,
+      "gridY": 13,
+      "description": "Southern grasslands",
+      "exits": {
+        "north": "southmaj",
+        "south": "Forsaken_Wastelands"
+      }
+    },
+    "Forsaken_Wastelands": {
+      "name": "Forsaken_Wastelands",
+      "displayName": "Forsaken Wastelands",
+      "type": "Wasteland",
+      "region": "southern_regions",
+      "gridX": 16,
+      "gridY": 15,
+      "description": "Desolate southern wastes",
+      "exits": {
+        "north": "sassarenfields",
+        "west": "Wilderness"
+      }
+    },
+    "Wilderness": {
+      "name": "Wilderness",
+      "displayName": "The Wilderness",
+      "type": "Wilderness",
+      "region": "southern_regions",
+      "gridX": 14,
+      "gridY": 15,
+      "description": "Untamed wildlands",
+      "exits": {
+        "east": "Forsaken_Wastelands",
+        "west": "westeros"
+      }
+    },
+    "westeros": {
+      "name": "westeros",
+      "displayName": "Westeros",
+      "type": "Region",
+      "region": "southern_regions",
+      "gridX": 12,
+      "gridY": 15,
+      "description": "Far western territories",
+      "exits": {
+        "east": "Wilderness",
+        "south": "black_marsh"
+      }
+    },
+    "black_marsh": {
+      "name": "black_marsh",
+      "displayName": "Black Marsh",
+      "type": "Swamp",
+      "region": "southern_regions",
+      "gridX": 12,
+      "gridY": 17,
+      "description": "Treacherous dark swamp",
+      "exits": {
+        "north": "westeros"
+      }
+    },
+    "lakeconosiat": {
+      "name": "lakeconosiat",
+      "displayName": "Lake Conosiat",
+      "type": "Lake",
+      "region": "underground_realms",
+      "gridX": 10,
+      "gridY": 12,
+      "description": "Large lake south of Myronmet",
+      "exits": {
+        "north": "myronmet",
+        "east": "southmaj",
+        "down": "old_conosiat_mines"
+      }
+    },
+    "old_conosiat_mines": {
+      "name": "old_conosiat_mines",
+      "displayName": "Old Conosiat Mines",
+      "type": "Mines",
+      "region": "underground_realms",
+      "gridX": 10,
+      "gridY": 13,
+      "description": "Abandoned mining complex",
+      "exits": {
+        "up": "lakeconosiat",
+        "down": "deep_mines"
+      }
+    },
+    "deep_mines": {
+      "name": "deep_mines",
+      "displayName": "Deep Mines",
+      "type": "Mines",
+      "region": "underground_realms",
+      "gridX": 10,
+      "gridY": 14,
+      "description": "Deeper mining levels",
+      "exits": {
+        "up": "old_conosiat_mines",
+        "down": "deepest_mines"
+      }
+    },
+    "deepest_mines": {
+      "name": "deepest_mines",
+      "displayName": "Deepest Mines",
+      "type": "Mines",
+      "region": "underground_realms",
+      "gridX": 10,
+      "gridY": 15,
+      "description": "Lowest mining depths",
+      "exits": {
+        "up": "deep_mines",
+        "east": "mercadepth"
+      }
+    },
+    "mercadepth": {
+      "name": "mercadepth",
+      "displayName": "Mercadian Depths",
+      "type": "Underground",
+      "region": "underground_realms",
+      "gridX": 11,
+      "gridY": 15,
+      "description": "Ancient underground city",
+      "exits": {
+        "west": "deepest_mines"
+      }
+    },
+    "ancient_caverns": {
+      "name": "ancient_caverns",
+      "displayName": "Ancient Caverns",
+      "type": "Caverns",
+      "region": "underground_realms",
+      "gridX": 15,
+      "gridY": 12,
+      "description": "Prehistoric underground caves",
+      "exits": {
+        "up": "southmaj"
+      }
+    },
+    "Dungeon": {
+      "name": "Dungeon",
+      "displayName": "The Dungeon",
+      "type": "Dungeon",
+      "region": "underground_realms",
+      "gridX": 8,
+      "gridY": 13,
+      "description": "Prison dungeon complex",
+      "exits": {}
+    },
+    "Underworld": {
+      "name": "Underworld",
+      "displayName": "Underworld",
+      "type": "Hell",
+      "region": "underground_realms",
+      "gridX": 6,
+      "gridY": 15,
+      "description": "Realm of the damned",
+      "exits": {
+        "east": "Underworld_2"
+      }
+    },
+    "Underworld_2": {
+      "name": "Underworld_2",
+      "displayName": "Underworld II",
+      "type": "Hell",
+      "region": "underground_realms",
+      "gridX": 7,
+      "gridY": 15,
+      "description": "Deeper infernal realms",
+      "exits": {
+        "west": "Underworld"
+      }
+    },
+    "SubWaterways": {
+      "name": "SubWaterways",
+      "displayName": "Subterranean Waterways",
+      "type": "Underground",
+      "region": "underground_realms",
+      "gridX": 8,
+      "gridY": 14,
+      "description": "Underground river system",
+      "exits": {}
+    },
+    "grotto": {
+      "name": "grotto",
+      "displayName": "The Grotto",
+      "type": "Cave",
+      "region": "underground_realms",
+      "gridX": 12,
+      "gridY": 13,
+      "description": "Crystal grotto cavern",
+      "exits": {}
+    },
+    "hollows": {
+      "name": "hollows",
+      "displayName": "The Hollows",
+      "type": "Underground",
+      "region": "underground_realms",
+      "gridX": 13,
+      "gridY": 14,
+      "description": "Hollow underground chambers",
+      "exits": {}
+    },
+    "vault": {
+      "name": "vault",
+      "displayName": "The Vault",
+      "type": "Vault",
+      "region": "underground_realms",
+      "gridX": 14,
+      "gridY": 13,
+      "description": "Ancient sealed vault",
+      "exits": {}
+    },
+    "Halls": {
+      "name": "Halls",
+      "displayName": "The Halls",
+      "type": "Underground",
+      "region": "underground_realms",
+      "gridX": 6,
+      "gridY": 14,
+      "description": "Underground hallways",
+      "exits": {}
+    },
+    "great_chasm": {
+      "name": "great_chasm",
+      "displayName": "Great Chasm",
+      "type": "Chasm",
+      "region": "underground_realms",
+      "gridX": 18,
+      "gridY": 13,
+      "description": "Massive bottomless pit",
+      "exits": {}
+    },
+    "SpiritRealm": {
+      "name": "SpiritRealm",
+      "displayName": "Spirit Realm",
+      "type": "Ethereal",
+      "region": "mystical_places",
+      "gridX": 10,
+      "gridY": 18,
+      "description": "Realm of spirits and ghosts",
+      "exits": {}
+    },
+    "Hall_of_Fallen_Gods": {
+      "name": "Hall_of_Fallen_Gods",
+      "displayName": "Hall of Fallen Gods",
+      "type": "Temple",
+      "region": "mystical_places",
+      "gridX": 8,
+      "gridY": 18,
+      "description": "Ancient divine battleground",
+      "exits": {}
+    },
+    "Mirror": {
+      "name": "Mirror",
+      "displayName": "Mirror Realm",
+      "type": "Ethereal",
+      "region": "mystical_places",
+      "gridX": 12,
+      "gridY": 18,
+      "description": "Reflected dimension",
+      "exits": {}
+    },
+    "altar": {
+      "name": "altar",
+      "displayName": "The Altar",
+      "type": "Shrine",
+      "region": "mystical_places",
+      "gridX": 9,
+      "gridY": 17,
+      "description": "Sacred altar of power",
+      "exits": {}
+    },
+    "Rainbow": {
+      "name": "Rainbow",
+      "displayName": "Rainbow Bridge",
+      "type": "Ethereal",
+      "region": "mystical_places",
+      "gridX": 11,
+      "gridY": 17,
+      "description": "Mystical bridge of light",
+      "exits": {}
+    },
+    "Secret": {
+      "name": "Secret",
+      "displayName": "Secret Area",
+      "type": "Hidden",
+      "region": "mystical_places",
+      "gridX": 13,
+      "gridY": 17,
+      "description": "Hidden mysterious zone",
+      "exits": {}
+    },
+    "Undiscovered": {
+      "name": "Undiscovered",
+      "displayName": "Undiscovered Lands",
+      "type": "Unknown",
+      "region": "mystical_places",
+      "gridX": 14,
+      "gridY": 18,
+      "description": "Unexplored territories",
+      "exits": {}
+    },
+    "Skelly": {
+      "name": "Skelly",
+      "displayName": "Skeleton Keep",
+      "type": "Dungeon",
+      "region": "dungeons_lairs",
+      "gridX": 4,
+      "gridY": 5,
+      "description": "Undead fortress",
+      "exits": {}
+    },
+    "Hive": {
+      "name": "Hive",
+      "displayName": "The Hive",
+      "type": "Lair",
+      "region": "dungeons_lairs",
+      "gridX": 5,
+      "gridY": 5,
+      "description": "Insectoid colony",
+      "exits": {}
+    },
+    "Manor": {
+      "name": "Manor",
+      "displayName": "Haunted Manor",
+      "type": "Mansion",
+      "region": "dungeons_lairs",
+      "gridX": 6,
+      "gridY": 5,
+      "description": "Cursed estate",
+      "exits": {}
+    },
+    "Chessboard": {
+      "name": "Chessboard",
+      "displayName": "The Chessboard",
+      "type": "Puzzle",
+      "region": "dungeons_lairs",
+      "gridX": 4,
+      "gridY": 6,
+      "description": "Living chess game",
+      "exits": {}
+    },
+    "The_Gauntlet": {
+      "name": "The_Gauntlet",
+      "displayName": "The Gauntlet",
+      "type": "Arena",
+      "region": "dungeons_lairs",
+      "gridX": 5,
+      "gridY": 6,
+      "description": "Trial by combat",
+      "exits": {}
+    },
+    "Lava": {
+      "name": "Lava",
+      "displayName": "Lava Caverns",
+      "type": "Volcano",
+      "region": "dungeons_lairs",
+      "gridX": 6,
+      "gridY": 6,
+      "description": "Molten hellscape",
+      "exits": {}
+    },
+    "PP": {
+      "name": "PP",
+      "displayName": "Planar Prison",
+      "type": "Prison",
+      "region": "dungeons_lairs",
+      "gridX": 4,
+      "gridY": 7,
+      "description": "Dimensional prison",
+      "exits": {}
+    },
+    "sg": {
+      "name": "sg",
+      "displayName": "Secret Garden",
+      "type": "Garden",
+      "region": "dungeons_lairs",
+      "gridX": 5,
+      "gridY": 7,
+      "description": "Enchanted garden",
+      "exits": {}
+    },
+    "brevaran": {
+      "name": "brevaran",
+      "displayName": "Brevaran",
+      "type": "Village",
+      "region": "settlements",
+      "gridX": 18,
+      "gridY": 10,
+      "description": "Small eastern village",
+      "exits": {}
+    },
+    "serpolis": {
+      "name": "serpolis",
+      "displayName": "Serpolis",
+      "type": "City",
+      "region": "settlements",
+      "gridX": 7,
+      "gridY": 13,
+      "description": "Serpent city",
+      "exits": {
+        "north": "pastserp"
+      }
+    },
+    "pastserp": {
+      "name": "pastserp",
+      "displayName": "Past Serpolis",
+      "type": "Ruins",
+      "region": "settlements",
+      "gridX": 7,
+      "gridY": 12,
+      "description": "Ancient serpolis ruins",
+      "exits": {
+        "south": "serpolis"
+      }
+    },
+    "Ghal": {
+      "name": "Ghal",
+      "displayName": "Ghal",
+      "type": "Settlement",
+      "region": "settlements",
+      "gridX": 19,
+      "gridY": 10,
+      "description": "Desert outpost",
+      "exits": {}
+    },
+    "Icarus": {
+      "name": "Icarus",
+      "displayName": "Icarus",
+      "type": "Tower",
+      "region": "settlements",
+      "gridX": 20,
+      "gridY": 10,
+      "description": "Wizard's tower",
+      "exits": {}
+    },
+    "Skaan": {
+      "name": "Skaan",
+      "displayName": "Skaan",
+      "type": "Village",
+      "region": "settlements",
+      "gridX": 19,
+      "gridY": 11,
+      "description": "Mountain village",
+      "exits": {}
+    },
+    "TinkWorkshop": {
+      "name": "TinkWorkshop",
+      "displayName": "Tinker's Workshop",
+      "type": "Workshop",
+      "region": "settlements",
+      "gridX": 20,
+      "gridY": 11,
+      "description": "Inventor's laboratory",
+      "exits": {}
+    },
+    "veratinefalls": {
+      "name": "veratinefalls",
+      "displayName": "Veratine Falls",
+      "type": "Waterfall",
+      "region": "wilderness_zones",
+      "gridX": 9,
+      "gridY": 9,
+      "description": "Majestic waterfall",
+      "exits": {}
+    },
+    "Lagoon": {
+      "name": "Lagoon",
+      "displayName": "The Lagoon",
+      "type": "Beach",
+      "region": "wilderness_zones",
+      "gridX": 2,
+      "gridY": 11,
+      "description": "Tropical lagoon",
+      "exits": {}
+    },
+    "Oasis": {
+      "name": "Oasis",
+      "displayName": "Desert Oasis",
+      "type": "Oasis",
+      "region": "wilderness_zones",
+      "gridX": 18,
+      "gridY": 15,
+      "description": "Life in the desert",
+      "exits": {}
+    }
+  }
+}
+

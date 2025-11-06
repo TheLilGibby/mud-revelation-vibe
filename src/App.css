@@ -1,0 +1,887 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'VT323', monospace;
+    background: #2a2a2a;
+    color: #00ff00;
+    overflow-x: hidden;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+.App {
+    width: 100%;
+    height: 100vh;
+}
+
+.header {
+    background: #1a1a1a;
+    padding: 15px 20px;
+    border: 3px solid #666;
+    border-bottom: 3px solid #00ff00;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 100%;
+}
+
+.header-title {
+    text-align: left;
+}
+
+.header h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 0px #000;
+    color: #00ff00;
+    letter-spacing: 2px;
+}
+
+.header p {
+    font-family: 'VT323', monospace;
+    font-size: 1.5em;
+    margin-top: 10px;
+    color: #888;
+}
+
+.container {
+    display: flex;
+    height: calc(100vh - 100px);
+}
+
+.info-panel {
+    position: fixed;
+    top: 120px;
+    right: 20px;
+    background: #1a1a1a;
+    padding: 15px;
+    border: 3px solid #00ff00;
+    max-width: 350px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    z-index: 1000;
+}
+
+.info-panel.active {
+    display: block;
+}
+
+.info-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.info-panel::-webkit-scrollbar-track {
+    background: #000;
+    border: 1px solid #333;
+}
+
+.info-panel::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border: 1px solid #000;
+}
+
+.info-panel h3 {
+    font-family: 'Press Start 2P', monospace;
+    color: #ffff00;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+    text-shadow: 2px 2px 0px #000;
+}
+
+.info-detail {
+    font-family: 'VT323', monospace;
+    margin: 8px 0;
+    font-size: 1.4em;
+    line-height: 1.6;
+}
+
+.info-label {
+    color: #00ff00;
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+}
+
+
+/* Navigable Map Styling */
+.navigable-map-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.navigation-controls {
+    width: 300px;
+    background: #1a1a1a;
+    padding: 15px;
+    border-right: 3px solid #00ff00;
+    overflow-y: auto;
+}
+
+.current-location-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #000;
+    border: 2px solid #00ff00;
+}
+
+.current-location-info h3 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+
+.location-name {
+    font-family: 'VT323', monospace;
+    font-size: 1.8em;
+    color: #ffff00;
+    margin-bottom: 5px;
+}
+
+.location-type {
+    font-family: 'VT323', monospace;
+    font-size: 1.3em;
+    color: #888;
+}
+
+.available-exits {
+    margin-bottom: 20px;
+}
+
+.available-exits h4 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 0.7em;
+    margin-bottom: 10px;
+}
+
+.exit-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.exit-btn {
+    font-family: 'VT323', monospace;
+    background: #333;
+    border: 2px solid #666;
+    color: #00ff00;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    text-align: left;
+    transition: all 0.1s;
+}
+
+.exit-btn:hover {
+    background: #444;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.no-exits {
+    font-family: 'VT323', monospace;
+    color: #666;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.navigation-help {
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #2a2a2a;
+    border: 1px solid #444;
+}
+
+.navigation-help h4 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 0.7em;
+    margin-bottom: 10px;
+}
+
+.help-text {
+    font-family: 'VT323', monospace;
+    font-size: 1.1em;
+    color: #888;
+    line-height: 1.6;
+}
+
+.journey-stats {
+    font-family: 'VT323', monospace;
+    font-size: 1.3em;
+    color: #00ff00;
+    padding: 10px;
+    background: #000;
+    border: 2px solid #00ff00;
+}
+
+.journey-stats div {
+    margin: 5px 0;
+}
+
+.grid-map-canvas {
+    flex: 1;
+    background: #0a0a0a;
+    overflow: auto;
+    position: relative;
+}
+
+/* Better SVG text rendering */
+.grid-map-canvas svg {
+    font-smooth: never;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Make text more visible on hover */
+.grid-map-canvas svg g:hover text {
+    font-size: 18px !important;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 0, 0.8));
+}
+
+/* Highlighted zone styling for mob location tracking */
+.show-locations-btn {
+    font-family: 'VT323', monospace;
+    transition: all 0.2s;
+}
+
+.show-locations-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.6);
+}
+
+.show-locations-btn:active {
+    transform: scale(0.98);
+}
+
+/* Mob tracking banner animation */
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
+    }
+}
+
+
+/* Detailed Map View */
+.detailed-map-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.detailed-map-container {
+    width: 90%;
+    height: 90%;
+    max-width: 1400px;
+    background: #1a1a1a;
+    border: 3px solid #00ff00;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.detailed-map-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #0a0a0a;
+    border-bottom: 3px solid #00ff00;
+}
+
+.detailed-map-header h2 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 1.5em;
+    text-shadow: 2px 2px 0px #000;
+    margin-bottom: 10px;
+}
+
+.location-type-badge {
+    font-family: 'VT323', monospace;
+    color: #ffff00;
+    font-size: 1.4em;
+    margin-top: 5px;
+}
+
+.close-button {
+    font-family: 'Press Start 2P', monospace;
+    background: #ff0000;
+    border: 2px solid #ff6666;
+    color: #fff;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.1s;
+}
+
+.close-button:hover {
+    background: #cc0000;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.detailed-map-info {
+    display: flex;
+    gap: 20px;
+    padding: 15px 20px;
+    background: #0a0a0a;
+    border-bottom: 2px solid #333;
+}
+
+.map-legend {
+    flex: 1;
+}
+
+.map-legend h4 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+
+.legend-item {
+    font-family: 'VT323', monospace;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 5px 0;
+    font-size: 1.3em;
+    color: #888;
+}
+
+.legend-symbol {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.room-symbol {
+    color: #00ff00;
+}
+
+.exit-symbol {
+    color: #ffff00;
+}
+
+.number-symbol {
+    color: #00ff00;
+}
+
+.map-stats {
+    flex: 1;
+}
+
+.stat-item {
+    font-family: 'VT323', monospace;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    font-size: 1.3em;
+}
+
+.stat-label {
+    color: #00ff00;
+}
+
+.stat-value {
+    color: #ffff00;
+    font-weight: bold;
+}
+
+.detailed-map-canvas {
+    flex: 1;
+    background: #0a0a0a;
+    overflow: auto;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detailed-map-canvas::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.detailed-map-canvas::-webkit-scrollbar-track {
+    background: #000;
+    border: 1px solid #333;
+}
+
+.detailed-map-canvas::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border: 1px solid #000;
+}
+
+.detailed-map-controls {
+    display: flex;
+    gap: 10px;
+    padding: 15px 20px;
+    background: #0a0a0a;
+    border-top: 2px solid #333;
+    align-items: center;
+}
+
+.detailed-map-controls button {
+    font-family: 'VT323', monospace;
+    background: #333;
+    border: 2px solid #666;
+    color: #00ff00;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.1s;
+}
+
+.detailed-map-controls button:hover {
+    background: #444;
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.zoom-indicator {
+    font-family: 'VT323', monospace;
+    color: #00ff00;
+    font-size: 1.3em;
+    margin-left: auto;
+    padding: 5px 15px;
+    background: #000;
+    border: 2px solid #00ff00;
+}
+
+.map-description {
+    padding: 15px 20px;
+    background: #0a0a0a;
+    border-top: 2px solid #333;
+}
+
+.map-description h4 {
+    font-family: 'Press Start 2P', monospace;
+    color: #00ff00;
+    font-size: 0.8em;
+    margin-bottom: 10px;
+}
+
+.map-description p {
+    font-family: 'VT323', monospace;
+    color: #888;
+    font-size: 1.3em;
+    line-height: 1.6;
+}
+
+.drilldown-button {
+    font-family: 'VT323', monospace;
+    background: #333;
+    border: 2px solid #666;
+    color: #ffff00;
+    padding: 5px 10px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: all 0.1s;
+}
+
+.drilldown-button:hover {
+    background: #444;
+    border-color: #ffff00;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.keyboard-hint {
+    font-family: 'VT323', monospace;
+    color: #888;
+    font-size: 1.1em;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    border-top: 1px solid #333;
+}
+
+/* Responsive header */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .header-title {
+        text-align: center;
+    }
+    
+    .header h1 {
+        font-size: 1.2em;
+    }
+}
+
+/* =============================================
+   WIKI SIDEBAR STYLES
+   ============================================= */
+
+.wiki-sidebar {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100vh;
+    background: #1a1a1a;
+    border-left: 3px solid #00ff00;
+    box-shadow: -5px 0 20px rgba(0, 255, 0, 0.3);
+    z-index: 10000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+}
+
+.wiki-header {
+    background: #2a2a2a;
+    padding: 15px 20px;
+    border-bottom: 2px solid #00ff00;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.wiki-header h3 {
+    color: #00ff00;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.wiki-close {
+    background: transparent;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: all 0.2s;
+}
+
+.wiki-close:hover {
+    background: #ff0000;
+    color: #000;
+}
+
+.wiki-tabs {
+    display: flex;
+    background: #0a0a0a;
+    border-bottom: 2px solid #333;
+}
+
+.wiki-tab {
+    flex: 1;
+    padding: 12px 15px;
+    background: #1a1a1a;
+    border: none;
+    border-right: 1px solid #333;
+    color: #888;
+    cursor: pointer;
+    font-family: 'VT323', monospace;
+    font-size: 1em;
+    transition: all 0.2s;
+}
+
+.wiki-tab:hover {
+    background: #2a2a2a;
+    color: #00ff00;
+}
+
+.wiki-tab.active {
+    background: #2a2a2a;
+    color: #00ff00;
+    border-bottom: 3px solid #00ff00;
+}
+
+.wiki-tab:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.wiki-content {
+    padding: 20px;
+    color: #ccc;
+}
+
+.wiki-loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #00ff00;
+}
+
+.wiki-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+}
+
+.wiki-section-header h4 {
+    color: #00ff00;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.mob-count {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.no-mobs {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    padding: 30px 20px;
+}
+
+/* Mob Cards (Zone List) */
+.mob-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mob-card {
+    background: #0a0a0a;
+    border: 2px solid #333;
+    border-left: 4px solid #00ff00;
+    padding: 12px;
+    transition: all 0.2s;
+}
+
+.mob-card:hover {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.mob-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.mob-name {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.mob-boss-badge {
+    background: #FF0000;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.mob-card-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.mob-stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9em;
+}
+
+.stat-label {
+    color: #888;
+}
+
+.stat-value {
+    color: #ccc;
+}
+
+.level-badge {
+    background: #FFD700;
+    color: #000;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.mob-tier-badge {
+    margin-top: 8px;
+    padding: 4px 8px;
+    border: 1px solid;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
+/* Room Detailed Mob List */
+.room-mob-detailed-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.room-mob-detail-card {
+    background: #0a0a0a;
+    border: 2px solid #333;
+    border-left: 4px solid #FFD700;
+    padding: 15px;
+}
+
+.mob-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #333;
+}
+
+.mob-detail-header h5 {
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.mob-detail-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.mob-detail-stat-large {
+    text-align: center;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+.mob-detail-stat-large .stat-label {
+    color: #888;
+    font-size: 0.9em;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stat-value-large {
+    color: #00ff00;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.level-badge-large {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.mob-detail-info {
+    padding: 10px 0;
+}
+
+.mob-detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #222;
+}
+
+.detail-label {
+    color: #888;
+    font-weight: bold;
+}
+
+.detail-value {
+    color: #ccc;
+}
+
+.tier-value {
+    font-weight: bold;
+}
+
+.mob-loot {
+    margin-top: 15px;
+    padding: 10px;
+    background: #1a1a1a;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+}
+
+.loot-label {
+    color: #FFD700;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.loot-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.loot-item {
+    background: #2a2a2a;
+    padding: 4px 8px;
+    border: 1px solid #FFD700;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: #FFD700;
+}
+
+/* Wiki Toggle Button */
+.wiki-toggle-button:hover {
+    background: #00ff00;
+    color: #000;
+}
+
+/* Scrollbar for Wiki */
+.wiki-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.wiki-sidebar::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+.wiki-sidebar::-webkit-scrollbar-thumb {
+    background: #00ff00;
+    border-radius: 4px;
+}
+
+.wiki-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #00ff00;
+}
+
