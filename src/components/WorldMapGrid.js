@@ -19,6 +19,7 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
     const [searchResults, setSearchResults] = useState([]); // Filtered search results
     const [showSearchResults, setShowSearchResults] = useState(false); // Show/hide search results dropdown
     const [isSearchFocused, setIsSearchFocused] = useState(false); // Track if search input is focused
+    const [followPlayer, setFollowPlayer] = useState(true); // Camera follows player movement
     const svgRef = useRef(null);
 
     // Close region dropdown when clicking outside
@@ -123,9 +124,43 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
         setShowSearchResults(scoredMatches.length > 0);
     }, [searchTerm]);
 
+    // Center camera on a specific zone
+    const centerOnZone = (zoneName) => {
+        if (!followPlayer) return;
+        
+        const zone = worldMapData.locations[zoneName];
+        if (!zone || !svgRef.current) return;
+
+        const cellSize = 180;
+        const zoneX = zone.gridX * cellSize;
+        const zoneY = zone.gridY * cellSize;
+
+        // Get the SVG container dimensions
+        const container = svgRef.current.parentElement;
+        const containerWidth = container.clientWidth;
+        const containerHeight = container.clientHeight;
+
+        // Calculate the center offset
+        // We want the zone to be in the center of the viewport
+        const targetX = -(zoneX * zoomLevel - containerWidth / 2);
+        const targetY = -(zoneY * zoomLevel - containerHeight / 2);
+
+        setPanOffset({ x: targetX, y: targetY });
+    };
+
     // Handle keyboard navigation
     useEffect(() => {
         const handleKeyPress = (e) => {
+            // Don't intercept keyboard input if user is typing in an input field
+            const activeElement = document.activeElement;
+            if (activeElement && (
+                activeElement.tagName === 'INPUT' || 
+                activeElement.tagName === 'TEXTAREA' || 
+                activeElement.isContentEditable
+            )) {
+                return;
+            }
+
             // Don't process keyboard navigation if search input is focused
             if (isSearchFocused) return;
             
@@ -212,6 +247,11 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                 setCurrentZone(newZone);
                 setVisitedZones(prev => new Set([...prev, newZone]));
                 
+                // Center camera on new zone if follow player is enabled
+                if (followPlayer) {
+                    setTimeout(() => centerOnZone(newZone), 50);
+                }
+                
                 if (onZoneSelect) {
                     const zoneData = worldMapData.locations[newZone];
                     onZoneSelect({
@@ -227,11 +267,15 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [currentZone, onZoneSelect, isSearchFocused]);
+    }, [currentZone, onZoneSelect, isSearchFocused, followPlayer, zoomLevel]);
 
     // Mouse drag handlers
     const handleMouseDown = (e) => {
         if (e.button === 0) { // Left mouse button
+            // Disable camera lock when user starts dragging
+            if (followPlayer) {
+                setFollowPlayer(false);
+            }
             setIsDragging(true);
             setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
         }
@@ -258,12 +302,19 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
 
     // Filter zones by region
     const getFilteredZones = () => {
+        const allEntries = Object.entries(worldMapData.locations);
         if (selectedRegion === 'all') {
-            return Object.entries(worldMapData.locations);
+            return allEntries;
         }
-        return Object.entries(worldMapData.locations).filter(([_, zone]) => 
-            zone.region === selectedRegion
-        );
+        const filtered = allEntries.filter(([_, zone]) => zone.region === selectedRegion);
+        // Always include the current zone even if it is outside the selected region
+        if (currentZone && worldMapData.locations[currentZone]) {
+            const alreadyIncluded = filtered.some(([name]) => name === currentZone);
+            if (!alreadyIncluded) {
+                filtered.push([currentZone, worldMapData.locations[currentZone]]);
+            }
+        }
+        return filtered;
     };
 
     // Render the map grid
@@ -381,6 +432,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                 e.stopPropagation();
                                 setCurrentZone(zoneName);
                                 setVisitedZones(prev => new Set([...prev, zoneName]));
+                                if (followPlayer) {
+                                    setTimeout(() => centerOnZone(zoneName), 50);
+                                }
                                 if (onZoneSelect) {
                                     onZoneSelect({
                                         name: zoneName,
@@ -723,6 +777,12 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                             setVisitedZones(prev => new Set([...prev, result.name]));
                                             setSearchTerm('');
                                             setShowSearchResults(false);
+                                            
+                                            // Center camera on selected zone if follow player is enabled
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(result.name), 50);
+                                            }
+                                            
                                             if (onZoneSelect) {
                                                 onZoneSelect({
                                                     name: result.name,
@@ -801,6 +861,66 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                             No zones found matching "{searchTerm}"
                         </div>
                     )}
+                </div>
+
+                {/* Follow Player Toggle */}
+                <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ color: '#00ff00', marginBottom: '10px' }}>📍 Camera Controls:</h4>
+                    <div
+                        onClick={() => setFollowPlayer(!followPlayer)}
+                        style={{
+                            width: '100%',
+                            padding: '12px',
+                            background: followPlayer ? '#00ff00' : '#2a2a2a',
+                            border: followPlayer ? '2px solid #00ff00' : '2px solid #666',
+                            color: followPlayer ? '#000' : '#666',
+                            fontSize: '1.1em',
+                            fontFamily: 'VT323, monospace',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            borderRadius: '3px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            transition: 'all 0.3s ease',
+                            boxShadow: followPlayer ? '0 0 15px rgba(0, 255, 0, 0.5)' : 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!followPlayer) {
+                                e.currentTarget.style.background = '#3a3a3a';
+                                e.currentTarget.style.color = '#888';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!followPlayer) {
+                                e.currentTarget.style.background = '#2a2a2a';
+                                e.currentTarget.style.color = '#666';
+                            }
+                        }}
+                    >
+                        <span style={{ fontSize: '1.3em' }}>
+                            {followPlayer ? '🔒' : '🔓'}
+                        </span>
+                        <span>
+                            {followPlayer ? 'Camera Locked' : 'Camera Unlocked'}
+                        </span>
+                    </div>
+                    <div style={{
+                        marginTop: '8px',
+                        padding: '8px',
+                        background: '#1a1a1a',
+                        border: '1px solid #333',
+                        borderRadius: '3px',
+                        color: '#888',
+                        fontSize: '0.9em',
+                        textAlign: 'center',
+                        fontFamily: 'VT323, monospace'
+                    }}>
+                        {followPlayer 
+                            ? '📍 Camera follows movement. Dragging unlocks.' 
+                            : '🗺️ Free camera - drag to explore'}
+                    </div>
                 </div>
 
                 {/* Region Filter */}
@@ -1201,6 +1321,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                             const targetZone = worldMapData.locations[currentZoneData.exits.northwest];
                                             setCurrentZone(currentZoneData.exits.northwest);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.northwest]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.northwest), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1243,6 +1366,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.north);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.north]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.north), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1285,6 +1411,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.northeast);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.northeast]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.northeast), 50);
+                                            }
                                         }}
                                         style={{
                                         background: '#1a1a1a', 
@@ -1327,6 +1456,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.west);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.west]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.west), 50);
+                                            }
                                         }}
                                         style={{
                                         background: '#1a1a1a', 
@@ -1388,6 +1520,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.east);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.east]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.east), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1430,6 +1565,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.southwest);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.southwest]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.southwest), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1472,6 +1610,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.south);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.south]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.south), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1514,6 +1655,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                         onClick={() => {
                                             setCurrentZone(currentZoneData.exits.southeast);
                                             setVisitedZones(prev => new Set([...prev, currentZoneData.exits.southeast]));
+                                            if (followPlayer) {
+                                                setTimeout(() => centerOnZone(currentZoneData.exits.southeast), 50);
+                                            }
                                         }}
                                         style={{
                                             background: '#1a1a1a',
@@ -1559,6 +1703,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                             onClick={() => {
                                                 setCurrentZone(currentZoneData.exits.up);
                                                 setVisitedZones(prev => new Set([...prev, currentZoneData.exits.up]));
+                                                if (followPlayer) {
+                                                    setTimeout(() => centerOnZone(currentZoneData.exits.up), 50);
+                                                }
                                             }}
                                             style={{
                                                 flex: 1,
@@ -1597,6 +1744,9 @@ function WorldMapGrid({ onZoneSelect, onOpenDetailedMap, selectedZone, highlight
                                             onClick={() => {
                                                 setCurrentZone(currentZoneData.exits.down);
                                                 setVisitedZones(prev => new Set([...prev, currentZoneData.exits.down]));
+                                                if (followPlayer) {
+                                                    setTimeout(() => centerOnZone(currentZoneData.exits.down), 50);
+                                                }
                                             }}
                                             style={{
                                                 flex: 1,

@@ -59,7 +59,6 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
     const [mobData, setMobData] = useState(null);
     const [zoneMobs, setZoneMobs] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedTab, setSelectedTab] = useState('zone'); // 'zone' or 'details'
     const [showFilters, setShowFilters] = useState(true); // Show/hide filters
     const [mobSearchTerm, setMobSearchTerm] = useState(''); // Search term for mobs
     
@@ -210,15 +209,6 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
 
     if (!isVisible) return null;
 
-    // Get detailed mob info for room NPCs
-    const roomMobDetails = roomNpcs.map(npc => {
-        const mobInfo = mobData ? findMobByName(mobData, npc.name) : null;
-        return {
-            ...npc,
-            details: mobInfo
-        };
-    });
-
     // Helper function to get all levels (Z coordinates) where a mob appears
     const getMobLevels = (mobName) => {
         if (!zoneData || !zoneData.rooms) return [];
@@ -314,33 +304,13 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                 </button>
             </div>
 
-            {/* Tab switcher */}
-            <div className="wiki-tabs">
-                <button 
-                    className={`wiki-tab ${selectedTab === 'zone' ? 'active' : ''}`}
-                    onClick={() => setSelectedTab('zone')}
-                >
-                    Zone Mobs ({zoneMobs.length})
-                </button>
-                <button 
-                    className={`wiki-tab ${selectedTab === 'details' ? 'active' : ''}`}
-                    onClick={() => setSelectedTab('details')}
-                    disabled={roomNpcs.length === 0}
-                >
-                    Room Details {roomNpcs.length > 0 && `(${roomNpcs.length})`}
-                </button>
-            </div>
-
             <div className="wiki-content">
                 {loading ? (
                     <div className="wiki-loading">
                         <p>Loading mob data...</p>
                     </div>
                 ) : (
-                    <>
-                        {/* Zone Mobs Tab */}
-                        {selectedTab === 'zone' && (
-                            <div className="wiki-mob-list">
+                    <div className="wiki-mob-list">
                                 <div className="wiki-section-header">
                                     <h4>All Mobs in {zoneName}</h4>
                                     <span className="mob-count">
@@ -740,7 +710,10 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                                                                     display: 'block',
                                                                     marginBottom: '3px',
                                                                     fontSize: '1.1em',
-                                                                    fontWeight: 'bold'
+                                                                    fontWeight: 'bold',
+                                                                    wordWrap: 'break-word',
+                                                                    overflowWrap: 'break-word',
+                                                                    hyphens: 'auto'
                                                                 }}
                                                             >
                                                                 {mob.Name}
@@ -912,112 +885,6 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                                     </div>
                                 )}
                             </div>
-                        )}
-
-                        {/* Room Details Tab */}
-                        {selectedTab === 'details' && (
-                            <div className="wiki-room-details">
-                                <div className="wiki-section-header">
-                                    <h4>NPCs in Current Room</h4>
-                                </div>
-                                {roomMobDetails.length === 0 ? (
-                                    <p className="no-mobs">No NPCs in this room.</p>
-                                ) : (
-                                    <div className="room-mob-detailed-list">
-                                        {roomMobDetails.map((npc, idx) => (
-                                            <div key={idx} className="room-mob-detail-card">
-                                                <div className="mob-detail-header">
-                                                    <h5 style={{ 
-                                                        color: npc.details ? getMobTierColor(npc.details.Tier) : '#00FF00'
-                                                    }}>
-                                                        {npc.name}
-                                                    </h5>
-                                                    {npc.details && npc.details.IsBoss && (
-                                                        <span className="mob-boss-badge">👑 BOSS</span>
-                                                    )}
-                                                </div>
-                                                
-                                                {npc.details ? (
-                                                    <>
-                                                        <div className="mob-detail-stats-grid">
-                                                            <div className="mob-detail-stat-large">
-                                                                <div className="stat-label">Level</div>
-                                                                <div className="stat-value-large level-badge-large">
-                                                                    {npc.details.Level}
-                                                                </div>
-                                                            </div>
-                                                            <div className="mob-detail-stat-large">
-                                                                <div className="stat-label">Respawn</div>
-                                                                <div className="stat-value-large">
-                                                                    {npc.respawnRate}s
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="mob-detail-info">
-                                                            <div className="mob-detail-row">
-                                                                <span className="detail-label">Type:</span>
-                                                                <span className="detail-value" style={{ 
-                                                                    color: getMobTypeColor(npc.details),
-                                                                    fontWeight: 'bold'
-                                                                }}>
-                                                                    {getMobTypeDisplay(npc.details)}
-                                                                </span>
-                                                            </div>
-                                                            {npc.details.Difficulty > 0 && (
-                                                                <div className="mob-detail-row">
-                                                                    <span className="detail-label">Difficulty:</span>
-                                                                    <span className="detail-value">
-                                                                        {getMobDifficultyText(npc.details.Difficulty)}
-                                                                    </span>
-                                                                </div>
-                                                            )}
-                                                            {npc.details.Faction && (
-                                                                <div className="mob-detail-row">
-                                                                    <span className="detail-label">Faction:</span>
-                                                                    <span className="detail-value">{npc.details.Faction}</span>
-                                                                </div>
-                                                            )}
-                                                            <div className="mob-detail-row">
-                                                                <span className="detail-label">Tier:</span>
-                                                                <span 
-                                                                    className="detail-value tier-value"
-                                                                    style={{ color: getMobTierColor(npc.details.Tier) }}
-                                                                >
-                                                                    {npc.details.Tier}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                        {npc.details.DroppedItems && npc.details.DroppedItems.length > 0 && (
-                                                            <div className="mob-loot">
-                                                                <div className="loot-label">💎 Drops:</div>
-                                                                <div className="loot-items">
-                                                                    {npc.details.DroppedItems.map((item, i) => (
-                                                                        <span key={i} className="loot-item">{item}</span>
-                                                                    ))}
-                                                                </div>
-                                                            </div>
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <div className="mob-detail-info">
-                                                        <p style={{ color: '#888', fontStyle: 'italic' }}>
-                                                            No detailed information available
-                                                        </p>
-                                                        <div className="mob-detail-row">
-                                                            <span className="detail-label">Respawn:</span>
-                                                            <span className="detail-value">{npc.respawnRate}s</span>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-                    </>
                 )}
             </div>
         </div>

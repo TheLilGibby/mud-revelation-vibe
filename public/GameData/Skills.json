@@ -1,0 +1,285 @@
+[
+  {
+    "Id": 1,
+    "Name": "Quick Slash",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Deals damage to all enemies in range. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 2,
+    "Name": "Merciless Strike",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Wield twin blades and perform a complex flurry of up to seven consecutive strikes. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 3,
+    "Name": "Juggernaut's Sweep",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Continuously deals damage to all surrounding enemies for 1.7 seconds. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 4,
+    "Name": "Balanced Practitioner",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Unleashes a concentrated and complete Martial Instinct that strengthens you. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 5,
+    "Name": "Skypiercer",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 9,
+    "Description": "Unleashes Blade Savvy that deals damage to all enemies. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 6,
+    "Name": "Shadowbreaker",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 15,
+    "Description": "Hold down the button to keep attacking the enemy. You can attack a maximum of 4 times. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 7,
+    "Name": "Deadly Dash",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 20,
+    "Description": "Charges towards the target and deals damage to enemies in front of you. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 8,
+    "Name": "Immovable Mountain",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 25,
+    "Description": "Puts you in a Parry stance that provides immunity from control and lasts 2 seconds. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 9,
+    "Name": "Windwave",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 35,
+    "Description": "Knocks down and deals damage to all enemies in range. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 10,
+    "Name": "Broken Moon",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 40,
+    "Description": "Removes control effects and enters a Mercurial state that lasts 3 seconds and deals damage to enemies in front of you. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 11,
+    "Name": "Hunter's Light",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 45,
+    "Description": "Causes damage to all enemies in an area. Increases damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 12,
+    "Name": "Adrenaline",
+    "Class": "Blademaster",
+    "Category": "Core Skill",
+    "UnlockLevel": 50,
+    "Description": "Enters a Bloodfray state and provides immunity from control and damage for 5 seconds. Reduces skill cooldown.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Blademaster"
+  },
+  {
+    "Id": 13,
+    "Name": "Hellfire Claw",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Causes damage to the enemy or recovers HP for friends. Increases Damage/Healing.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 14,
+    "Name": "Creeping Pain",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Affixes a Soul Marker on the target that explodes after 3 seconds, damaging enemies or healing teammates. Increases damage, healing and state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 15,
+    "Name": "Demon's Rancor",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "Creates up to five Demon's Rancors that continuously attack for 2 seconds. Increases damage and healing effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 16,
+    "Name": "Grasping Spirits",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 1,
+    "Description": "For 5 seconds, continuously recovers HP for allies or deals damage to enemies in range. Increases damage and healing.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 17,
+    "Name": "Occultist's Will",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 9,
+    "Description": "Releases a light orb that deals damage or healing through Flourish. Increases Damage/Healing.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 18,
+    "Name": "Occultist's Gift",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 15,
+    "Description": "Summons an Occultist's Gift at the target location for 300 seconds. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 19,
+    "Name": "Adapt",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 20,
+    "Description": "Switches between Light Bringer and Dark Warden states and swaps special skill points. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 20,
+    "Name": "Shattered Abyss",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 25,
+    "Description": "Detonates summoned Occultist's Gifts. Increases damage and healing.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 21,
+    "Name": "Gate of Atrophy",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 35,
+    "Description": "Summons a Gate of Atrophy 5 meters ahead that affects allies or enemies passing through for 5 seconds. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 22,
+    "Name": "Spirit's Return",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 40,
+    "Description": "Removes control, grants protection, and returns you near your totem. Reduces skill cooldown and increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 23,
+    "Name": "Demon Shackle",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 45,
+    "Description": "Imprisons the target with Spacetime Field and absorbs damage. Cooldowns differ between Light Bringer and Dark Warden states. Increases state effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 24,
+    "Name": "Void Cycle",
+    "Class": "Occultist",
+    "Category": "Core Skill",
+    "UnlockLevel": 50,
+    "Description": "Removes control states and swaps positions with a chosen target. Reduces cooldown and increases damage and healing effects.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Occultist"
+  },
+  {
+    "Id": 25,
+    "Name": "Spirit Strike",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Magic",
+    "RangeMeters": 25,
+    "CooldownSeconds": 0.5,
+    "Description": "Deals minor damage equal to 35% of magic attack plus 543-664 damage.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  },
+  {
+    "Id": 26,
+    "Name": "Firefly",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Magic",
+    "RangeMeters": 25,
+    "CooldownSeconds": 5,
+    "Description": "Applies Firefly for 6 seconds, dealing 50.8% of magic attack plus 727 damage every 2 seconds.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  },
+  {
+    "Id": 27,
+    "Name": "Blue Bird",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Magic",
+    "RangeMeters": 25,
+    "CooldownSeconds": 5,
+    "Description": "Damages enemies in a targeted area for 5 seconds, dealing 114.6% of magic attack plus 1779-2174 damage and reducing movement speed by 5%.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  },
+  {
+    "Id": 28,
+    "Name": "Spring Breeze",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Recovery",
+    "RangeMeters": 30,
+    "CooldownSeconds": 1,
+    "Description": "Heals allies over 10 seconds, stacking up to three times for 58.1% of healing power plus 298-395 health.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  },
+  {
+    "Id": 29,
+    "Name": "Green Vine",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Recovery",
+    "RangeMeters": 30,
+    "CooldownSeconds": 5,
+    "Description": "Heals the caster and nearby teammates.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  },
+  {
+    "Id": 30,
+    "Name": "Falling Sakura",
+    "Class": "Spirit Shaper",
+    "Category": "Core Skill",
+    "SkillType": "Recovery",
+    "RangeMeters": 30,
+    "CooldownSeconds": 5,
+    "Description": "Heals a targeted ally for 338.7% of healing power plus 1742-2129 health.",
+    "SourceUrl": "https://revelationonline.fandom.com/wiki/Spirit_Shaper"
+  }
+]
+

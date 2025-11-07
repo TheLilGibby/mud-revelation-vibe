@@ -1,0 +1,39 @@
+[
+  {
+    "Id": 1,
+    "Uuid": "stat_1",
+    "Name": "Strength",
+    "Description": "Strength represents the raw physical ability of your character."
+  },
+  {
+    "Id": 2,
+    "Uuid": "stat_2",
+    "Name": "Toughness",
+    "Description": "Toughness is the health and stamina of your character."
+  },
+  {
+    "Id": 3,
+    "Uuid": "stat_3",
+    "Name": "Agility",
+    "Description": "Agility is the coordination and quickness of your character."
+  },
+  {
+    "Id": 4,
+    "Uuid": "stat_4",
+    "Name": "Focus",
+    "Description": "Focus is the depth of perception, patience, and empathy of your character."
+  },
+  {
+    "Id": 5,
+    "Uuid": "stat_5",
+    "Name": "Intelligence",
+    "Description": "Intelligence is the capacity for understanding and learning."
+  },
+  {
+    "Id": 6,
+    "Uuid": "stat_6",
+    "Name": "Charisma",
+    "Description": "Charisma is the influence and physical beauty of your character."
+  }
+]
+

@@ -1,7 +1,7 @@
 [
   {
     "Id": 1,
-    "Name": "A Myronmet Guard",
+    "Name": "Myronmet Guard",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -18,7 +18,7 @@
   },
   {
     "Id": 2,
-    "Name": "A Palace Guard",
+    "Name": "Palace Guard",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -69,7 +69,7 @@
   },
   {
     "Id": 5,
-    "Name": "A Sailor",
+    "Name": "Sailor",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -86,7 +86,7 @@
   },
   {
     "Id": 6,
-    "Name": "A Dockworker",
+    "Name": "Dockworker",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -103,7 +103,7 @@
   },
   {
     "Id": 7,
-    "Name": "A Ship Captain",
+    "Name": "Ship Captain",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -120,7 +120,7 @@
   },
   {
     "Id": 8,
-    "Name": "A Giant Lizard",
+    "Name": "Giant Lizard",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -137,7 +137,7 @@
   },
   {
     "Id": 9,
-    "Name": "A Giant Snake",
+    "Name": "Giant Snake",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -154,7 +154,7 @@
   },
   {
     "Id": 10,
-    "Name": "A Lesser Beast",
+    "Name": "Lesser Beast",
     "Health": 0,
     "Level": 2,
     "Experience": 0,
@@ -188,7 +188,7 @@
   },
   {
     "Id": 12,
-    "Name": "A Lizardman Watcher",
+    "Name": "Lizardman Watcher",
     "Health": 0,
     "Level": 4,
     "Experience": 0,
@@ -205,7 +205,7 @@
   },
   {
     "Id": 13,
-    "Name": "A Lizardman Guard",
+    "Name": "Lizardman Guard",
     "Health": 0,
     "Level": 6,
     "Experience": 0,
@@ -222,7 +222,7 @@
   },
   {
     "Id": 14,
-    "Name": "A Lizardman Soldier",
+    "Name": "Lizardman Soldier",
     "Health": 0,
     "Level": 8,
     "Experience": 0,
@@ -239,7 +239,7 @@
   },
   {
     "Id": 15,
-    "Name": "A Lizardman Knight",
+    "Name": "Lizardman Knight",
     "Health": 0,
     "Level": 11,
     "Experience": 0,
@@ -256,7 +256,7 @@
   },
   {
     "Id": 16,
-    "Name": "A Lizardman Royal Guardsman",
+    "Name": "Lizardman Royal Guardsman",
     "Health": 0,
     "Level": 14,
     "Experience": 0,
@@ -307,7 +307,7 @@
   },
   {
     "Id": 19,
-    "Name": "A Merchant",
+    "Name": "Merchant",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -324,7 +324,7 @@
   },
   {
     "Id": 20,
-    "Name": "A Clerk",
+    "Name": "Clerk",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -341,7 +341,7 @@
   },
   {
     "Id": 21,
-    "Name": "A Townsperson",
+    "Name": "Townsperson",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -358,7 +358,7 @@
   },
   {
     "Id": 22,
-    "Name": "A Barmaid",
+    "Name": "Barmaid",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -409,7 +409,7 @@
   },
   {
     "Id": 25,
-    "Name": "A Bandit",
+    "Name": "Bandit",
     "Health": 0,
     "Level": 20,
     "Experience": 0,
@@ -426,7 +426,7 @@
   },
   {
     "Id": 26,
-    "Name": "A Brigand",
+    "Name": "Brigand",
     "Health": 0,
     "Level": 21,
     "Experience": 0,
@@ -443,7 +443,7 @@
   },
   {
     "Id": 27,
-    "Name": "A Bandit Raider",
+    "Name": "Bandit Raider",
     "Health": 0,
     "Level": 22,
     "Experience": 0,
@@ -460,7 +460,7 @@
   },
   {
     "Id": 28,
-    "Name": "A Bandit Soldier",
+    "Name": "Bandit Soldier",
     "Health": 0,
     "Level": 23,
     "Experience": 0,
@@ -477,7 +477,7 @@
   },
   {
     "Id": 29,
-    "Name": "A Bandit Captain",
+    "Name": "Bandit Captain",
     "Health": 0,
     "Level": 24,
     "Experience": 0,
@@ -511,7 +511,7 @@
   },
   {
     "Id": 31,
-    "Name": "A Steltan Guard",
+    "Name": "Steltan Guard",
     "Health": 0,
     "Level": 28,
     "Experience": 0,
@@ -647,7 +647,7 @@
   },
   {
     "Id": 40,
-    "Name": "A Wolf Cub",
+    "Name": "Wolf Cub",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -664,7 +664,7 @@
   },
   {
     "Id": 41,
-    "Name": "A Young Wolf",
+    "Name": "Young Wolf",
     "Health": 0,
     "Level": 2,
     "Experience": 0,
@@ -698,7 +698,7 @@
   },
   {
     "Id": 43,
-    "Name": "A Savage Illundium Wolf",
+    "Name": "Savage Illundium Wolf",
     "Health": 0,
     "Level": 4,
     "Experience": 0,
@@ -715,7 +715,7 @@
   },
   {
     "Id": 44,
-    "Name": "A Forest Goblin Peon",
+    "Name": "Forest Goblin Peon",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -732,7 +732,7 @@
   },
   {
     "Id": 45,
-    "Name": "A Forest Goblin Gatherer",
+    "Name": "Forest Goblin Gatherer",
     "Health": 0,
     "Level": 6,
     "Experience": 0,
@@ -749,7 +749,7 @@
   },
   {
     "Id": 46,
-    "Name": "A Forest Goblin Guard",
+    "Name": "Forest Goblin Guard",
     "Health": 0,
     "Level": 8,
     "Experience": 0,
@@ -766,7 +766,7 @@
   },
   {
     "Id": 47,
-    "Name": "A Forest Goblin Worker",
+    "Name": "Forest Goblin Worker",
     "Health": 0,
     "Level": 9,
     "Experience": 0,
@@ -783,7 +783,7 @@
   },
   {
     "Id": 48,
-    "Name": "A Forest Goblin Hunter",
+    "Name": "Forest Goblin Hunter",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -800,7 +800,7 @@
   },
   {
     "Id": 49,
-    "Name": "A Forest Goblin Boss",
+    "Name": "Forest Goblin Boss",
     "Health": 0,
     "Level": 12,
     "Experience": 0,
@@ -817,7 +817,7 @@
   },
   {
     "Id": 50,
-    "Name": "A Forest Goblin Elite Guard",
+    "Name": "Forest Goblin Elite Guard",
     "Health": 0,
     "Level": 14,
     "Experience": 0,
@@ -885,7 +885,7 @@
   },
   {
     "Id": 54,
-    "Name": "A Myronmet Outlaw",
+    "Name": "Myronmet Outlaw",
     "Health": 0,
     "Level": 6,
     "Experience": 0,
@@ -902,7 +902,7 @@
   },
   {
     "Id": 55,
-    "Name": "A Myronmet Theif",
+    "Name": "Myronmet Theif",
     "Health": 0,
     "Level": 7,
     "Experience": 0,
@@ -919,7 +919,7 @@
   },
   {
     "Id": 56,
-    "Name": "A Myronmet Bandit",
+    "Name": "Myronmet Bandit",
     "Health": 0,
     "Level": 8,
     "Experience": 0,
@@ -953,7 +953,7 @@
   },
   {
     "Id": 58,
-    "Name": "A Rotting Skeleton",
+    "Name": "Rotting Skeleton",
     "Health": 0,
     "Level": 15,
     "Experience": 0,
@@ -970,7 +970,7 @@
   },
   {
     "Id": 59,
-    "Name": "A Skeletal Wolf",
+    "Name": "Skeletal Wolf",
     "Health": 0,
     "Level": 16,
     "Experience": 0,
@@ -987,7 +987,7 @@
   },
   {
     "Id": 60,
-    "Name": "A Skeleton",
+    "Name": "Skeleton",
     "Health": 0,
     "Level": 17,
     "Experience": 0,
@@ -1004,7 +1004,7 @@
   },
   {
     "Id": 61,
-    "Name": "A Putrid Zombie",
+    "Name": "Putrid Zombie",
     "Health": 0,
     "Level": 18,
     "Experience": 0,
@@ -1021,7 +1021,7 @@
   },
   {
     "Id": 62,
-    "Name": "A Skeleton Priest",
+    "Name": "Skeleton Priest",
     "Health": 0,
     "Level": 19,
     "Experience": 0,
@@ -1123,7 +1123,7 @@
   },
   {
     "Id": 68,
-    "Name": "A Cave Scorpion",
+    "Name": "Cave Scorpion",
     "Health": 0,
     "Level": 24,
     "Experience": 0,
@@ -1140,7 +1140,7 @@
   },
   {
     "Id": 69,
-    "Name": "A Cave Spider",
+    "Name": "Cave Spider",
     "Health": 0,
     "Level": 25,
     "Experience": 0,
@@ -1157,7 +1157,7 @@
   },
   {
     "Id": 70,
-    "Name": "A Large Cave Scorpion",
+    "Name": "Large Cave Scorpion",
     "Health": 0,
     "Level": 26,
     "Experience": 0,
@@ -1174,7 +1174,7 @@
   },
   {
     "Id": 71,
-    "Name": "A Small Rock Monster",
+    "Name": "Small Rock Monster",
     "Health": 0,
     "Level": 27,
     "Experience": 0,
@@ -1191,7 +1191,7 @@
   },
   {
     "Id": 72,
-    "Name": "A Rock Guardian",
+    "Name": "Rock Guardian",
     "Health": 0,
     "Level": 29,
     "Experience": 0,
@@ -1208,7 +1208,7 @@
   },
   {
     "Id": 73,
-    "Name": "A Decaying Townsperson",
+    "Name": "Decaying Townsperson",
     "Health": 0,
     "Level": 31,
     "Experience": 0,
@@ -1225,7 +1225,7 @@
   },
   {
     "Id": 74,
-    "Name": "A Decaying Merchant",
+    "Name": "Decaying Merchant",
     "Health": 0,
     "Level": 33,
     "Experience": 0,
@@ -1242,7 +1242,7 @@
   },
   {
     "Id": 75,
-    "Name": "A Decaying Guard",
+    "Name": "Decaying Guard",
     "Health": 0,
     "Level": 35,
     "Experience": 0,
@@ -1259,7 +1259,7 @@
   },
   {
     "Id": 76,
-    "Name": "A Decaying Soldier",
+    "Name": "Decaying Soldier",
     "Health": 0,
     "Level": 37,
     "Experience": 0,
@@ -1276,7 +1276,7 @@
   },
   {
     "Id": 77,
-    "Name": "A Decaying Noble",
+    "Name": "Decaying Noble",
     "Health": 0,
     "Level": 39,
     "Experience": 0,
@@ -1293,7 +1293,7 @@
   },
   {
     "Id": 78,
-    "Name": "A Decaying Lord",
+    "Name": "Decaying Lord",
     "Health": 0,
     "Level": 41,
     "Experience": 0,
@@ -1310,7 +1310,7 @@
   },
   {
     "Id": 79,
-    "Name": "A Decaying Mage",
+    "Name": "Decaying Mage",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -1378,7 +1378,7 @@
   },
   {
     "Id": 83,
-    "Name": "A Risen Zombie",
+    "Name": "Risen Zombie",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -1395,7 +1395,7 @@
   },
   {
     "Id": 84,
-    "Name": "A Skaven",
+    "Name": "Skaven",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -1412,7 +1412,7 @@
   },
   {
     "Id": 85,
-    "Name": "A Skaven Chief",
+    "Name": "Skaven Chief",
     "Health": 0,
     "Level": 14,
     "Experience": 0,
@@ -1429,7 +1429,7 @@
   },
   {
     "Id": 86,
-    "Name": "A Young Bear",
+    "Name": "Young Bear",
     "Health": 0,
     "Level": 16,
     "Experience": 0,
@@ -1446,7 +1446,7 @@
   },
   {
     "Id": 87,
-    "Name": "A Cow",
+    "Name": "Cow",
     "Health": 0,
     "Level": 18,
     "Experience": 0,
@@ -1463,7 +1463,7 @@
   },
   {
     "Id": 88,
-    "Name": "A Brown Bear",
+    "Name": "Brown Bear",
     "Health": 0,
     "Level": 20,
     "Experience": 0,
@@ -1480,7 +1480,7 @@
   },
   {
     "Id": 89,
-    "Name": "A Bull",
+    "Name": "Bull",
     "Health": 0,
     "Level": 22,
     "Experience": 0,
@@ -1497,7 +1497,7 @@
   },
   {
     "Id": 90,
-    "Name": "A Lake Demon",
+    "Name": "Lake Demon",
     "Health": 0,
     "Level": 30,
     "Experience": 0,
@@ -1514,7 +1514,7 @@
   },
   {
     "Id": 91,
-    "Name": "A Lizardman Priest",
+    "Name": "Lizardman Priest",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -1548,7 +1548,7 @@
   },
   {
     "Id": 93,
-    "Name": "A Council Assasin",
+    "Name": "Council Assasin",
     "Health": 0,
     "Level": 18,
     "Experience": 0,
@@ -1582,7 +1582,7 @@
   },
   {
     "Id": 95,
-    "Name": "A Small Mine Rat",
+    "Name": "Small Mine Rat",
     "Health": 0,
     "Level": 22,
     "Experience": 0,
@@ -1592,14 +1592,14 @@
     "Difficulty": 0,
     "Location": "Old Conosiat Mines",
     "LootTables": [],
-    "DroppedItems": [],
+    "DroppedItems": [3, 100],
     "IsEnabled": true,
     "Tier": "Mobs",
     "IsBoss": false
   },
   {
     "Id": 96,
-    "Name": "A Large Mine Rat",
+    "Name": "Large Mine Rat",
     "Health": 0,
     "Level": 23,
     "Experience": 0,
@@ -1609,14 +1609,14 @@
     "Difficulty": 0,
     "Location": "Old Conosiat Mines",
     "LootTables": [],
-    "DroppedItems": [],
+    "DroppedItems": [1, 2, 3, 4],
     "IsEnabled": true,
     "Tier": "Mobs",
     "IsBoss": false
   },
   {
     "Id": 97,
-    "Name": "A Cave Goblin Lookout",
+    "Name": "Cave Goblin Lookout",
     "Health": 0,
     "Level": 25,
     "Experience": 0,
@@ -1633,7 +1633,7 @@
   },
   {
     "Id": 98,
-    "Name": "A Cave Goblin Guard",
+    "Name": "Cave Goblin Guard",
     "Health": 0,
     "Level": 27,
     "Experience": 0,
@@ -1650,7 +1650,7 @@
   },
   {
     "Id": 99,
-    "Name": "A Cave Goblin Miner",
+    "Name": "Cave Goblin Miner",
     "Health": 0,
     "Level": 28,
     "Experience": 0,
@@ -1684,7 +1684,7 @@
   },
   {
     "Id": 101,
-    "Name": "A Werebear Guard",
+    "Name": "Werebear Guard",
     "Health": 0,
     "Level": 31,
     "Experience": 0,
@@ -1701,7 +1701,7 @@
   },
   {
     "Id": 102,
-    "Name": "A Werebear Brawler",
+    "Name": "Werebear Brawler",
     "Health": 0,
     "Level": 33,
     "Experience": 0,
@@ -1735,7 +1735,7 @@
   },
   {
     "Id": 104,
-    "Name": "A Young Cave Orc",
+    "Name": "Young Cave Orc",
     "Health": 0,
     "Level": 37,
     "Experience": 0,
@@ -1752,7 +1752,7 @@
   },
   {
     "Id": 105,
-    "Name": "A Cave Orc Grunt",
+    "Name": "Cave Orc Grunt",
     "Health": 0,
     "Level": 39,
     "Experience": 0,
@@ -1769,7 +1769,7 @@
   },
   {
     "Id": 106,
-    "Name": "A Cave Demon",
+    "Name": "Cave Demon",
     "Health": 0,
     "Level": 42,
     "Experience": 0,
@@ -1820,7 +1820,7 @@
   },
   {
     "Id": 109,
-    "Name": "A Young Plains Lion",
+    "Name": "Young Plains Lion",
     "Health": 0,
     "Level": 30,
     "Experience": 0,
@@ -1837,7 +1837,7 @@
   },
   {
     "Id": 110,
-    "Name": "A Plains Lion",
+    "Name": "Plains Lion",
     "Health": 0,
     "Level": 32,
     "Experience": 0,
@@ -1854,7 +1854,7 @@
   },
   {
     "Id": 111,
-    "Name": "A Plains Lion Mother",
+    "Name": "Plains Lion Mother",
     "Health": 0,
     "Level": 34,
     "Experience": 0,
@@ -1871,7 +1871,7 @@
   },
   {
     "Id": 112,
-    "Name": "A Plains Lion Father",
+    "Name": "Plains Lion Father",
     "Health": 0,
     "Level": 35,
     "Experience": 0,
@@ -2041,7 +2041,7 @@
   },
   {
     "Id": 122,
-    "Name": "A Riparian Drakeling",
+    "Name": "Riparian Drakeling",
     "Health": 0,
     "Level": 42,
     "Experience": 0,
@@ -2058,7 +2058,7 @@
   },
   {
     "Id": 123,
-    "Name": "A Riparian Toad",
+    "Name": "Riparian Toad",
     "Health": 0,
     "Level": 44,
     "Experience": 0,
@@ -2075,7 +2075,7 @@
   },
   {
     "Id": 124,
-    "Name": "A Riparian Owl",
+    "Name": "Riparian Owl",
     "Health": 0,
     "Level": 45,
     "Experience": 0,
@@ -2092,7 +2092,7 @@
   },
   {
     "Id": 125,
-    "Name": "A River Demon",
+    "Name": "River Demon",
     "Health": 0,
     "Level": 50,
     "Experience": 0,
@@ -2160,7 +2160,7 @@
   },
   {
     "Id": 129,
-    "Name": "A Young Epiach Soldier",
+    "Name": "Young Epiach Soldier",
     "Health": 0,
     "Level": 35,
     "Experience": 0,
@@ -2211,7 +2211,7 @@
   },
   {
     "Id": 132,
-    "Name": "A Mandralor Guard",
+    "Name": "Mandralor Guard",
     "Health": 0,
     "Level": 70,
     "Experience": 0,
@@ -2228,7 +2228,7 @@
   },
   {
     "Id": 133,
-    "Name": "A Laraikin Guard",
+    "Name": "Laraikin Guard",
     "Health": 0,
     "Level": 70,
     "Experience": 0,
@@ -2279,7 +2279,7 @@
   },
   {
     "Id": 136,
-    "Name": "A Majestic Empire Soldier",
+    "Name": "Majestic Empire Soldier",
     "Health": 0,
     "Level": 75,
     "Experience": 0,
@@ -2296,7 +2296,7 @@
   },
   {
     "Id": 137,
-    "Name": "A Majestic Empire Officer",
+    "Name": "Majestic Empire Officer",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -2381,7 +2381,7 @@
   },
   {
     "Id": 142,
-    "Name": "A Rotten Bones",
+    "Name": "Rotten Bones",
     "Health": 0,
     "Level": 3,
     "Experience": 0,
@@ -2415,7 +2415,7 @@
   },
   {
     "Id": 144,
-    "Name": "A Diseased Rat",
+    "Name": "Diseased Rat",
     "Health": 0,
     "Level": 6,
     "Experience": 0,
@@ -2425,14 +2425,14 @@
     "Difficulty": 0,
     "Location": "Myronmet Graveyard",
     "LootTables": [],
-    "DroppedItems": [],
+    "DroppedItems": [3, 4],
     "IsEnabled": true,
     "Tier": "Mobs",
     "IsBoss": false
   },
   {
     "Id": 145,
-    "Name": "A Rotten Hound",
+    "Name": "Rotten Hound",
     "Health": 0,
     "Level": 7,
     "Experience": 0,
@@ -2466,7 +2466,7 @@
   },
   {
     "Id": 147,
-    "Name": "A Venom Serpent",
+    "Name": "Venom Serpent",
     "Health": 0,
     "Level": 8,
     "Experience": 0,
@@ -2483,7 +2483,7 @@
   },
   {
     "Id": 148,
-    "Name": "A Dark Shade",
+    "Name": "Dark Shade",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -2500,7 +2500,7 @@
   },
   {
     "Id": 149,
-    "Name": "A Vile Bonewalker",
+    "Name": "Vile Bonewalker",
     "Health": 0,
     "Level": 13,
     "Experience": 0,
@@ -2534,7 +2534,7 @@
   },
   {
     "Id": 151,
-    "Name": "A Conclave Member",
+    "Name": "Conclave Member",
     "Health": 0,
     "Level": 25,
     "Experience": 0,
@@ -2551,7 +2551,7 @@
   },
   {
     "Id": 152,
-    "Name": "A Cliff Bear",
+    "Name": "Cliff Bear",
     "Health": 0,
     "Level": 51,
     "Experience": 0,
@@ -2585,7 +2585,7 @@
   },
   {
     "Id": 154,
-    "Name": "A Vatlan Pirate Scout",
+    "Name": "Vatlan Pirate Scout",
     "Health": 0,
     "Level": 55,
     "Experience": 0,
@@ -2602,7 +2602,7 @@
   },
   {
     "Id": 155,
-    "Name": "A Vatlan Pirate",
+    "Name": "Vatlan Pirate",
     "Health": 0,
     "Level": 57,
     "Experience": 0,
@@ -2619,7 +2619,7 @@
   },
   {
     "Id": 156,
-    "Name": "A Vatlan Pirate Swashbuckler",
+    "Name": "Vatlan Pirate Swashbuckler",
     "Health": 0,
     "Level": 59,
     "Experience": 0,
@@ -2653,7 +2653,7 @@
   },
   {
     "Id": 158,
-    "Name": "A Tormented Crab",
+    "Name": "Tormented Crab",
     "Health": 0,
     "Level": 61,
     "Experience": 0,
@@ -2670,7 +2670,7 @@
   },
   {
     "Id": 159,
-    "Name": "A Ghostly Pirate",
+    "Name": "Ghostly Pirate",
     "Health": 0,
     "Level": 63,
     "Experience": 0,
@@ -2687,7 +2687,7 @@
   },
   {
     "Id": 160,
-    "Name": "A Ghostly Pirate Navigator",
+    "Name": "Ghostly Pirate Navigator",
     "Health": 0,
     "Level": 65,
     "Experience": 0,
@@ -2704,7 +2704,7 @@
   },
   {
     "Id": 161,
-    "Name": "A Ghostly Pirate Cook",
+    "Name": "Ghostly Pirate Cook",
     "Health": 0,
     "Level": 67,
     "Experience": 0,
@@ -2721,7 +2721,7 @@
   },
   {
     "Id": 162,
-    "Name": "A Gargantuan Lizard",
+    "Name": "Gargantuan Lizard",
     "Health": 0,
     "Level": 15,
     "Experience": 0,
@@ -2755,7 +2755,7 @@
   },
   {
     "Id": 164,
-    "Name": "A Skeleton Lizard",
+    "Name": "Skeleton Lizard",
     "Health": 0,
     "Level": 19,
     "Experience": 0,
@@ -2772,7 +2772,7 @@
   },
   {
     "Id": 165,
-    "Name": "A Greater Skeleton Lizard",
+    "Name": "Greater Skeleton Lizard",
     "Health": 0,
     "Level": 21,
     "Experience": 0,
@@ -2789,7 +2789,7 @@
   },
   {
     "Id": 166,
-    "Name": "A Dread Lizard",
+    "Name": "Dread Lizard",
     "Health": 0,
     "Level": 72,
     "Experience": 0,
@@ -2993,7 +2993,7 @@
   },
   {
     "Id": 178,
-    "Name": "A Mummified Orc",
+    "Name": "Mummified Orc",
     "Health": 0,
     "Level": 65,
     "Experience": 0,
@@ -3010,7 +3010,7 @@
   },
   {
     "Id": 179,
-    "Name": "A Young Mountain Goat",
+    "Name": "Young Mountain Goat",
     "Health": 0,
     "Level": 48,
     "Experience": 0,
@@ -3129,7 +3129,7 @@
   },
   {
     "Id": 186,
-    "Name": "A Mountain Goat",
+    "Name": "Mountain Goat",
     "Health": 0,
     "Level": 60,
     "Experience": 0,
@@ -3180,7 +3180,7 @@
   },
   {
     "Id": 189,
-    "Name": "A Druid Guardian",
+    "Name": "Druid Guardian",
     "Health": 0,
     "Level": 68,
     "Experience": 0,
@@ -3265,7 +3265,7 @@
   },
   {
     "Id": 194,
-    "Name": "A Mysterious Attacker",
+    "Name": "Mysterious Attacker",
     "Health": 0,
     "Level": 15,
     "Experience": 0,
@@ -3282,7 +3282,7 @@
   },
   {
     "Id": 195,
-    "Name": "A Mysterious Assailant",
+    "Name": "Mysterious Assailant",
     "Health": 0,
     "Level": 25,
     "Experience": 0,
@@ -3299,7 +3299,7 @@
   },
   {
     "Id": 196,
-    "Name": "A Cutthroat",
+    "Name": "Cutthroat",
     "Health": 0,
     "Level": 30,
     "Experience": 0,
@@ -3316,7 +3316,7 @@
   },
   {
     "Id": 197,
-    "Name": "A Bounty Hunter",
+    "Name": "Bounty Hunter",
     "Health": 0,
     "Level": 31,
     "Experience": 0,
@@ -3401,7 +3401,7 @@
   },
   {
     "Id": 202,
-    "Name": "A Silverspire Bear",
+    "Name": "Silverspire Bear",
     "Health": 0,
     "Level": 72,
     "Experience": 0,
@@ -3452,7 +3452,7 @@
   },
   {
     "Id": 205,
-    "Name": "A Greeanjok Ogre Guard",
+    "Name": "Greeanjok Ogre Guard",
     "Health": 0,
     "Level": 74,
     "Experience": 0,
@@ -3486,7 +3486,7 @@
   },
   {
     "Id": 207,
-    "Name": "A Silverspire Drake",
+    "Name": "Silverspire Drake",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -3536,7 +3536,7 @@
   },
   {
     "Id": 209,
-    "Name": "A Silverspire Bandit",
+    "Name": "Silverspire Bandit",
     "Health": 0,
     "Level": 86,
     "Experience": 0,
@@ -3570,7 +3570,7 @@
   },
   {
     "Id": 211,
-    "Name": "A Greeanjok Ogre Warrior",
+    "Name": "Greeanjok Ogre Warrior",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -3604,7 +3604,7 @@
   },
   {
     "Id": 213,
-    "Name": "A Greeanjok Ogre Blackguard",
+    "Name": "Greeanjok Ogre Blackguard",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -3621,7 +3621,7 @@
   },
   {
     "Id": 214,
-    "Name": "A Greeanjok Ogre Deathbringer",
+    "Name": "Greeanjok Ogre Deathbringer",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -3694,7 +3694,7 @@
   },
   {
     "Id": 217,
-    "Name": "A Greeanjok Ogre Blackfist",
+    "Name": "Greeanjok Ogre Blackfist",
     "Health": 0,
     "Level": 87,
     "Experience": 0,
@@ -3711,7 +3711,7 @@
   },
   {
     "Id": 218,
-    "Name": "A Greeanjok Ogre Captain",
+    "Name": "Greeanjok Ogre Captain",
     "Health": 0,
     "Level": 91,
     "Experience": 0,
@@ -3728,7 +3728,7 @@
   },
   {
     "Id": 219,
-    "Name": "A Greeanjok Ogre Deathwatch",
+    "Name": "Greeanjok Ogre Deathwatch",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -3745,7 +3745,7 @@
   },
   {
     "Id": 220,
-    "Name": "A Forlorn Prisoner",
+    "Name": "Forlorn Prisoner",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -3779,7 +3779,7 @@
   },
   {
     "Id": 222,
-    "Name": "A Greeanjok Ogre Painlord",
+    "Name": "Greeanjok Ogre Painlord",
     "Health": 0,
     "Level": 93,
     "Experience": 0,
@@ -3838,7 +3838,7 @@
   },
   {
     "Id": 224,
-    "Name": "A Domican Republic Spy",
+    "Name": "Domican Republic Spy",
     "Health": 0,
     "Level": 50,
     "Experience": 0,
@@ -3872,7 +3872,7 @@
   },
   {
     "Id": 226,
-    "Name": "A Coranin Wolf",
+    "Name": "Coranin Wolf",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -3889,7 +3889,7 @@
   },
   {
     "Id": 227,
-    "Name": "A Gigantic Forest Serpent",
+    "Name": "Gigantic Forest Serpent",
     "Health": 0,
     "Level": 82,
     "Experience": 0,
@@ -3906,7 +3906,7 @@
   },
   {
     "Id": 228,
-    "Name": "A Corrupted Tree Spirit",
+    "Name": "Corrupted Tree Spirit",
     "Health": 0,
     "Level": 88,
     "Experience": 0,
@@ -3923,7 +3923,7 @@
   },
   {
     "Id": 229,
-    "Name": "A Gigantic Forest Spider",
+    "Name": "Gigantic Forest Spider",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -3940,7 +3940,7 @@
   },
   {
     "Id": 230,
-    "Name": "A Coranin Bandit Scout",
+    "Name": "Coranin Bandit Scout",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -3957,7 +3957,7 @@
   },
   {
     "Id": 231,
-    "Name": "A Coranin Bandit Hunter",
+    "Name": "Coranin Bandit Hunter",
     "Health": 0,
     "Level": 87,
     "Experience": 0,
@@ -3974,7 +3974,7 @@
   },
   {
     "Id": 232,
-    "Name": "A Coranin Bandit Guard",
+    "Name": "Coranin Bandit Guard",
     "Health": 0,
     "Level": 89,
     "Experience": 0,
@@ -4035,7 +4035,7 @@
   },
   {
     "Id": 235,
-    "Name": "A Tormented Coranin Wolf",
+    "Name": "Tormented Coranin Wolf",
     "Health": 0,
     "Level": 86,
     "Experience": 0,
@@ -4052,7 +4052,7 @@
   },
   {
     "Id": 236,
-    "Name": "A Shadow Wolf",
+    "Name": "Shadow Wolf",
     "Health": 0,
     "Level": 88,
     "Experience": 0,
@@ -4069,7 +4069,7 @@
   },
   {
     "Id": 237,
-    "Name": "A Ghastly Shadow",
+    "Name": "Ghastly Shadow",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -4086,7 +4086,7 @@
   },
   {
     "Id": 238,
-    "Name": "A Dread Guardian of Serpolis",
+    "Name": "Dread Guardian of Serpolis",
     "Health": 150000,
     "Level": 96,
     "Experience": 110000,
@@ -4112,7 +4112,7 @@
   },
   {
     "Id": 239,
-    "Name": "A Coranin Lumberjack",
+    "Name": "Coranin Lumberjack",
     "Health": 0,
     "Level": 92,
     "Experience": 0,
@@ -4146,7 +4146,7 @@
   },
   {
     "Id": 241,
-    "Name": "A Coranin Villager",
+    "Name": "Coranin Villager",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -4180,7 +4180,7 @@
   },
   {
     "Id": 243,
-    "Name": "A Coranin Cook",
+    "Name": "Coranin Cook",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -4665,7 +4665,7 @@
   },
   {
     "Id": 280,
-    "Name": "A Ghoul Berserker",
+    "Name": "Ghoul Berserker",
     "Health": 0,
     "Level": 23,
     "Experience": 0,
@@ -4682,7 +4682,7 @@
   },
   {
     "Id": 281,
-    "Name": "A Ghoul Avenger",
+    "Name": "Ghoul Avenger",
     "Health": 0,
     "Level": 27,
     "Experience": 0,
@@ -4699,7 +4699,7 @@
   },
   {
     "Id": 282,
-    "Name": "A Ghoul Striker",
+    "Name": "Ghoul Striker",
     "Health": 0,
     "Level": 32,
     "Experience": 0,
@@ -4733,7 +4733,7 @@
   },
   {
     "Id": 284,
-    "Name": "A Robed Cultist",
+    "Name": "Robed Cultist",
     "Health": 0,
     "Level": 49,
     "Experience": 0,
@@ -4750,7 +4750,7 @@
   },
   {
     "Id": 285,
-    "Name": "A Deranged Cultist",
+    "Name": "Deranged Cultist",
     "Health": 0,
     "Level": 45,
     "Experience": 0,
@@ -4767,7 +4767,7 @@
   },
   {
     "Id": 286,
-    "Name": "A Disfigured Cultist",
+    "Name": "Disfigured Cultist",
     "Health": 0,
     "Level": 47,
     "Experience": 0,
@@ -4784,7 +4784,7 @@
   },
   {
     "Id": 287,
-    "Name": "A Cult Torturer",
+    "Name": "Cult Torturer",
     "Health": 0,
     "Level": 50,
     "Experience": 0,
@@ -4841,7 +4841,7 @@
   },
   {
     "Id": 290,
-    "Name": "A Vampire Whelp",
+    "Name": "Vampire Whelp",
     "Health": 0,
     "Level": 77,
     "Experience": 0,
@@ -4858,7 +4858,7 @@
   },
   {
     "Id": 291,
-    "Name": "A Vampire",
+    "Name": "Vampire",
     "Health": 0,
     "Level": 83,
     "Experience": 0,
@@ -4875,7 +4875,7 @@
   },
   {
     "Id": 292,
-    "Name": "A Vampire Elder",
+    "Name": "Vampire Elder",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -4918,7 +4918,7 @@
   },
   {
     "Id": 294,
-    "Name": "A Guard of Tarnael'dar",
+    "Name": "Guard of Tarnael'dar",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -4935,7 +4935,7 @@
   },
   {
     "Id": 295,
-    "Name": "A Bodyguard of Tarnael'dar",
+    "Name": "Bodyguard of Tarnael'dar",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -4952,7 +4952,7 @@
   },
   {
     "Id": 296,
-    "Name": "A Shadow Elemental",
+    "Name": "Shadow Elemental",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -5013,7 +5013,7 @@
   },
   {
     "Id": 298,
-    "Name": "A Chasm Demon",
+    "Name": "Chasm Demon",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -5030,7 +5030,7 @@
   },
   {
     "Id": 299,
-    "Name": "A Terror Guard of Serpolis",
+    "Name": "Terror Guard of Serpolis",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -5047,7 +5047,7 @@
   },
   {
     "Id": 300,
-    "Name": "A Hellish Rodent",
+    "Name": "Hellish Rodent",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -5081,7 +5081,7 @@
   },
   {
     "Id": 302,
-    "Name": "A Ravenous Fiend",
+    "Name": "Ravenous Fiend",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -5098,7 +5098,7 @@
   },
   {
     "Id": 303,
-    "Name": "A Nightmare Guardian",
+    "Name": "Nightmare Guardian",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -5181,7 +5181,7 @@
   },
   {
     "Id": 306,
-    "Name": "A Bandit Swordsman",
+    "Name": "Bandit Swordsman",
     "Health": 0,
     "Level": 53,
     "Experience": 0,
@@ -5198,7 +5198,7 @@
   },
   {
     "Id": 307,
-    "Name": "A Bandit Lookout",
+    "Name": "Bandit Lookout",
     "Health": 0,
     "Level": 56,
     "Experience": 0,
@@ -5232,7 +5232,7 @@
   },
   {
     "Id": 309,
-    "Name": "A Ghostly Warrior",
+    "Name": "Ghostly Warrior",
     "Health": 0,
     "Level": 62,
     "Experience": 0,
@@ -5249,7 +5249,7 @@
   },
   {
     "Id": 310,
-    "Name": "A Ghostly Magi",
+    "Name": "Ghostly Magi",
     "Health": 0,
     "Level": 64,
     "Experience": 0,
@@ -5266,7 +5266,7 @@
   },
   {
     "Id": 311,
-    "Name": "A Ghostly Chef",
+    "Name": "Ghostly Chef",
     "Health": 0,
     "Level": 67,
     "Experience": 0,
@@ -5283,7 +5283,7 @@
   },
   {
     "Id": 312,
-    "Name": "A Skeletal Warrior",
+    "Name": "Skeletal Warrior",
     "Health": 0,
     "Level": 69,
     "Experience": 0,
@@ -5300,7 +5300,7 @@
   },
   {
     "Id": 313,
-    "Name": "A Skeletal Ogre Fighter",
+    "Name": "Skeletal Ogre Fighter",
     "Health": 0,
     "Level": 72,
     "Experience": 0,
@@ -5317,7 +5317,7 @@
   },
   {
     "Id": 314,
-    "Name": "A Giant Mosquito",
+    "Name": "Giant Mosquito",
     "Health": 0,
     "Level": 73,
     "Experience": 0,
@@ -5334,7 +5334,7 @@
   },
   {
     "Id": 315,
-    "Name": "A Skeletal Commander",
+    "Name": "Skeletal Commander",
     "Health": 0,
     "Level": 75,
     "Experience": 0,
@@ -5351,7 +5351,7 @@
   },
   {
     "Id": 316,
-    "Name": "A Gigantic Eagle",
+    "Name": "Gigantic Eagle",
     "Health": 0,
     "Level": 55,
     "Experience": 0,
@@ -5368,7 +5368,7 @@
   },
   {
     "Id": 317,
-    "Name": "A Grizzly Bear",
+    "Name": "Grizzly Bear",
     "Health": 0,
     "Level": 60,
     "Experience": 0,
@@ -5385,7 +5385,7 @@
   },
   {
     "Id": 318,
-    "Name": "A Young Mountain Drake",
+    "Name": "Young Mountain Drake",
     "Health": 0,
     "Level": 61,
     "Experience": 0,
@@ -5402,7 +5402,7 @@
   },
   {
     "Id": 319,
-    "Name": "A Mountain Giant",
+    "Name": "Mountain Giant",
     "Health": 0,
     "Level": 82,
     "Experience": 0,
@@ -5436,7 +5436,7 @@
   },
   {
     "Id": 321,
-    "Name": "A Lake Monster",
+    "Name": "Lake Monster",
     "Health": 0,
     "Level": 75,
     "Experience": 0,
@@ -5453,7 +5453,7 @@
   },
   {
     "Id": 322,
-    "Name": "A Refugee",
+    "Name": "Refugee",
     "Health": 0,
     "Level": 55,
     "Experience": 0,
@@ -5487,7 +5487,7 @@
   },
   {
     "Id": 324,
-    "Name": "A Restless Spirit",
+    "Name": "Restless Spirit",
     "Health": 0,
     "Level": 78,
     "Experience": 0,
@@ -5504,7 +5504,7 @@
   },
   {
     "Id": 325,
-    "Name": "A Ghast",
+    "Name": "Ghast",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -5555,7 +5555,7 @@
   },
   {
     "Id": 328,
-    "Name": "A Frostbourne Serpent",
+    "Name": "Frostbourne Serpent",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -5572,7 +5572,7 @@
   },
   {
     "Id": 329,
-    "Name": "A Crazy Cold Man",
+    "Name": "Crazy Cold Man",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -5589,7 +5589,7 @@
   },
   {
     "Id": 330,
-    "Name": "A Frost Beast",
+    "Name": "Frost Beast",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -5640,7 +5640,7 @@
   },
   {
     "Id": 333,
-    "Name": "A Starving Wolf",
+    "Name": "Starving Wolf",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -5657,7 +5657,7 @@
   },
   {
     "Id": 334,
-    "Name": "A Cold Mountain Spirit",
+    "Name": "Cold Mountain Spirit",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -5674,7 +5674,7 @@
   },
   {
     "Id": 335,
-    "Name": "A Royal Majestic Guard",
+    "Name": "Royal Majestic Guard",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -5691,7 +5691,7 @@
   },
   {
     "Id": 336,
-    "Name": "A Treant",
+    "Name": "Treant",
     "Health": 0,
     "Level": 91,
     "Experience": 0,
@@ -5708,7 +5708,7 @@
   },
   {
     "Id": 337,
-    "Name": "A Treant Elder",
+    "Name": "Treant Elder",
     "Health": 0,
     "Level": 93,
     "Experience": 0,
@@ -5725,7 +5725,7 @@
   },
   {
     "Id": 338,
-    "Name": "A Mad Cow",
+    "Name": "Mad Cow",
     "Health": 0,
     "Level": 78,
     "Experience": 0,
@@ -5759,7 +5759,7 @@
   },
   {
     "Id": 340,
-    "Name": "A Huge Leech",
+    "Name": "Huge Leech",
     "Health": 0,
     "Level": 87,
     "Experience": 0,
@@ -5827,7 +5827,7 @@
   },
   {
     "Id": 344,
-    "Name": "A Belligerent Drunk",
+    "Name": "Belligerent Drunk",
     "Health": 0,
     "Level": 92,
     "Experience": 0,
@@ -5844,7 +5844,7 @@
   },
   {
     "Id": 345,
-    "Name": "A Forest Imp",
+    "Name": "Forest Imp",
     "Health": 0,
     "Level": 92,
     "Experience": 0,
@@ -5861,7 +5861,7 @@
   },
   {
     "Id": 346,
-    "Name": "A Crazed Forest Imp",
+    "Name": "Crazed Forest Imp",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -5895,7 +5895,7 @@
   },
   {
     "Id": 348,
-    "Name": "A Lakeside Villager",
+    "Name": "Lakeside Villager",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -5912,7 +5912,7 @@
   },
   {
     "Id": 349,
-    "Name": "A Fisherman",
+    "Name": "Fisherman",
     "Health": 0,
     "Level": 60,
     "Experience": 0,
@@ -6031,7 +6031,7 @@
   },
   {
     "Id": 356,
-    "Name": "A Swamp Leech",
+    "Name": "Swamp Leech",
     "Health": 0,
     "Level": 7,
     "Experience": 0,
@@ -6065,7 +6065,7 @@
   },
   {
     "Id": 358,
-    "Name": "A Swamp Viper",
+    "Name": "Swamp Viper",
     "Health": 0,
     "Level": 11,
     "Experience": 0,
@@ -6099,7 +6099,7 @@
   },
   {
     "Id": 360,
-    "Name": "A Swamp Piranha",
+    "Name": "Swamp Piranha",
     "Health": 0,
     "Level": 14,
     "Experience": 0,
@@ -6116,7 +6116,7 @@
   },
   {
     "Id": 361,
-    "Name": "A Python",
+    "Name": "Python",
     "Health": 0,
     "Level": 18,
     "Experience": 0,
@@ -6133,7 +6133,7 @@
   },
   {
     "Id": 362,
-    "Name": "A Swamp Tree Spirit",
+    "Name": "Swamp Tree Spirit",
     "Health": 0,
     "Level": 22,
     "Experience": 0,
@@ -6150,7 +6150,7 @@
   },
   {
     "Id": 363,
-    "Name": "A Lizardman Villager",
+    "Name": "Lizardman Villager",
     "Health": 0,
     "Level": 20,
     "Experience": 0,
@@ -6201,7 +6201,7 @@
   },
   {
     "Id": 366,
-    "Name": "A Pit Viper",
+    "Name": "Pit Viper",
     "Health": 0,
     "Level": 23,
     "Experience": 0,
@@ -6252,7 +6252,7 @@
   },
   {
     "Id": 369,
-    "Name": "A Greeanjok Ogre Defender",
+    "Name": "Greeanjok Ogre Defender",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -6269,7 +6269,7 @@
   },
   {
     "Id": 370,
-    "Name": "A Greeanjok Ogre Wizard",
+    "Name": "Greeanjok Ogre Wizard",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -6303,7 +6303,7 @@
   },
   {
     "Id": 372,
-    "Name": "A Greeanjok Elite Guardian",
+    "Name": "Greeanjok Elite Guardian",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -6337,7 +6337,7 @@
   },
   {
     "Id": 374,
-    "Name": "A Feral Hyena",
+    "Name": "Feral Hyena",
     "Health": 0,
     "Level": 93,
     "Experience": 0,
@@ -6354,7 +6354,7 @@
   },
   {
     "Id": 375,
-    "Name": "A Lesser Lycanthrope",
+    "Name": "Lesser Lycanthrope",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -6371,7 +6371,7 @@
   },
   {
     "Id": 376,
-    "Name": "A Werewolf",
+    "Name": "Werewolf",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -6388,7 +6388,7 @@
   },
   {
     "Id": 377,
-    "Name": "A Greater Werewolf",
+    "Name": "Greater Werewolf",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -6437,7 +6437,7 @@
   },
   {
     "Id": 379,
-    "Name": "A Lost Soul",
+    "Name": "Lost Soul",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -6488,7 +6488,7 @@
   },
   {
     "Id": 382,
-    "Name": "A Behemoth",
+    "Name": "Behemoth",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -6505,7 +6505,7 @@
   },
   {
     "Id": 383,
-    "Name": "A Great Behemoth",
+    "Name": "Great Behemoth",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -6522,7 +6522,7 @@
   },
   {
     "Id": 384,
-    "Name": "A Frenzied Barbarian",
+    "Name": "Frenzied Barbarian",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -6539,7 +6539,7 @@
   },
   {
     "Id": 385,
-    "Name": "A Wasteland Barbarian",
+    "Name": "Wasteland Barbarian",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -6556,7 +6556,7 @@
   },
   {
     "Id": 386,
-    "Name": "A Wasteland Barbarian Berzerker",
+    "Name": "Wasteland Barbarian Berzerker",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -6590,7 +6590,7 @@
   },
   {
     "Id": 388,
-    "Name": "A Wasteland Barbarian Priest",
+    "Name": "Wasteland Barbarian Priest",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -6624,7 +6624,7 @@
   },
   {
     "Id": 390,
-    "Name": "A Roc",
+    "Name": "Roc",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -6641,7 +6641,7 @@
   },
   {
     "Id": 391,
-    "Name": "A Guardian Roc",
+    "Name": "Guardian Roc",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -6675,7 +6675,7 @@
   },
   {
     "Id": 393,
-    "Name": "A Lesser Basilisk",
+    "Name": "Lesser Basilisk",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -6692,7 +6692,7 @@
   },
   {
     "Id": 394,
-    "Name": "A Basilisk",
+    "Name": "Basilisk",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -6726,7 +6726,7 @@
   },
   {
     "Id": 396,
-    "Name": "A Spine Beast",
+    "Name": "Spine Beast",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -6743,7 +6743,7 @@
   },
   {
     "Id": 397,
-    "Name": "A Vengeful Shade",
+    "Name": "Vengeful Shade",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -6760,7 +6760,7 @@
   },
   {
     "Id": 398,
-    "Name": "A Dark Wyrm",
+    "Name": "Dark Wyrm",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -6822,7 +6822,7 @@
   },
   {
     "Id": 400,
-    "Name": "A Cadaverous Zombie",
+    "Name": "Cadaverous Zombie",
     "Health": 0,
     "Level": 44,
     "Experience": 0,
@@ -6839,7 +6839,7 @@
   },
   {
     "Id": 401,
-    "Name": "A Bone Guard",
+    "Name": "Bone Guard",
     "Health": 0,
     "Level": 49,
     "Experience": 0,
@@ -6873,7 +6873,7 @@
   },
   {
     "Id": 403,
-    "Name": "A Skeletal Devourer",
+    "Name": "Skeletal Devourer",
     "Health": 0,
     "Level": 55,
     "Experience": 0,
@@ -6941,7 +6941,7 @@
   },
   {
     "Id": 407,
-    "Name": "A Goat",
+    "Name": "Goat",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -6958,7 +6958,7 @@
   },
   {
     "Id": 408,
-    "Name": "A Sandy Crab",
+    "Name": "Sandy Crab",
     "Health": 0,
     "Level": 51,
     "Experience": 0,
@@ -6975,7 +6975,7 @@
   },
   {
     "Id": 409,
-    "Name": "A Lake Piranah",
+    "Name": "Lake Piranah",
     "Health": 0,
     "Level": 54,
     "Experience": 0,
@@ -6992,7 +6992,7 @@
   },
   {
     "Id": 410,
-    "Name": "A Runty Forest Gnoll",
+    "Name": "Runty Forest Gnoll",
     "Health": 0,
     "Level": 54,
     "Experience": 0,
@@ -7009,7 +7009,7 @@
   },
   {
     "Id": 411,
-    "Name": "A Forest Gnoll",
+    "Name": "Forest Gnoll",
     "Health": 0,
     "Level": 56,
     "Experience": 0,
@@ -7026,7 +7026,7 @@
   },
   {
     "Id": 412,
-    "Name": "A Gnoll Shaman",
+    "Name": "Gnoll Shaman",
     "Health": 0,
     "Level": 58,
     "Experience": 0,
@@ -7060,7 +7060,7 @@
   },
   {
     "Id": 414,
-    "Name": "A Skeletal Pirate Sentry",
+    "Name": "Skeletal Pirate Sentry",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -7077,7 +7077,7 @@
   },
   {
     "Id": 415,
-    "Name": "A Grotto Crab",
+    "Name": "Grotto Crab",
     "Health": 0,
     "Level": 83,
     "Experience": 0,
@@ -7094,7 +7094,7 @@
   },
   {
     "Id": 416,
-    "Name": "A Devilfish",
+    "Name": "Devilfish",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -7111,7 +7111,7 @@
   },
   {
     "Id": 417,
-    "Name": "A Flaming Skeleton",
+    "Name": "Flaming Skeleton",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -7128,7 +7128,7 @@
   },
   {
     "Id": 418,
-    "Name": "A Skeletal Fireeater",
+    "Name": "Skeletal Fireeater",
     "Health": 0,
     "Level": 88,
     "Experience": 0,
@@ -7145,7 +7145,7 @@
   },
   {
     "Id": 419,
-    "Name": "A Skeletal Pirate",
+    "Name": "Skeletal Pirate",
     "Health": 0,
     "Level": 86,
     "Experience": 0,
@@ -7162,7 +7162,7 @@
   },
   {
     "Id": 420,
-    "Name": "A Skeletal Pirate Marine",
+    "Name": "Skeletal Pirate Marine",
     "Health": 0,
     "Level": 88,
     "Experience": 0,
@@ -7179,7 +7179,7 @@
   },
   {
     "Id": 421,
-    "Name": "A Grotto Octopus",
+    "Name": "Grotto Octopus",
     "Health": 0,
     "Level": 89,
     "Experience": 0,
@@ -7213,7 +7213,7 @@
   },
   {
     "Id": 423,
-    "Name": "A Grotto Wraith",
+    "Name": "Grotto Wraith",
     "Health": 0,
     "Level": 87,
     "Experience": 0,
@@ -7281,7 +7281,7 @@
   },
   {
     "Id": 431,
-    "Name": "A Large Fig Treant",
+    "Name": "Large Fig Treant",
     "Health": 0,
     "Level": 93,
     "Experience": 0,
@@ -7315,7 +7315,7 @@
   },
   {
     "Id": 433,
-    "Name": "A Runewood Treant",
+    "Name": "Runewood Treant",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -7332,7 +7332,7 @@
   },
   {
     "Id": 434,
-    "Name": "A Weeping Willow Treant",
+    "Name": "Weeping Willow Treant",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -7349,7 +7349,7 @@
   },
   {
     "Id": 435,
-    "Name": "A Cypress Treant",
+    "Name": "Cypress Treant",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -7400,7 +7400,7 @@
   },
   {
     "Id": 438,
-    "Name": "A Decaying Elm Treant",
+    "Name": "Decaying Elm Treant",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -7417,7 +7417,7 @@
   },
   {
     "Id": 439,
-    "Name": "A Guardian of Nature",
+    "Name": "Guardian of Nature",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -7451,7 +7451,7 @@
   },
   {
     "Id": 441,
-    "Name": "A Grandfather Ash",
+    "Name": "Grandfather Ash",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -7485,7 +7485,7 @@
   },
   {
     "Id": 443,
-    "Name": "A Spirit of the Beast",
+    "Name": "Spirit of the Beast",
     "Health": 0,
     "Level": 49,
     "Experience": 0,
@@ -7502,7 +7502,7 @@
   },
   {
     "Id": 444,
-    "Name": "A Spirit of the Wolf",
+    "Name": "Spirit of the Wolf",
     "Health": 0,
     "Level": 50,
     "Experience": 0,
@@ -7519,7 +7519,7 @@
   },
   {
     "Id": 445,
-    "Name": "A Spirit of the Bear",
+    "Name": "Spirit of the Bear",
     "Health": 0,
     "Level": 51,
     "Experience": 0,
@@ -7536,7 +7536,7 @@
   },
   {
     "Id": 446,
-    "Name": "A Spirit of the Drake",
+    "Name": "Spirit of the Drake",
     "Health": 0,
     "Level": 52,
     "Experience": 0,
@@ -7553,7 +7553,7 @@
   },
   {
     "Id": 447,
-    "Name": "A Frostbourne Yeti",
+    "Name": "Frostbourne Yeti",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -7570,7 +7570,7 @@
   },
   {
     "Id": 448,
-    "Name": "A Yeti Elder",
+    "Name": "Yeti Elder",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -7587,7 +7587,7 @@
   },
   {
     "Id": 449,
-    "Name": "A Frostbourne Viper",
+    "Name": "Frostbourne Viper",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -7604,7 +7604,7 @@
   },
   {
     "Id": 450,
-    "Name": "A Crazy Cold Hermit",
+    "Name": "Crazy Cold Hermit",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -7621,7 +7621,7 @@
   },
   {
     "Id": 451,
-    "Name": "A Frozen Mastadon",
+    "Name": "Frozen Mastadon",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -7655,7 +7655,7 @@
   },
   {
     "Id": 453,
-    "Name": "A Frost Wolf",
+    "Name": "Frost Wolf",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -7672,7 +7672,7 @@
   },
   {
     "Id": 454,
-    "Name": "A Dire Wolf",
+    "Name": "Dire Wolf",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -7706,7 +7706,7 @@
   },
   {
     "Id": 456,
-    "Name": "A Naraikos Dockworker",
+    "Name": "Naraikos Dockworker",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -7723,7 +7723,7 @@
   },
   {
     "Id": 457,
-    "Name": "A Ship Captain",
+    "Name": "Ship Captain",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -7774,7 +7774,7 @@
   },
   {
     "Id": 460,
-    "Name": "A Naraikos Citizen",
+    "Name": "Naraikos Citizen",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -7791,7 +7791,7 @@
   },
   {
     "Id": 461,
-    "Name": "A Naraikos Guard",
+    "Name": "Naraikos Guard",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -7825,7 +7825,7 @@
   },
   {
     "Id": 463,
-    "Name": "A Naraikos Assassin",
+    "Name": "Naraikos Assassin",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -7995,7 +7995,7 @@
   },
   {
     "Id": 473,
-    "Name": "A Lesser Frost Giant",
+    "Name": "Lesser Frost Giant",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8012,7 +8012,7 @@
   },
   {
     "Id": 474,
-    "Name": "A Frost Giant Mauler",
+    "Name": "Frost Giant Mauler",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -8029,7 +8029,7 @@
   },
   {
     "Id": 475,
-    "Name": "A Frost Giant Priest",
+    "Name": "Frost Giant Priest",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -8046,7 +8046,7 @@
   },
   {
     "Id": 476,
-    "Name": "A Majestic Elite Sapper",
+    "Name": "Majestic Elite Sapper",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -8063,7 +8063,7 @@
   },
   {
     "Id": 477,
-    "Name": "A Majestic Quartermaster",
+    "Name": "Majestic Quartermaster",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -8080,7 +8080,7 @@
   },
   {
     "Id": 478,
-    "Name": "A Majestic Elite Archer",
+    "Name": "Majestic Elite Archer",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8097,7 +8097,7 @@
   },
   {
     "Id": 479,
-    "Name": "A Majestic Elite Soldier",
+    "Name": "Majestic Elite Soldier",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8114,7 +8114,7 @@
   },
   {
     "Id": 480,
-    "Name": "A Majestic Physician",
+    "Name": "Majestic Physician",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8131,7 +8131,7 @@
   },
   {
     "Id": 481,
-    "Name": "A Majestic Elite Spearman",
+    "Name": "Majestic Elite Spearman",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -8148,7 +8148,7 @@
   },
   {
     "Id": 482,
-    "Name": "A Majestic Elite Officer",
+    "Name": "Majestic Elite Officer",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -8165,7 +8165,7 @@
   },
   {
     "Id": 483,
-    "Name": "A Majestic Elite Catapult",
+    "Name": "Majestic Elite Catapult",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -8182,7 +8182,7 @@
   },
   {
     "Id": 484,
-    "Name": "A Majestic Elite Commander",
+    "Name": "Majestic Elite Commander",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -8199,7 +8199,7 @@
   },
   {
     "Id": 485,
-    "Name": "A Sassaren Light Horseman",
+    "Name": "Sassaren Light Horseman",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -8216,7 +8216,7 @@
   },
   {
     "Id": 486,
-    "Name": "A Sassaren Pikeman",
+    "Name": "Sassaren Pikeman",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8233,7 +8233,7 @@
   },
   {
     "Id": 487,
-    "Name": "A Sassaren Footsoldier",
+    "Name": "Sassaren Footsoldier",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8250,7 +8250,7 @@
   },
   {
     "Id": 488,
-    "Name": "A Sassaren Heavy Horseman",
+    "Name": "Sassaren Heavy Horseman",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -8267,7 +8267,7 @@
   },
   {
     "Id": 489,
-    "Name": "A Sassaren Heavy Lancer",
+    "Name": "Sassaren Heavy Lancer",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -8284,7 +8284,7 @@
   },
   {
     "Id": 490,
-    "Name": "A Sassaren Ranger",
+    "Name": "Sassaren Ranger",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -8301,7 +8301,7 @@
   },
   {
     "Id": 491,
-    "Name": "A Sassaren Elite Cavalry",
+    "Name": "Sassaren Elite Cavalry",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -8318,7 +8318,7 @@
   },
   {
     "Id": 492,
-    "Name": "A Sassaren Commander",
+    "Name": "Sassaren Commander",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -8590,7 +8590,7 @@
   },
   {
     "Id": 508,
-    "Name": "A Desert Nomad",
+    "Name": "Desert Nomad",
     "Health": 0,
     "Level": 76,
     "Experience": 0,
@@ -8607,7 +8607,7 @@
   },
   {
     "Id": 509,
-    "Name": "A Sand Viper",
+    "Name": "Sand Viper",
     "Health": 0,
     "Level": 77,
     "Experience": 0,
@@ -8624,7 +8624,7 @@
   },
   {
     "Id": 510,
-    "Name": "A Sand Dragon",
+    "Name": "Sand Dragon",
     "Health": 0,
     "Level": 78,
     "Experience": 0,
@@ -8641,7 +8641,7 @@
   },
   {
     "Id": 511,
-    "Name": "A Wasteland Mutant",
+    "Name": "Wasteland Mutant",
     "Health": 0,
     "Level": 79,
     "Experience": 0,
@@ -8658,7 +8658,7 @@
   },
   {
     "Id": 512,
-    "Name": "A Wasteland Raider",
+    "Name": "Wasteland Raider",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -8692,7 +8692,7 @@
   },
   {
     "Id": 514,
-    "Name": "A Wasteland Demon",
+    "Name": "Wasteland Demon",
     "Health": 0,
     "Level": 82,
     "Experience": 0,
@@ -8709,7 +8709,7 @@
   },
   {
     "Id": 515,
-    "Name": "A Storm Shade",
+    "Name": "Storm Shade",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -8726,7 +8726,7 @@
   },
   {
     "Id": 516,
-    "Name": "A Storm Wraith",
+    "Name": "Storm Wraith",
     "Health": 0,
     "Level": 86,
     "Experience": 0,
@@ -8743,7 +8743,7 @@
   },
   {
     "Id": 517,
-    "Name": "A Tumultuous Fiend",
+    "Name": "Tumultuous Fiend",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -8777,7 +8777,7 @@
   },
   {
     "Id": 519,
-    "Name": "A Desert Devil",
+    "Name": "Desert Devil",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -8794,7 +8794,7 @@
   },
   {
     "Id": 520,
-    "Name": "A Wasteland Banshee",
+    "Name": "Wasteland Banshee",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -8811,7 +8811,7 @@
   },
   {
     "Id": 521,
-    "Name": "A Vivacious Fire Spirit",
+    "Name": "Vivacious Fire Spirit",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -8845,7 +8845,7 @@
   },
   {
     "Id": 523,
-    "Name": "A Wasteland Tormentor",
+    "Name": "Wasteland Tormentor",
     "Health": 0,
     "Level": 84,
     "Experience": 0,
@@ -8896,7 +8896,7 @@
   },
   {
     "Id": 526,
-    "Name": "A Holy Guardian",
+    "Name": "Holy Guardian",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -8947,7 +8947,7 @@
   },
   {
     "Id": 529,
-    "Name": "A Hellish Succubus",
+    "Name": "Hellish Succubus",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -8964,7 +8964,7 @@
   },
   {
     "Id": 530,
-    "Name": "A Hellish Incubus",
+    "Name": "Hellish Incubus",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -8998,7 +8998,7 @@
   },
   {
     "Id": 532,
-    "Name": "A Caulky Skeleton",
+    "Name": "Caulky Skeleton",
     "Health": 0,
     "Level": 75,
     "Experience": 0,
@@ -9015,7 +9015,7 @@
   },
   {
     "Id": 533,
-    "Name": "A Gigantic Sand Worm",
+    "Name": "Gigantic Sand Worm",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -9032,7 +9032,7 @@
   },
   {
     "Id": 534,
-    "Name": "A Lost Minstrel",
+    "Name": "Lost Minstrel",
     "Health": 0,
     "Level": 67,
     "Experience": 0,
@@ -9049,7 +9049,7 @@
   },
   {
     "Id": 535,
-    "Name": "A Scorched Soul",
+    "Name": "Scorched Soul",
     "Health": 0,
     "Level": 69,
     "Experience": 0,
@@ -9066,7 +9066,7 @@
   },
   {
     "Id": 536,
-    "Name": "A Lost Traveler",
+    "Name": "Lost Traveler",
     "Health": 0,
     "Level": 71,
     "Experience": 0,
@@ -9128,7 +9128,7 @@
   },
   {
     "Id": 538,
-    "Name": "A Pristine Servant",
+    "Name": "Pristine Servant",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -9230,7 +9230,7 @@
   },
   {
     "Id": 544,
-    "Name": "A Guardian Construct",
+    "Name": "Guardian Construct",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -9264,7 +9264,7 @@
   },
   {
     "Id": 546,
-    "Name": "A Diamond Golem",
+    "Name": "Diamond Golem",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -9281,7 +9281,7 @@
   },
   {
     "Id": 547,
-    "Name": "A Forest Spirit Shade",
+    "Name": "Forest Spirit Shade",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -9298,7 +9298,7 @@
   },
   {
     "Id": 548,
-    "Name": "A Hollow Forest Spirit",
+    "Name": "Hollow Forest Spirit",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -9349,7 +9349,7 @@
   },
   {
     "Id": 551,
-    "Name": "A Lizardman Elder",
+    "Name": "Lizardman Elder",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -9383,7 +9383,7 @@
   },
   {
     "Id": 553,
-    "Name": "A Gargantuan Sea Monster",
+    "Name": "Gargantuan Sea Monster",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -9400,7 +9400,7 @@
   },
   {
     "Id": 554,
-    "Name": "A Zylun Necromancer",
+    "Name": "Zylun Necromancer",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -9417,7 +9417,7 @@
   },
   {
     "Id": 555,
-    "Name": "A Zylun Master Necromancer",
+    "Name": "Zylun Master Necromancer",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -9434,7 +9434,7 @@
   },
   {
     "Id": 556,
-    "Name": "A Zylun Bone Servant",
+    "Name": "Zylun Bone Servant",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -9468,7 +9468,7 @@
   },
   {
     "Id": 558,
-    "Name": "A Zylun Bone Golem",
+    "Name": "Zylun Bone Golem",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -9590,7 +9590,7 @@
   },
   {
     "Id": 565,
-    "Name": "A Majestic Legionare",
+    "Name": "Majestic Legionare",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -9607,7 +9607,7 @@
   },
   {
     "Id": 566,
-    "Name": "A Majestic Army Captain",
+    "Name": "Majestic Army Captain",
     "Health": 0,
     "Level": 105,
     "Experience": 0,
@@ -9624,7 +9624,7 @@
   },
   {
     "Id": 567,
-    "Name": "A Church Monk",
+    "Name": "Church Monk",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -9641,7 +9641,7 @@
   },
   {
     "Id": 568,
-    "Name": "A Battle Theolate",
+    "Name": "Battle Theolate",
     "Health": 0,
     "Level": 105,
     "Experience": 0,
@@ -9748,7 +9748,7 @@
   },
   {
     "Id": 574,
-    "Name": "A Skaan Noble",
+    "Name": "Skaan Noble",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -9765,7 +9765,7 @@
   },
   {
     "Id": 575,
-    "Name": "A Skaan Politician",
+    "Name": "Skaan Politician",
     "Health": 0,
     "Level": 87,
     "Experience": 0,
@@ -9782,7 +9782,7 @@
   },
   {
     "Id": 576,
-    "Name": "A Skaan Resident",
+    "Name": "Skaan Resident",
     "Health": 0,
     "Level": 89,
     "Experience": 0,
@@ -10019,7 +10019,7 @@
   },
   {
     "Id": 592,
-    "Name": "A Savant of Evil",
+    "Name": "Savant of Evil",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -10036,7 +10036,7 @@
   },
   {
     "Id": 593,
-    "Name": "A BloodBone Surgeon",
+    "Name": "BloodBone Surgeon",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -10053,7 +10053,7 @@
   },
   {
     "Id": 594,
-    "Name": "A Hopeflayer Demon",
+    "Name": "Hopeflayer Demon",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -10070,7 +10070,7 @@
   },
   {
     "Id": 595,
-    "Name": "A Crazed Terror Spirit",
+    "Name": "Crazed Terror Spirit",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -10119,7 +10119,7 @@
   },
   {
     "Id": 597,
-    "Name": "A Totally Broken Pet",
+    "Name": "Totally Broken Pet",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -10242,7 +10242,7 @@
   },
   {
     "Id": 602,
-    "Name": "A Haunted Scarecrow",
+    "Name": "Haunted Scarecrow",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -10259,7 +10259,7 @@
   },
   {
     "Id": 603,
-    "Name": "A Vile Phantasm",
+    "Name": "Vile Phantasm",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -10276,7 +10276,7 @@
   },
   {
     "Id": 604,
-    "Name": "A Dark Revenant",
+    "Name": "Dark Revenant",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -10293,7 +10293,7 @@
   },
   {
     "Id": 606,
-    "Name": "A Candy Thief",
+    "Name": "Candy Thief",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -10390,7 +10390,7 @@
   },
   {
     "Id": 611,
-    "Name": "A Holy Member",
+    "Name": "Holy Member",
     "Health": 0,
     "Level": 30,
     "Experience": 0,
@@ -10407,7 +10407,7 @@
   },
   {
     "Id": 612,
-    "Name": "A Servant of God",
+    "Name": "Servant of God",
     "Health": 0,
     "Level": 32,
     "Experience": 0,
@@ -10424,7 +10424,7 @@
   },
   {
     "Id": 613,
-    "Name": "A Church Visitor",
+    "Name": "Church Visitor",
     "Health": 0,
     "Level": 34,
     "Experience": 0,
@@ -10441,7 +10441,7 @@
   },
   {
     "Id": 614,
-    "Name": "A Noble Priest",
+    "Name": "Noble Priest",
     "Health": 0,
     "Level": 35,
     "Experience": 0,
@@ -10475,7 +10475,7 @@
   },
   {
     "Id": 616,
-    "Name": "A Mutant Rat",
+    "Name": "Mutant Rat",
     "Health": 0,
     "Level": 42,
     "Experience": 0,
@@ -10492,7 +10492,7 @@
   },
   {
     "Id": 617,
-    "Name": "A Mutated Cockroach",
+    "Name": "Mutated Cockroach",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -10509,7 +10509,7 @@
   },
   {
     "Id": 618,
-    "Name": "A Diseased Raccoon",
+    "Name": "Diseased Raccoon",
     "Health": 0,
     "Level": 44,
     "Experience": 0,
@@ -10526,7 +10526,7 @@
   },
   {
     "Id": 619,
-    "Name": "A Rabid Dog",
+    "Name": "Rabid Dog",
     "Health": 0,
     "Level": 49,
     "Experience": 0,
@@ -10543,7 +10543,7 @@
   },
   {
     "Id": 620,
-    "Name": "A Rat Skeleton",
+    "Name": "Rat Skeleton",
     "Health": 0,
     "Level": 42,
     "Experience": 0,
@@ -10560,7 +10560,7 @@
   },
   {
     "Id": 621,
-    "Name": "A Massive Rodent",
+    "Name": "Massive Rodent",
     "Health": 0,
     "Level": 44,
     "Experience": 0,
@@ -10577,7 +10577,7 @@
   },
   {
     "Id": 622,
-    "Name": "A Giant Wasp",
+    "Name": "Giant Wasp",
     "Health": 0,
     "Level": 45,
     "Experience": 0,
@@ -10865,7 +10865,7 @@
   },
   {
     "Id": 638,
-    "Name": "A Pirate Captain",
+    "Name": "Pirate Captain",
     "Health": 1880000,
     "Level": 103,
     "Experience": 800000,
@@ -10891,7 +10891,7 @@
   },
   {
     "Id": 639,
-    "Name": "A Pirate Captor",
+    "Name": "Pirate Captor",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -10942,7 +10942,7 @@
   },
   {
     "Id": 642,
-    "Name": "A Cave Dweller",
+    "Name": "Cave Dweller",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -11161,7 +11161,7 @@
   },
   {
     "Id": 658,
-    "Name": "A First Level Demon",
+    "Name": "First Level Demon",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -11207,7 +11207,7 @@
   },
   {
     "Id": 660,
-    "Name": "A Rusalka",
+    "Name": "Rusalka",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -11254,7 +11254,7 @@
   },
   {
     "Id": 662,
-    "Name": "A Second Level Demon",
+    "Name": "Second Level Demon",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -11271,7 +11271,7 @@
   },
   {
     "Id": 663,
-    "Name": "A Baby Sewer Rat",
+    "Name": "Baby Sewer Rat",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -11288,7 +11288,7 @@
   },
   {
     "Id": 664,
-    "Name": "A Young Sewer Rat",
+    "Name": "Young Sewer Rat",
     "Health": 0,
     "Level": 2,
     "Experience": 0,
@@ -11305,7 +11305,7 @@
   },
   {
     "Id": 665,
-    "Name": "A Sewer Rat",
+    "Name": "Sewer Rat",
     "Health": 0,
     "Level": 3,
     "Experience": 0,
@@ -11322,7 +11322,7 @@
   },
   {
     "Id": 666,
-    "Name": "A Mutant Sewer Rat",
+    "Name": "Mutant Sewer Rat",
     "Health": 0,
     "Level": 4,
     "Experience": 0,
@@ -11339,7 +11339,7 @@
   },
   {
     "Id": 667,
-    "Name": "A Myro Rebel Grunt",
+    "Name": "Myro Rebel Grunt",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -11356,7 +11356,7 @@
   },
   {
     "Id": 668,
-    "Name": "A Myro Rebel Guard",
+    "Name": "Myro Rebel Guard",
     "Health": 0,
     "Level": 6,
     "Experience": 0,
@@ -11373,7 +11373,7 @@
   },
   {
     "Id": 669,
-    "Name": "A Myro Rebel Laborer",
+    "Name": "Myro Rebel Laborer",
     "Health": 0,
     "Level": 8,
     "Experience": 0,
@@ -11390,7 +11390,7 @@
   },
   {
     "Id": 670,
-    "Name": "A Myro Rebel Lieutenant",
+    "Name": "Myro Rebel Lieutenant",
     "Health": 0,
     "Level": 9,
     "Experience": 0,
@@ -11407,7 +11407,7 @@
   },
   {
     "Id": 671,
-    "Name": "A Myro Rebel Hunter",
+    "Name": "Myro Rebel Hunter",
     "Health": 0,
     "Level": 10,
     "Experience": 0,
@@ -11424,7 +11424,7 @@
   },
   {
     "Id": 672,
-    "Name": "A Myro Rebel Sergeant",
+    "Name": "Myro Rebel Sergeant",
     "Health": 0,
     "Level": 12,
     "Experience": 0,
@@ -11441,7 +11441,7 @@
   },
   {
     "Id": 673,
-    "Name": "A Myro Rebel Elite Guard",
+    "Name": "Myro Rebel Elite Guard",
     "Health": 0,
     "Level": 14,
     "Experience": 0,
@@ -11458,7 +11458,7 @@
   },
   {
     "Id": 674,
-    "Name": "A Myro Rebel Captain",
+    "Name": "Myro Rebel Captain",
     "Health": 0,
     "Level": 15,
     "Experience": 0,
@@ -11520,7 +11520,7 @@
   },
   {
     "Id": 677,
-    "Name": "A Third Level Demon",
+    "Name": "Third Level Demon",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -11681,7 +11681,7 @@
   },
   {
     "Id": 685,
-    "Name": "A Cursed Spirit",
+    "Name": "Cursed Spirit",
     "Health": 0,
     "Level": 90,
     "Experience": 0,
@@ -11698,7 +11698,7 @@
   },
   {
     "Id": 686,
-    "Name": "A Saddened Spirit",
+    "Name": "Saddened Spirit",
     "Health": 0,
     "Level": 91,
     "Experience": 0,
@@ -11715,7 +11715,7 @@
   },
   {
     "Id": 687,
-    "Name": "A Violent Spirit",
+    "Name": "Violent Spirit",
     "Health": 0,
     "Level": 92,
     "Experience": 0,
@@ -11732,7 +11732,7 @@
   },
   {
     "Id": 688,
-    "Name": "A Trapped Spirit",
+    "Name": "Trapped Spirit",
     "Health": 0,
     "Level": 93,
     "Experience": 0,
@@ -11783,7 +11783,7 @@
   },
   {
     "Id": 691,
-    "Name": "A Bandit Spirit",
+    "Name": "Bandit Spirit",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -11800,7 +11800,7 @@
   },
   {
     "Id": 692,
-    "Name": "A Deadly Spirit",
+    "Name": "Deadly Spirit",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -11817,7 +11817,7 @@
   },
   {
     "Id": 693,
-    "Name": "A Furious Spirit",
+    "Name": "Furious Spirit",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -11834,7 +11834,7 @@
   },
   {
     "Id": 694,
-    "Name": "A Forgotten Spirit",
+    "Name": "Forgotten Spirit",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -12316,7 +12316,7 @@
   },
   {
     "Id": 758,
-    "Name": "A Wayward Wanderer",
+    "Name": "Wayward Wanderer",
     "Health": 0,
     "Level": 80,
     "Experience": 0,
@@ -12333,7 +12333,7 @@
   },
   {
     "Id": 759,
-    "Name": "A Wayward Bandit",
+    "Name": "Wayward Bandit",
     "Health": 0,
     "Level": 79,
     "Experience": 0,
@@ -12350,7 +12350,7 @@
   },
   {
     "Id": 760,
-    "Name": "A Wayward Sheep",
+    "Name": "Wayward Sheep",
     "Health": 0,
     "Level": 81,
     "Experience": 0,
@@ -12367,7 +12367,7 @@
   },
   {
     "Id": 761,
-    "Name": "A Wayward Shepherd",
+    "Name": "Wayward Shepherd",
     "Health": 0,
     "Level": 82,
     "Experience": 0,
@@ -12452,7 +12452,7 @@
   },
   {
     "Id": 766,
-    "Name": "A Traveling Entertainer",
+    "Name": "Traveling Entertainer",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -12593,7 +12593,7 @@
   },
   {
     "Id": 777,
-    "Name": "A Lava Golem",
+    "Name": "Lava Golem",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -12879,7 +12879,7 @@
   },
   {
     "Id": 787,
-    "Name": "A Young Shimmerfish",
+    "Name": "Young Shimmerfish",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -12964,7 +12964,7 @@
   },
   {
     "Id": 791,
-    "Name": "A Dragonkin Townsperson",
+    "Name": "Dragonkin Townsperson",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -12981,7 +12981,7 @@
   },
   {
     "Id": 792,
-    "Name": "A Dragonkin Merchant",
+    "Name": "Dragonkin Merchant",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -12998,7 +12998,7 @@
   },
   {
     "Id": 793,
-    "Name": "A Dragonkin Child",
+    "Name": "Dragonkin Child",
     "Health": 0,
     "Level": 85,
     "Experience": 0,
@@ -13015,7 +13015,7 @@
   },
   {
     "Id": 794,
-    "Name": "A Dragonkin Farmer",
+    "Name": "Dragonkin Farmer",
     "Health": 0,
     "Level": 94,
     "Experience": 0,
@@ -13032,7 +13032,7 @@
   },
   {
     "Id": 795,
-    "Name": "A Dragonkin Spearfisher",
+    "Name": "Dragonkin Spearfisher",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -13049,7 +13049,7 @@
   },
   {
     "Id": 796,
-    "Name": "A Dragonkin Banker",
+    "Name": "Dragonkin Banker",
     "Health": 0,
     "Level": 120,
     "Experience": 0,
@@ -13066,7 +13066,7 @@
   },
   {
     "Id": 797,
-    "Name": "A Dragonkin Teacher",
+    "Name": "Dragonkin Teacher",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13083,7 +13083,7 @@
   },
   {
     "Id": 798,
-    "Name": "A Dragonkin Headmistress",
+    "Name": "Dragonkin Headmistress",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13100,7 +13100,7 @@
   },
   {
     "Id": 799,
-    "Name": "A Dragonkin Secretary",
+    "Name": "Dragonkin Secretary",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -13202,7 +13202,7 @@
   },
   {
     "Id": 805,
-    "Name": "A Drakkamar Mage Outfitter",
+    "Name": "Drakkamar Mage Outfitter",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -13219,7 +13219,7 @@
   },
   {
     "Id": 806,
-    "Name": "A Drakkamar Apprentice",
+    "Name": "Drakkamar Apprentice",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -13236,7 +13236,7 @@
   },
   {
     "Id": 807,
-    "Name": "A Drakkamar Clawcaster",
+    "Name": "Drakkamar Clawcaster",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13253,7 +13253,7 @@
   },
   {
     "Id": 808,
-    "Name": "A Drakkamar Surgemaster",
+    "Name": "Drakkamar Surgemaster",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13287,7 +13287,7 @@
   },
   {
     "Id": 810,
-    "Name": "A Drakkari Quartermaster",
+    "Name": "Drakkari Quartermaster",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -13304,7 +13304,7 @@
   },
   {
     "Id": 811,
-    "Name": "A Dragonkin Guardsman",
+    "Name": "Dragonkin Guardsman",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13321,7 +13321,7 @@
   },
   {
     "Id": 812,
-    "Name": "A Dragonkin Lancer",
+    "Name": "Dragonkin Lancer",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -13338,7 +13338,7 @@
   },
   {
     "Id": 813,
-    "Name": "A Drakkari Legionnaire",
+    "Name": "Drakkari Legionnaire",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -13372,7 +13372,7 @@
   },
   {
     "Id": 815,
-    "Name": "A Dragonkin Cleric",
+    "Name": "Dragonkin Cleric",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13389,7 +13389,7 @@
   },
   {
     "Id": 816,
-    "Name": "A Dragonkin Priest",
+    "Name": "Dragonkin Priest",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13423,7 +13423,7 @@
   },
   {
     "Id": 818,
-    "Name": "A Drakefang Shadowtracker",
+    "Name": "Drakefang Shadowtracker",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -13440,7 +13440,7 @@
   },
   {
     "Id": 819,
-    "Name": "A Drakefang Hunter",
+    "Name": "Drakefang Hunter",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -13457,7 +13457,7 @@
   },
   {
     "Id": 820,
-    "Name": "A Drakefang Huntmaker",
+    "Name": "Drakefang Huntmaker",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13508,7 +13508,7 @@
   },
   {
     "Id": 823,
-    "Name": "A Dragonkin Clergyman",
+    "Name": "Dragonkin Clergyman",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -13559,7 +13559,7 @@
   },
   {
     "Id": 826,
-    "Name": "A Sleeping Thornturtle",
+    "Name": "Sleeping Thornturtle",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -13576,7 +13576,7 @@
   },
   {
     "Id": 827,
-    "Name": "A Basking Thornturtle",
+    "Name": "Basking Thornturtle",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13593,7 +13593,7 @@
   },
   {
     "Id": 828,
-    "Name": "A Thornturtle Ambusher",
+    "Name": "Thornturtle Ambusher",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -13610,7 +13610,7 @@
   },
   {
     "Id": 829,
-    "Name": "A Mountain Pine Treant",
+    "Name": "Mountain Pine Treant",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13644,7 +13644,7 @@
   },
   {
     "Id": 831,
-    "Name": "A Hungry Drake",
+    "Name": "Hungry Drake",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -13661,7 +13661,7 @@
   },
   {
     "Id": 832,
-    "Name": "A Ravenous Drake",
+    "Name": "Ravenous Drake",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13678,7 +13678,7 @@
   },
   {
     "Id": 833,
-    "Name": "A Rampaging Drake",
+    "Name": "Rampaging Drake",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -13695,7 +13695,7 @@
   },
   {
     "Id": 834,
-    "Name": "A Drake Broodguard",
+    "Name": "Drake Broodguard",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13712,7 +13712,7 @@
   },
   {
     "Id": 835,
-    "Name": "A Drake Broodmother",
+    "Name": "Drake Broodmother",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -13729,7 +13729,7 @@
   },
   {
     "Id": 836,
-    "Name": "A Young Mandragora",
+    "Name": "Young Mandragora",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -13746,7 +13746,7 @@
   },
   {
     "Id": 837,
-    "Name": "A Sleeping Mandragora",
+    "Name": "Sleeping Mandragora",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -13780,7 +13780,7 @@
   },
   {
     "Id": 839,
-    "Name": "A Falling Boulder",
+    "Name": "Falling Boulder",
     "Health": 50000,
     "Level": 108,
     "Experience": 190000,
@@ -13797,7 +13797,7 @@
   },
   {
     "Id": 840,
-    "Name": "A Temple Servant",
+    "Name": "Temple Servant",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -13814,7 +13814,7 @@
   },
   {
     "Id": 841,
-    "Name": "A Marble Golem",
+    "Name": "Marble Golem",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -13848,7 +13848,7 @@
   },
   {
     "Id": 843,
-    "Name": "A Porcelain Handmaiden",
+    "Name": "Porcelain Handmaiden",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -13934,7 +13934,7 @@
   },
   {
     "Id": 846,
-    "Name": "A Vision of Diamandia",
+    "Name": "Vision of Diamandia",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -13951,7 +13951,7 @@
   },
   {
     "Id": 847,
-    "Name": "A Stellar Forge",
+    "Name": "Stellar Forge",
     "Health": 0,
     "Level": 200,
     "Experience": 0,
@@ -13968,7 +13968,7 @@
   },
   {
     "Id": 848,
-    "Name": "A Stellar Altar",
+    "Name": "Stellar Altar",
     "Health": 0,
     "Level": 200,
     "Experience": 0,
@@ -14015,7 +14015,7 @@
   },
   {
     "Id": 901,
-    "Name": "A Giant Marine Worm",
+    "Name": "Giant Marine Worm",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -14032,7 +14032,7 @@
   },
   {
     "Id": 902,
-    "Name": "A Gargantuan Pelican",
+    "Name": "Gargantuan Pelican",
     "Health": 0,
     "Level": 103,
     "Experience": 0,
@@ -15853,7 +15853,7 @@
   },
   {
     "Id": 1004,
-    "Name": "A Ravenous Fiend Reflection",
+    "Name": "Ravenous Fiend Reflection",
     "Health": 0,
     "Level": 101,
     "Experience": 0,
@@ -15887,7 +15887,7 @@
   },
   {
     "Id": 1006,
-    "Name": "A Nightmare Guardian Reflection",
+    "Name": "Nightmare Guardian Reflection",
     "Health": 0,
     "Level": 102,
     "Experience": 0,
@@ -15921,7 +15921,7 @@
   },
   {
     "Id": 1008,
-    "Name": "A Dread Guardian of Serpolis Reflection",
+    "Name": "Dread Guardian of Serpolis Reflection",
     "Health": 150000,
     "Level": 96,
     "Experience": 110000,
@@ -15947,7 +15947,7 @@
   },
   {
     "Id": 1009,
-    "Name": "A Chasm Demon Reflection",
+    "Name": "Chasm Demon Reflection",
     "Health": 0,
     "Level": 98,
     "Experience": 0,
@@ -15964,7 +15964,7 @@
   },
   {
     "Id": 1010,
-    "Name": "A Terror Guard of Serpolis Reflection",
+    "Name": "Terror Guard of Serpolis Reflection",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -15981,7 +15981,7 @@
   },
   {
     "Id": 1011,
-    "Name": "A Hellish Rodent Reflection",
+    "Name": "Hellish Rodent Reflection",
     "Health": 0,
     "Level": 99,
     "Experience": 0,
@@ -16075,7 +16075,7 @@
   },
   {
     "Id": 1014,
-    "Name": "A Serpolis Child",
+    "Name": "Serpolis Child",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -16092,7 +16092,7 @@
   },
   {
     "Id": 1015,
-    "Name": "A Serpolis Townsperson",
+    "Name": "Serpolis Townsperson",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -16109,7 +16109,7 @@
   },
   {
     "Id": 1016,
-    "Name": "A Serpolis Maid",
+    "Name": "Serpolis Maid",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -16126,7 +16126,7 @@
   },
   {
     "Id": 1017,
-    "Name": "A Serpolis Butler",
+    "Name": "Serpolis Butler",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -16143,7 +16143,7 @@
   },
   {
     "Id": 1018,
-    "Name": "A Serpolis Chef",
+    "Name": "Serpolis Chef",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -16279,7 +16279,7 @@
   },
   {
     "Id": 1027,
-    "Name": "A Veratine Knight",
+    "Name": "Veratine Knight",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -16313,7 +16313,7 @@
   },
   {
     "Id": 1029,
-    "Name": "A Tree Serpent",
+    "Name": "Tree Serpent",
     "Health": 0,
     "Level": 95,
     "Experience": 0,
@@ -16330,7 +16330,7 @@
   },
   {
     "Id": 1030,
-    "Name": "A Venomous Serpent",
+    "Name": "Venomous Serpent",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -16347,7 +16347,7 @@
   },
   {
     "Id": 1031,
-    "Name": "A Forest Wolf",
+    "Name": "Forest Wolf",
     "Health": 0,
     "Level": 97,
     "Experience": 0,
@@ -16381,7 +16381,7 @@
   },
   {
     "Id": 1033,
-    "Name": "A Ravished Spider",
+    "Name": "Ravished Spider",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -16449,7 +16449,7 @@
   },
   {
     "Id": 1037,
-    "Name": "A Riverwood Fisherman",
+    "Name": "Riverwood Fisherman",
     "Health": 0,
     "Level": 5,
     "Experience": 0,
@@ -17302,7 +17302,7 @@
   },
   {
     "Id": 1101,
-    "Name": "A Wild Boar",
+    "Name": "Wild Boar",
     "Health": 0,
     "Level": 100,
     "Experience": 0,
@@ -17427,7 +17427,7 @@
   },
   {
     "Id": 1109,
-    "Name": "A Hungry Scavenger",
+    "Name": "Hungry Scavenger",
     "Health": 0,
     "Level": 1,
     "Experience": 0,
@@ -17461,7 +17461,7 @@
   },
   {
     "Id": 1111,
-    "Name": "A Scavenger",
+    "Name": "Scavenger",
     "Health": 0,
     "Level": 3,
     "Experience": 0,
@@ -17478,7 +17478,7 @@
   },
   {
     "Id": 1112,
-    "Name": "A Lost Traveller",
+    "Name": "Lost Traveller",
     "Health": 0,
     "Level": 4,
     "Experience": 0,
@@ -17512,7 +17512,7 @@
   },
   {
     "Id": 1123,
-    "Name": "A Domican Footsoldier",
+    "Name": "Domican Footsoldier",
     "Health": 0,
     "Level": 20,
     "Experience": 0,
@@ -17529,7 +17529,7 @@
   },
   {
     "Id": 1124,
-    "Name": "A Domican Calvaryman",
+    "Name": "Domican Calvaryman",
     "Health": 0,
     "Level": 21,
     "Experience": 0,
@@ -17546,7 +17546,7 @@
   },
   {
     "Id": 1125,
-    "Name": "A Domican Guard",
+    "Name": "Domican Guard",
     "Health": 0,
     "Level": 22,
     "Experience": 0,
@@ -17563,7 +17563,7 @@
   },
   {
     "Id": 1126,
-    "Name": "A Domican Archer",
+    "Name": "Domican Archer",
     "Health": 0,
     "Level": 23,
     "Experience": 0,
@@ -17580,7 +17580,7 @@
   },
   {
     "Id": 1127,
-    "Name": "A Domican Mage",
+    "Name": "Domican Mage",
     "Health": 0,
     "Level": 24,
     "Experience": 0,
@@ -17597,7 +17597,7 @@
   },
   {
     "Id": 1128,
-    "Name": "A Domican Assassin",
+    "Name": "Domican Assassin",
     "Health": 0,
     "Level": 25,
     "Experience": 0,
@@ -17614,7 +17614,7 @@
   },
   {
     "Id": 1129,
-    "Name": "A Domican Siege Wagon",
+    "Name": "Domican Siege Wagon",
     "Health": 0,
     "Level": 26,
     "Experience": 0,
@@ -17631,7 +17631,7 @@
   },
   {
     "Id": 1130,
-    "Name": "A Domican Necromancer",
+    "Name": "Domican Necromancer",
     "Health": 0,
     "Level": 27,
     "Experience": 0,
@@ -17648,7 +17648,7 @@
   },
   {
     "Id": 1131,
-    "Name": "A Domican Priest",
+    "Name": "Domican Priest",
     "Health": 0,
     "Level": 28,
     "Experience": 0,
@@ -17665,7 +17665,7 @@
   },
   {
     "Id": 1132,
-    "Name": "A Domican Druid",
+    "Name": "Domican Druid",
     "Health": 0,
     "Level": 29,
     "Experience": 0,
@@ -17682,7 +17682,7 @@
   },
   {
     "Id": 1133,
-    "Name": "A Domican Paladin",
+    "Name": "Domican Paladin",
     "Health": 0,
     "Level": 30,
     "Experience": 0,
@@ -17699,7 +17699,7 @@
   },
   {
     "Id": 1134,
-    "Name": "A Domican Sargeant",
+    "Name": "Domican Sargeant",
     "Health": 0,
     "Level": 31,
     "Experience": 0,
@@ -17716,7 +17716,7 @@
   },
   {
     "Id": 1135,
-    "Name": "A Domican Lieutenant",
+    "Name": "Domican Lieutenant",
     "Health": 0,
     "Level": 32,
     "Experience": 0,
@@ -17733,7 +17733,7 @@
   },
   {
     "Id": 1136,
-    "Name": "A Domican Major",
+    "Name": "Domican Major",
     "Health": 0,
     "Level": 33,
     "Experience": 0,
@@ -17750,7 +17750,7 @@
   },
   {
     "Id": 1137,
-    "Name": "A Domican Captain",
+    "Name": "Domican Captain",
     "Health": 0,
     "Level": 34,
     "Experience": 0,
@@ -17767,7 +17767,7 @@
   },
   {
     "Id": 1138,
-    "Name": "A Domican Colonel",
+    "Name": "Domican Colonel",
     "Health": 0,
     "Level": 35,
     "Experience": 0,
@@ -17784,7 +17784,7 @@
   },
   {
     "Id": 1139,
-    "Name": "A Domican Specialist",
+    "Name": "Domican Specialist",
     "Health": 0,
     "Level": 36,
     "Experience": 0,
@@ -17801,7 +17801,7 @@
   },
   {
     "Id": 1140,
-    "Name": "A Domican Field Marshal",
+    "Name": "Domican Field Marshal",
     "Health": 0,
     "Level": 37,
     "Experience": 0,
@@ -17818,7 +17818,7 @@
   },
   {
     "Id": 1141,
-    "Name": "A Domican Admiral",
+    "Name": "Domican Admiral",
     "Health": 0,
     "Level": 38,
     "Experience": 0,
@@ -17835,7 +17835,7 @@
   },
   {
     "Id": 1142,
-    "Name": "A Domican Lieutenant General",
+    "Name": "Domican Lieutenant General",
     "Health": 0,
     "Level": 39,
     "Experience": 0,
@@ -17852,7 +17852,7 @@
   },
   {
     "Id": 1143,
-    "Name": "A Domican Major General",
+    "Name": "Domican Major General",
     "Health": 0,
     "Level": 40,
     "Experience": 0,
@@ -18592,7 +18592,7 @@
   },
   {
     "Id": 1205,
-    "Name": "A Strange Cultist",
+    "Name": "Strange Cultist",
     "Health": 3250,
     "Level": 42,
     "Experience": 0,
@@ -18609,7 +18609,7 @@
   },
   {
     "Id": 1207,
-    "Name": "A Giant Bat",
+    "Name": "Giant Bat",
     "Health": 0,
     "Level": 96,
     "Experience": 0,
@@ -18626,7 +18626,7 @@
   },
   {
     "Id": 1208,
-    "Name": "A Vampire Bat",
+    "Name": "Vampire Bat",
     "Health": 0,
     "Level": 97,
     "Experience": 0,

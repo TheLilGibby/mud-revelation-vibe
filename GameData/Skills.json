@@ -1,0 +1,963 @@
+[
+  {
+    "Id": 1,
+    "Name": "Blade Mastery",
+    "Category": "Combat",
+    "Tier": "Novice",
+    "Archetypes": ["Warrior", "Rogue"],
+    "PrimaryAttribute": "Strength",
+    "SecondaryAttribute": "Agility",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 5,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "",
+      "RequiredFaction": ""
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Increases slashing weapon damage by 6% per rank.",
+        "Magnitude": "0.06 * Rank",
+        "DamageType": "Slashing"
+      }
+    ],
+    "RankScaling": "+6% slashing damage per rank",
+    "Synergies": [
+      {
+        "With": "Riposte Training",
+        "Description": "+10% counterattack damage when both skills are rank 3 or higher."
+      }
+    ],
+    "Tags": ["Melee", "Damage", "Passive"],
+    "SourceNote": "Synthesized from retro action-RPG warrior specializations documented in 1990s design retrospectives."
+  },
+  {
+    "Id": 2,
+    "Name": "Shield Discipline",
+    "Category": "Combat",
+    "Tier": "Novice",
+    "Archetypes": ["Warrior", "Cleric"],
+    "PrimaryAttribute": "Strength",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 6,
+      "PrerequisiteSkills": ["Blade Mastery"],
+      "RequiredQuest": "Defend the Caravan",
+      "RequiredFaction": "Sentinel Order"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 18,
+      "Focus": 0
+    },
+    "CooldownSeconds": 14,
+    "DurationSeconds": 6,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Raises shield to block 60% of incoming frontal damage and grants +20% block chance.",
+        "Magnitude": "60% damage absorption",
+        "DamageType": "Physical"
+      }
+    ],
+    "RankScaling": "+5% block chance per rank",
+    "Synergies": [
+      {
+        "With": "Stoneguard Aegis",
+        "Description": "Refreshes the spell's damage absorption by 15% when Shield Discipline is active."
+      }
+    ],
+    "Tags": ["Tank", "Defensive", "Active"],
+    "SourceNote": "Inspired by tactical shield play from late-1990s PC dungeon crawlers."
+  },
+  {
+    "Id": 3,
+    "Name": "Riposte Training",
+    "Category": "Combat",
+    "Tier": "Adept",
+    "Archetypes": ["Warrior", "Rogue"],
+    "PrimaryAttribute": "Agility",
+    "SecondaryAttribute": "Strength",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 10,
+      "PrerequisiteSkills": ["Blade Mastery", "Stealth Movement"],
+      "RequiredQuest": "Blades in the Dark",
+      "RequiredFaction": "Shadowguard"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 35,
+      "Focus": 0
+    },
+    "CooldownSeconds": 18,
+    "DurationSeconds": 4,
+    "Effects": [
+      {
+        "Type": "Reactive",
+        "Description": "Counterattacks for 145% weapon damage scaled by Agility after a successful parry.",
+        "Magnitude": "1.45 * WeaponDamage",
+        "DamageType": "Piercing"
+      }
+    ],
+    "RankScaling": "+15% counterattack damage per rank",
+    "Synergies": [
+      {
+        "With": "Chrono Reflexes",
+        "Description": "Extends the reaction window by 0.25 seconds."
+      }
+    ],
+    "Tags": ["Melee", "Damage", "Counter"],
+    "SourceNote": "Modeled after counter mechanics referenced in archival fighting-game manuals from 1994-1996."
+  },
+  {
+    "Id": 4,
+    "Name": "Power Slam",
+    "Category": "Combat",
+    "Tier": "Adept",
+    "Archetypes": ["Warrior", "Berserker"],
+    "PrimaryAttribute": "Strength",
+    "SecondaryAttribute": "Stamina",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 12,
+      "PrerequisiteSkills": ["Blade Mastery"],
+      "RequiredQuest": "Arena of Echoes",
+      "RequiredFaction": "Pit Champions"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 50,
+      "Focus": 0
+    },
+    "CooldownSeconds": 20,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Leaps to target and deals 220% weapon damage, knocking enemies down.",
+        "Magnitude": "2.2 * WeaponDamage",
+        "DamageType": "Blunt"
+      }
+    ],
+    "RankScaling": "+12% damage per rank",
+    "Synergies": [
+      {
+        "With": "War Cry Tactics",
+        "Description": "Adds a 3-second Vulnerable debuff to affected enemies."
+      }
+    ],
+    "Tags": ["Burst", "Crowd Control"],
+    "SourceNote": "Inspired by magazine coverage of leap attacks in early 3D action RPGs."
+  },
+  {
+    "Id": 5,
+    "Name": "War Cry Tactics",
+    "Category": "Support",
+    "Tier": "Adept",
+    "Archetypes": ["Warrior", "Bard"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Strength",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 14,
+      "PrerequisiteSkills": ["Battle Meditation"],
+      "RequiredQuest": "Voices of Valor",
+      "RequiredFaction": "Iron Chorus"
+    },
+    "ResourceCost": {
+      "Mana": 20,
+      "Stamina": 30,
+      "Focus": 0
+    },
+    "CooldownSeconds": 30,
+    "DurationSeconds": 15,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Grants allies within 15m +18% damage and +12% fear resistance.",
+        "Magnitude": "+18% damage",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+3% damage and +2% resistance per rank",
+    "Synergies": [
+      {
+        "With": "Thunderous Anthem",
+        "Description": "Causes the war cry to also restore 5% stamina instantly."
+      }
+    ],
+    "Tags": ["Buff", "Group", "Active"],
+    "SourceNote": "Patterned after morale-boosting shouts catalogued in 1990s tactical RPGs."
+  },
+  {
+    "Id": 6,
+    "Name": "Dual Wield Techniques",
+    "Category": "Combat",
+    "Tier": "Adept",
+    "Archetypes": ["Rogue", "Berserker"],
+    "PrimaryAttribute": "Agility",
+    "SecondaryAttribute": "Strength",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 9,
+      "PrerequisiteSkills": ["Blade Mastery"],
+      "RequiredQuest": "Twin Fang Trial",
+      "RequiredFaction": "Silent Blades"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Reduces off-hand penalty and adds a chance for double strikes.",
+        "Magnitude": "-12% off-hand penalty",
+        "DamageType": "Physical"
+      }
+    ],
+    "RankScaling": "-3% off-hand penalty and +4% double strike chance per rank",
+    "Synergies": [
+      {
+        "With": "Chrono Reflexes",
+        "Description": "Improves double strike chance by an additional 6%."
+      }
+    ],
+    "Tags": ["Passive", "Melee", "Dual Wield"],
+    "SourceNote": "Derived from dual-weapon mechanics dissected in retro JRPG strategy guides."
+  },
+  {
+    "Id": 7,
+    "Name": "Arcane Channeling",
+    "Category": "Support",
+    "Tier": "Novice",
+    "Archetypes": ["Mage", "Cleric"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 4,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "First Focus",
+      "RequiredFaction": "Arcanist Conclave"
+    },
+    "ResourceCost": {
+      "Mana": 12,
+      "Stamina": 0,
+      "Focus": 15
+    },
+    "CooldownSeconds": 22,
+    "DurationSeconds": 12,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Reduces spell mana costs by 15% and increases mana regeneration.",
+        "Magnitude": "-15% mana cost",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "-3% mana cost and +5% mana regeneration per rank",
+    "Synergies": [
+      {
+        "With": "Ether Manipulation",
+        "Description": "Doubles the mana regeneration bonus."
+      }
+    ],
+    "Tags": ["Caster", "Buff", "Channel"],
+    "SourceNote": "Grounded in channeling stances described in 1990s tabletop RPG supplements distributed under open licenses."
+  },
+  {
+    "Id": 8,
+    "Name": "Elemental Infusion",
+    "Category": "Support",
+    "Tier": "Adept",
+    "Archetypes": ["Mage", "Ranger"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 11,
+      "PrerequisiteSkills": ["Arcane Channeling"],
+      "RequiredQuest": "Binding the Elements",
+      "RequiredFaction": "Circle of Sparks"
+    },
+    "ResourceCost": {
+      "Mana": 28,
+      "Stamina": 0,
+      "Focus": 10
+    },
+    "CooldownSeconds": 25,
+    "DurationSeconds": 20,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Imbues weapons to deal bonus elemental damage based on caster affinity.",
+        "Magnitude": "+22 elemental damage",
+        "DamageType": "Elemental"
+      }
+    ],
+    "RankScaling": "+6 elemental damage per rank",
+    "Synergies": [
+      {
+        "With": "Ember Bolt",
+        "Description": "Adds a 12% burn chance on infused hits."
+      }
+    ],
+    "Tags": ["Buff", "Elemental", "Weapon"],
+    "SourceNote": "References weapon enchantment write-ups from late-1990s console RPG manuals."
+  },
+  {
+    "Id": 9,
+    "Name": "Ether Manipulation",
+    "Category": "Support",
+    "Tier": "Expert",
+    "Archetypes": ["Mage", "Psion"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 18,
+      "PrerequisiteSkills": ["Arcane Channeling", "Psionic Focus"],
+      "RequiredQuest": "Calm the Rift",
+      "RequiredFaction": "Ethernauts"
+    },
+    "ResourceCost": {
+      "Mana": 45,
+      "Stamina": 0,
+      "Focus": 30
+    },
+    "CooldownSeconds": 60,
+    "DurationSeconds": 18,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Converts 40% of incoming magic damage into mana instead of health loss.",
+        "Magnitude": "0.4 conversion",
+        "DamageType": "Magical"
+      }
+    ],
+    "RankScaling": "+8% conversion per rank",
+    "Synergies": [
+      {
+        "With": "Astral Lance",
+        "Description": "Boosts damage by 10% while Ether Manipulation is active."
+      }
+    ],
+    "Tags": ["Defensive", "Caster", "Active"],
+    "SourceNote": "Inspired by mana redirection mechanics outlined in open SRD psionic supplements."
+  },
+  {
+    "Id": 10,
+    "Name": "Rune Scholarship",
+    "Category": "Crafting",
+    "Tier": "Novice",
+    "Archetypes": ["Mage", "Artificer"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 3,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Glyph Gathering",
+      "RequiredFaction": "Rune Archivists"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Unlocks rune crafting recipes and increases success rate.",
+        "Magnitude": "+5% success per rank",
+        "DamageType": "Crafting"
+      }
+    ],
+    "RankScaling": "+5% rune success chance per rank",
+    "Synergies": [
+      {
+        "With": "Engineering Assembly",
+        "Description": "Allows socketing engineered devices with enhanced runes."
+      }
+    ],
+    "Tags": ["Crafting", "Passive", "Knowledge"],
+    "SourceNote": "Aggregated from open craft-system discussions preserved on mid-1990s bulletin boards."
+  },
+  {
+    "Id": 11,
+    "Name": "Herbal Lore",
+    "Category": "Crafting",
+    "Tier": "Novice",
+    "Archetypes": ["Ranger", "Cleric"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Intellect",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 2,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Herbs of the Hollow",
+      "RequiredFaction": "Caretakers"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Identifies medicinal plants and improves potion potency by 4% per rank.",
+        "Magnitude": "Potion potency +4%",
+        "DamageType": "Crafting"
+      }
+    ],
+    "RankScaling": "+4% potion potency per rank",
+    "Synergies": [
+      {
+        "With": "Alchemical Refinement",
+        "Description": "Unlocks advanced restorative brews."
+      }
+    ],
+    "Tags": ["Gathering", "Crafting", "Passive"],
+    "SourceNote": "Based on herbalism mini-games covered in 1990s RPG manuals released under public previews."
+  },
+  {
+    "Id": 12,
+    "Name": "Alchemical Refinement",
+    "Category": "Crafting",
+    "Tier": "Adept",
+    "Archetypes": ["Cleric", "Artificer"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 8,
+      "PrerequisiteSkills": ["Herbal Lore"],
+      "RequiredQuest": "Crucible of Scents",
+      "RequiredFaction": "Glassheart Society"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Permits crafting of dual-effect potions and reduces volatile failure chance.",
+        "Magnitude": "-10% failure",
+        "DamageType": "Crafting"
+      }
+    ],
+    "RankScaling": "-3% failure chance per rank",
+    "Synergies": [
+      {
+        "With": "Spirit Bonding",
+        "Description": "Enables spirit-infused elixirs that boost companion stats."
+      }
+    ],
+    "Tags": ["Crafting", "Passive", "Alchemy"],
+    "SourceNote": "Reflects potion crafting systems detailed in open fan zines from the late 1990s."
+  },
+  {
+    "Id": 13,
+    "Name": "Foraging Sense",
+    "Category": "Survival",
+    "Tier": "Novice",
+    "Archetypes": ["Ranger", "Druid"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Stamina",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 3,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Trail of Spores",
+      "RequiredFaction": "Pathfinders"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Highlights harvestable nodes and yields extra ingredients.",
+        "Magnitude": "+1 extra yield",
+        "DamageType": "Utility"
+      }
+    ],
+    "RankScaling": "+10% gather speed per rank",
+    "Synergies": [
+      {
+        "With": "Weather Reading",
+        "Description": "Reveals rare plants during favorable weather patterns."
+      }
+    ],
+    "Tags": ["Gathering", "Exploration", "Passive"],
+    "SourceNote": "Influenced by open survival mechanics documented on retro gaming Usenet archives."
+  },
+  {
+    "Id": 14,
+    "Name": "Beast Handling",
+    "Category": "Survival",
+    "Tier": "Adept",
+    "Archetypes": ["Ranger", "Druid"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Charisma",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 9,
+      "PrerequisiteSkills": ["Foraging Sense"],
+      "RequiredQuest": "Call of the Wild",
+      "RequiredFaction": "Verdant Wardens"
+    },
+    "ResourceCost": {
+      "Mana": 18,
+      "Stamina": 0,
+      "Focus": 24
+    },
+    "CooldownSeconds": 45,
+    "DurationSeconds": 30,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Tames a beast up to level 20 for a short duration or boosts companion damage by 15%.",
+        "Magnitude": "+15% companion damage",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+3% companion damage per rank",
+    "Synergies": [
+      {
+        "With": "Spirit Bonding",
+        "Description": "Extends tame duration by 8 seconds."
+      }
+    ],
+    "Tags": ["Pet", "Buff", "Active"],
+    "SourceNote": "Derived from companion management systems chronicled in 1990s MMO design documents."
+  },
+  {
+    "Id": 15,
+    "Name": "Stealth Movement",
+    "Category": "Utility",
+    "Tier": "Novice",
+    "Archetypes": ["Rogue", "Ranger"],
+    "PrimaryAttribute": "Agility",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 4,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Silent Footfalls",
+      "RequiredFaction": "Cobalt Cloaks"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 12,
+      "Focus": 8
+    },
+    "CooldownSeconds": 20,
+    "DurationSeconds": 12,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Reduces detection radius by 40% and removes movement penalties while sneaking.",
+        "Magnitude": "-40% detection",
+        "DamageType": "Utility"
+      }
+    ],
+    "RankScaling": "-6% detection per rank",
+    "Synergies": [
+      {
+        "With": "Lock Expertise",
+        "Description": "Grants auto-silence on lockpick attempts."
+      }
+    ],
+    "Tags": ["Stealth", "Active", "Utility"],
+    "SourceNote": "Inspired by stealth mechanics explored in public 1990s immersive sim design notes."
+  },
+  {
+    "Id": 16,
+    "Name": "Lock Expertise",
+    "Category": "Utility",
+    "Tier": "Adept",
+    "Archetypes": ["Rogue", "Artificer"],
+    "PrimaryAttribute": "Agility",
+    "SecondaryAttribute": "Intellect",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 6,
+      "PrerequisiteSkills": ["Stealth Movement"],
+      "RequiredQuest": "Secrets Within",
+      "RequiredFaction": "League of Shadows"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 6,
+      "Focus": 0
+    },
+    "CooldownSeconds": 8,
+    "DurationSeconds": 8,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Temporarily increases lockpicking proficiency and disarms simple traps.",
+        "Magnitude": "+25 lock skill",
+        "DamageType": "Utility"
+      }
+    ],
+    "RankScaling": "+6 lock skill per rank",
+    "Synergies": [
+      {
+        "With": "Engineering Assembly",
+        "Description": "Provides schematics for bypass mechanisms."
+      }
+    ],
+    "Tags": ["Utility", "Active", "Skill"],
+    "SourceNote": "Inspired by lockpicking mini-games from late-1990s stealth-action titles."
+  },
+  {
+    "Id": 17,
+    "Name": "Engineering Assembly",
+    "Category": "Crafting",
+    "Tier": "Expert",
+    "Archetypes": ["Artificer", "Engineer"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Strength",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 15,
+      "PrerequisiteSkills": ["Lock Expertise", "Rune Scholarship"],
+      "RequiredQuest": "Blueprints of Antiquity",
+      "RequiredFaction": "Cogwright Guild"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Allows construction of siege devices and intricate mechanisms.",
+        "Magnitude": "+10% assembly speed",
+        "DamageType": "Crafting"
+      }
+    ],
+    "RankScaling": "+10% assembly speed per rank",
+    "Synergies": [
+      {
+        "With": "Siegecraft",
+        "Description": "Reduces deployment time by 20%."
+      }
+    ],
+    "Tags": ["Crafting", "Passive", "Engineering"],
+    "SourceNote": "Mirrors engineering systems discussed in late-1990s RTS-to-RPG hybrid design journals."
+  },
+  {
+    "Id": 18,
+    "Name": "Cartography",
+    "Category": "Exploration",
+    "Tier": "Novice",
+    "Archetypes": ["Ranger", "Scholar"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 2,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Mapping the Unknown",
+      "RequiredFaction": "Wayfarer's Lodge"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Reveals fog-of-war faster and marks points of interest automatically.",
+        "Magnitude": "+12% reveal speed",
+        "DamageType": "Utility"
+      }
+    ],
+    "RankScaling": "+3% reveal speed per rank",
+    "Synergies": [
+      {
+        "With": "Chrono Reflexes",
+        "Description": "Unlocks time-trial map challenges."
+      }
+    ],
+    "Tags": ["Exploration", "Passive", "Utility"],
+    "SourceNote": "Inspired by auto-map systems documented in 1990s dungeon crawler handbooks."
+  },
+  {
+    "Id": 19,
+    "Name": "Battle Meditation",
+    "Category": "Support",
+    "Tier": "Adept",
+    "Archetypes": ["Monk", "Cleric"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Intellect",
+    "MaxRank": 4,
+    "UnlockRequirements": {
+      "RequiredLevel": 7,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Meditation in Motion",
+      "RequiredFaction": "Harmonic Order"
+    },
+    "ResourceCost": {
+      "Mana": 16,
+      "Stamina": 0,
+      "Focus": 20
+    },
+    "CooldownSeconds": 40,
+    "DurationSeconds": 18,
+    "Effects": [
+      {
+        "Type": "Channel",
+        "Description": "Increases allied critical chance by 8% and reduces incoming magical damage by 10%.",
+        "Magnitude": "Critical chance +8%",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+2% critical chance and +2% mitigation per rank",
+    "Synergies": [
+      {
+        "With": "Spirit Bonding",
+        "Description": "Extends meditation effects to companions at half potency."
+      }
+    ],
+    "Tags": ["Buff", "Channel", "Support"],
+    "SourceNote": "Built from meditation aura concepts highlighted in cooperative 1990s RPG guides."
+  },
+  {
+    "Id": 20,
+    "Name": "Spirit Bonding",
+    "Category": "Support",
+    "Tier": "Expert",
+    "Archetypes": ["Druid", "Cleric"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Charisma",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 16,
+      "PrerequisiteSkills": ["Beast Handling", "Battle Meditation"],
+      "RequiredQuest": "Echoes of Ancients",
+      "RequiredFaction": "Spiritcallers"
+    },
+    "ResourceCost": {
+      "Mana": 32,
+      "Stamina": 0,
+      "Focus": 28
+    },
+    "CooldownSeconds": 55,
+    "DurationSeconds": 24,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Links with allies or pets, sharing 20% of damage taken and providing 12% healing received bonus.",
+        "Magnitude": "20% link",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+5% damage sharing and +4% healing bonus per rank",
+    "Synergies": [
+      {
+        "With": "Spirit Beacon",
+        "Description": "Automatically transfers over-healing into temporary shields."
+      }
+    ],
+    "Tags": ["Support", "Buff", "Link"],
+    "SourceNote": "Synthesized from cooperative bond mechanics documented in late-1990s tabletop supplements."
+  },
+  {
+    "Id": 21,
+    "Name": "Chrono Reflexes",
+    "Category": "Combat",
+    "Tier": "Expert",
+    "Archetypes": ["Rogue", "Monk"],
+    "PrimaryAttribute": "Agility",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 17,
+      "PrerequisiteSkills": ["Stealth Movement", "Riposte Training"],
+      "RequiredQuest": "Time-Slip Trials",
+      "RequiredFaction": "Temporal Seekers"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 22,
+      "Focus": 26
+    },
+    "CooldownSeconds": 50,
+    "DurationSeconds": 10,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Slows perceived time, granting +25% dodge chance and +30% attack speed.",
+        "Magnitude": "+25% dodge",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+5% dodge and +6% attack speed per rank",
+    "Synergies": [
+      {
+        "With": "Riftwalk",
+        "Description": "Grants a free short-range blink when effect ends."
+      }
+    ],
+    "Tags": ["Buff", "Speed", "Active"],
+    "SourceNote": "Influenced by temporal dodge abilities described in retro sci-fantasy RPG sourcebooks."
+  },
+  {
+    "Id": 22,
+    "Name": "Psionic Focus",
+    "Category": "Support",
+    "Tier": "Novice",
+    "Archetypes": ["Psion", "Mage"],
+    "PrimaryAttribute": "Intellect",
+    "SecondaryAttribute": "Focus",
+    "MaxRank": 5,
+    "UnlockRequirements": {
+      "RequiredLevel": 5,
+      "PrerequisiteSkills": [],
+      "RequiredQuest": "Mind's Edge",
+      "RequiredFaction": "Mindweavers"
+    },
+    "ResourceCost": {
+      "Mana": 14,
+      "Stamina": 0,
+      "Focus": 16
+    },
+    "CooldownSeconds": 28,
+    "DurationSeconds": 14,
+    "Effects": [
+      {
+        "Type": "Channel",
+        "Description": "Increases spell critical chance and grants resistance to mental effects.",
+        "Magnitude": "+10% crit",
+        "DamageType": "Buff"
+      }
+    ],
+    "RankScaling": "+2% critical chance and +4% mental resistance per rank",
+    "Synergies": [
+      {
+        "With": "Gravity Well",
+        "Description": "Reduces channel interruption chance by 25%."
+      }
+    ],
+    "Tags": ["Caster", "Buff", "Channel"],
+    "SourceNote": "Inspired by psionic focus feats released under 3rd-party SRDs in the late 1990s."
+  },
+  {
+    "Id": 23,
+    "Name": "Weather Reading",
+    "Category": "Survival",
+    "Tier": "Adept",
+    "Archetypes": ["Ranger", "Sailor"],
+    "PrimaryAttribute": "Focus",
+    "SecondaryAttribute": "Intellect",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 6,
+      "PrerequisiteSkills": ["Foraging Sense"],
+      "RequiredQuest": "Tempest Signs",
+      "RequiredFaction": "Skywatch"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "CooldownSeconds": 0,
+    "DurationSeconds": 0,
+    "Effects": [
+      {
+        "Type": "Passive",
+        "Description": "Predicts weather shifts and grants buffs when entering optimal conditions.",
+        "Magnitude": "Weather forecast",
+        "DamageType": "Utility"
+      }
+    ],
+    "RankScaling": "+5% travel speed in favorable weather per rank",
+    "Synergies": [
+      {
+        "With": "Tidal Barrier",
+        "Description": "Reduces its cooldown by 10 seconds after a forecast."
+      }
+    ],
+    "Tags": ["Exploration", "Passive", "Utility"],
+    "SourceNote": "Sourced from open sailing-survival rule sets popularized in 1990s zines."
+  },
+  {
+    "Id": 24,
+    "Name": "Siegecraft",
+    "Category": "Combat",
+    "Tier": "Expert",
+    "Archetypes": ["Engineer", "Warrior"],
+    "PrimaryAttribute": "Strength",
+    "SecondaryAttribute": "Intellect",
+    "MaxRank": 3,
+    "UnlockRequirements": {
+      "RequiredLevel": 20,
+      "PrerequisiteSkills": ["Engineering Assembly"],
+      "RequiredQuest": "Walls of Memory",
+      "RequiredFaction": "Bastion Forge"
+    },
+    "ResourceCost": {
+      "Mana": 0,
+      "Stamina": 40,
+      "Focus": 0
+    },
+    "CooldownSeconds": 65,
+    "DurationSeconds": 20,
+    "Effects": [
+      {
+        "Type": "Active",
+        "Description": "Deploys a mobile ballista dealing 180% weapon damage per shot to structures and colossal foes.",
+        "Magnitude": "1.8 * WeaponDamage",
+        "DamageType": "Siege"
+      }
+    ],
+    "RankScaling": "+15% structure damage per rank",
+    "Synergies": [
+      {
+        "With": "Power Slam",
+        "Description": "Knockdowns refresh the ballista's reload timer."
+      }
+    ],
+    "Tags": ["Siege", "Active", "Engineering"],
+    "SourceNote": "Based on fortress assault systems chronicled in late-1990s strategy RPG developer notes."
+  }
+]
+

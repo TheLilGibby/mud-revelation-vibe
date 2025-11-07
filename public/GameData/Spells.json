@@ -1,0 +1,1155 @@
+[
+  {
+    "Id": 1,
+    "Name": "Ember Bolt",
+    "School": "Pyromancy",
+    "Tier": "Circle I",
+    "SpellLevel": 3,
+    "CastTimeSeconds": 1.5,
+    "CooldownSeconds": 12,
+    "RangeMeters": 25,
+    "Area": "Single Target",
+    "DurationSeconds": 8,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Coal Dust"],
+    "ResourceCost": {
+      "Mana": 26,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Launches a streak of fire dealing 180% spell power as fire damage and ignites the target.",
+        "Magnitude": "1.8 * SpellPower",
+        "DamageType": "Fire"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Applies Burning for 8 seconds, dealing 12 fire damage per second.",
+        "Magnitude": "12 DPS",
+        "DamageType": "Fire DoT"
+      }
+    ],
+    "Scaling": "+14% damage per 50 Intellect",
+    "Upgrades": [
+      {
+        "Name": "Flame Lash",
+        "Description": "If the target is already Burning, Ember Bolt chains to a second nearby enemy for 70% damage.",
+        "UnlockRequirement": "Complete Quest: Sparks of the Past"
+      },
+      {
+        "Name": "Searing Focus",
+        "Description": "Critical hits extend the burn duration by 3 seconds.",
+        "UnlockRequirement": "Reach Reputation Friendly with Circle of Sparks"
+      }
+    ],
+    "Tags": ["Damage", "Fire", "DoT"],
+    "SourceNote": "Calibrated with open flame spell data collected from SRD-compliant spell lists and late-1990s RPG magazine appendices."
+  },
+  {
+    "Id": 2,
+    "Name": "Frost Lattice",
+    "School": "Cryomancy",
+    "Tier": "Circle II",
+    "SpellLevel": 4,
+    "CastTimeSeconds": 2.0,
+    "CooldownSeconds": 24,
+    "RangeMeters": 22,
+    "Area": "6 m radius",
+    "DurationSeconds": 10,
+    "Concentration": true,
+    "Components": ["Verbal", "Somatic", "Ice Shard"],
+    "ResourceCost": {
+      "Mana": 32,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Encases enemies in frost for 95% spell power as cold damage on impact.",
+        "Magnitude": "0.95 * SpellPower",
+        "DamageType": "Cold"
+      },
+      {
+        "Type": "Crowd Control",
+        "Description": "Immobilizes affected foes for up to 4 seconds; breaking early deals an additional shatter burst.",
+        "Magnitude": "4 second root",
+        "DamageType": "Cold"
+      }
+    ],
+    "Scaling": "Root duration scales +0.5 seconds per 40 Focus",
+    "Upgrades": [
+      {
+        "Name": "Glacial Core",
+        "Description": "Adds an inner 2 m zone that freezes for 1 additional second.",
+        "UnlockRequirement": "Defeat the Icebound Sentinel"
+      },
+      {
+        "Name": "Permafrost",
+        "Description": "Leaving the lattice slows movement by 35% for 6 seconds.",
+        "UnlockRequirement": "Craft Frostweaver's Sigil"
+      }
+    ],
+    "Tags": ["Control", "Cold", "Area"],
+    "SourceNote": "Formulated after comparing open cryomancy spell write-ups across community SRDs and 1990s walkthrough archives."
+  },
+  {
+    "Id": 3,
+    "Name": "Tempest Javelin",
+    "School": "Aeromancy",
+    "Tier": "Circle II",
+    "SpellLevel": 4,
+    "CastTimeSeconds": 1.2,
+    "CooldownSeconds": 18,
+    "RangeMeters": 28,
+    "Area": "12 m line",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic"],
+    "ResourceCost": {
+      "Mana": 24,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Hurls a spear of lightning that pierces targets for 165% spell power as storm damage.",
+        "Magnitude": "1.65 * SpellPower",
+        "DamageType": "Lightning"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Overcharged enemies take +10% lightning damage for 10 seconds.",
+        "Magnitude": "+10% lightning taken",
+        "DamageType": "Lightning"
+      }
+    ],
+    "Scaling": "+5% damage per 20 Agility invested in caster",
+    "Upgrades": [
+      {
+        "Name": "Storm Lash",
+        "Description": "If Tempest Javelin hits three or more targets, it refunds 12 mana.",
+        "UnlockRequirement": "Stormwright Renown II"
+      },
+      {
+        "Name": "Rolling Thunder",
+        "Description": "Adds a 30% chance to arc to a fourth target for half damage.",
+        "UnlockRequirement": "Research Aeromancy Manuscript"
+      }
+    ],
+    "Tags": ["Damage", "Lightning", "Pierce"],
+    "SourceNote": "Influenced by bolt-style abilities catalogued in late-1990s console RPG tech trees."
+  },
+  {
+    "Id": 4,
+    "Name": "Stoneguard Aegis",
+    "School": "Geomancy",
+    "Tier": "Circle II",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 0.8,
+    "CooldownSeconds": 30,
+    "RangeMeters": 0,
+    "Area": "Self",
+    "DurationSeconds": 12,
+    "Concentration": false,
+    "Components": ["Somatic", "Crushed Basalt"],
+    "ResourceCost": {
+      "Mana": 22,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Shield",
+        "Description": "Encases the caster in stone, absorbing up to 220 damage and granting +25% physical resistance.",
+        "Magnitude": "220 shield",
+        "DamageType": "Absorption"
+      },
+      {
+        "Type": "Retaliation",
+        "Description": "Blocked melee hits deal 30 nature damage back to the attacker.",
+        "Magnitude": "30 thorns",
+        "DamageType": "Nature"
+      }
+    ],
+    "Scaling": "Shield strength gains +12% per 50 Strength",
+    "Upgrades": [
+      {
+        "Name": "Runed Bulwark",
+        "Description": "Integrates with Shield Discipline to refresh 15% absorption when that skill activates.",
+        "UnlockRequirement": "Complete Quest: Warden's Path"
+      },
+      {
+        "Name": "Bedrock Pulse",
+        "Description": "When the aegis expires naturally, it sends a shockwave knocking enemies back 4 m.",
+        "UnlockRequirement": "Geomancy Rank 6"
+      }
+    ],
+    "Tags": ["Defensive", "Shield", "Earth"],
+    "SourceNote": "Adapted from earth-warding spell patterns shared in public domain grimoires and 1990s tabletop supplements."
+  },
+  {
+    "Id": 5,
+    "Name": "Radiant Pulse",
+    "School": "Lumomancy",
+    "Tier": "Circle II",
+    "SpellLevel": 4,
+    "CastTimeSeconds": 1.0,
+    "CooldownSeconds": 22,
+    "RangeMeters": 20,
+    "Area": "60° cone, 12 m",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Sunstone Dust"],
+    "ResourceCost": {
+      "Mana": 30,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Emits a cone of light for 140% spell power as radiant damage.",
+        "Magnitude": "1.4 * SpellPower",
+        "DamageType": "Radiant"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Blinds non-allied targets for 3 seconds, reducing hit chance by 60%.",
+        "Magnitude": "-60% accuracy",
+        "DamageType": "Light"
+      }
+    ],
+    "Scaling": "+10% blind duration per 30 Focus",
+    "Upgrades": [
+      {
+        "Name": "Guiding Flare",
+        "Description": "Allies hit by the cone gain +10% hit chance for 10 seconds.",
+        "UnlockRequirement": "Lumomancy Thesis Completion"
+      },
+      {
+        "Name": "Solar Burst",
+        "Description": "Critical hits extend the cone by 4 meters.",
+        "UnlockRequirement": "Collect Sunforged Prism"
+      }
+    ],
+    "Tags": ["Damage", "Radiant", "Utility"],
+    "SourceNote": "Informed by crowd-control light spells presented in SRD materials and retro cleric spellbooks."
+  },
+  {
+    "Id": 6,
+    "Name": "Shadow Veil",
+    "School": "Umbramancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.3,
+    "CooldownSeconds": 40,
+    "RangeMeters": 0,
+    "Area": "Self",
+    "DurationSeconds": 15,
+    "Concentration": true,
+    "Components": ["Verbal", "Somatic", "Nightshade"],
+    "ResourceCost": {
+      "Mana": 34,
+      "Stamina": 0,
+      "Focus": 10
+    },
+    "Effects": [
+      {
+        "Type": "Invisibility",
+        "Description": "Wraps the caster in darkness, reducing detection radius by 70%.",
+        "Magnitude": "-70% detection",
+        "DamageType": "Stealth"
+      },
+      {
+        "Type": "Buff",
+        "Description": "First attack from invisibility deals +60% damage as shadow energy.",
+        "Magnitude": "+60% opening damage",
+        "DamageType": "Shadow"
+      }
+    ],
+    "Scaling": "Openers gain +12% damage per 40 Agility",
+    "Upgrades": [
+      {
+        "Name": "Veil Step",
+        "Description": "Allows a free Mirage Step cast without breaking invisibility.",
+        "UnlockRequirement": "Earn Shadowguard Rank II"
+      },
+      {
+        "Name": "Night Echo",
+        "Description": "Killing an enemy while veiled extends the duration by 6 seconds (once per cast).",
+        "UnlockRequirement": "Quest: Echoes in the Alley"
+      }
+    ],
+    "Tags": ["Stealth", "Buff", "Shadow"],
+    "SourceNote": "Based on stealth enchantments documented in open-licensed assassin compendiums and 1990s stealth RPG notes."
+  },
+  {
+    "Id": 7,
+    "Name": "Verdant Regrowth",
+    "School": "Biomancy",
+    "Tier": "Circle II",
+    "SpellLevel": 4,
+    "CastTimeSeconds": 2.0,
+    "CooldownSeconds": 18,
+    "RangeMeters": 22,
+    "Area": "Single Ally",
+    "DurationSeconds": 18,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Living Seed"],
+    "ResourceCost": {
+      "Mana": 29,
+      "Stamina": 0,
+      "Focus": 8
+    },
+    "Effects": [
+      {
+        "Type": "Heal",
+        "Description": "Restores 110% spell power instantly and an additional 180 health over 18 seconds.",
+        "Magnitude": "1.1 * SpellPower + 180 HoT",
+        "DamageType": "Healing"
+      },
+      {
+        "Type": "Buff",
+        "Description": "Grants +12% nature resistance while active.",
+        "Magnitude": "+12% nature resist",
+        "DamageType": "Nature"
+      }
+    ],
+    "Scaling": "Heal over time gains +8% per 40 Focus",
+    "Upgrades": [
+      {
+        "Name": "Flourish",
+        "Description": "If the target drops below 30% health, heal remaining HoT instantly.",
+        "UnlockRequirement": "Cultivate Sproutkeeper Status"
+      },
+      {
+        "Name": "Thrive",
+        "Description": "Extends duration by 6 seconds when paired with Spirit Bonding.",
+        "UnlockRequirement": "Complete Druidic Rite: Renewal"
+      }
+    ],
+    "Tags": ["Healing", "HoT", "Support"],
+    "SourceNote": "Drawn from restorative spell patterns published under open licenses and discussed in 1990s healer forums."
+  },
+  {
+    "Id": 8,
+    "Name": "Astral Lance",
+    "School": "Astromancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.7,
+    "CooldownSeconds": 16,
+    "RangeMeters": 30,
+    "Area": "Single Target",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Celestine Dust"],
+    "ResourceCost": {
+      "Mana": 34,
+      "Stamina": 0,
+      "Focus": 12
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Fires a beam of stellar energy dealing 210% spell power as arcane damage.",
+        "Magnitude": "2.1 * SpellPower",
+        "DamageType": "Arcane"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Marks the target for 8 seconds, causing them to take +8% damage from all sources.",
+        "Magnitude": "+8% vulnerability",
+        "DamageType": "All"
+      }
+    ],
+    "Scaling": "Damage increases +10% if Ether Manipulation is active",
+    "Upgrades": [
+      {
+        "Name": "Stellar Echo",
+        "Description": "If the target dies within 5 seconds, refunds 50% of mana cost.",
+        "UnlockRequirement": "Astromancy Rank 7"
+      },
+      {
+        "Name": "Constellation",
+        "Description": "Marks now apply to up to two nearby enemies for half duration.",
+        "UnlockRequirement": "Discover Star Chart Fragment"
+      }
+    ],
+    "Tags": ["Damage", "Arcane", "Debuff"],
+    "SourceNote": "Synthesized from high-tier arcane beams detailed in SRD spell references and retro space-fantasy modules."
+  },
+  {
+    "Id": 9,
+    "Name": "Sonic Cascade",
+    "School": "Resonance",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.4,
+    "CooldownSeconds": 28,
+    "RangeMeters": 18,
+    "Area": "10 m radius",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Tuning Fork"],
+    "ResourceCost": {
+      "Mana": 31,
+      "Stamina": 0,
+      "Focus": 6
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Detonates a wave of sound dealing 150% spell power as sonic damage.",
+        "Magnitude": "1.5 * SpellPower",
+        "DamageType": "Sonic"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Disorients affected targets, increasing their cast time by 25% for 6 seconds.",
+        "Magnitude": "+25% cast time",
+        "DamageType": "Sonic"
+      }
+    ],
+    "Scaling": "Damage increases +4% per enemy hit (max +24%)",
+    "Upgrades": [
+      {
+        "Name": "Harmonic Focus",
+        "Description": "The caster gains 6 mana per target struck.",
+        "UnlockRequirement": "Perform in Iron Chorus Amphitheater"
+      },
+      {
+        "Name": "Reverberate",
+        "Description": "Applies a lingering 40% slow for 4 seconds after the disorient expires.",
+        "UnlockRequirement": "Craft Resonant Chime"
+      }
+    ],
+    "Tags": ["Damage", "Sonic", "Control"],
+    "SourceNote": "Guided by area sonic attacks featured in multimedia SRD releases and 1990s bard mechanics."
+  },
+  {
+    "Id": 10,
+    "Name": "Gravity Well",
+    "School": "Graviturgy",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 2.5,
+    "CooldownSeconds": 38,
+    "RangeMeters": 18,
+    "Area": "8 m radius",
+    "DurationSeconds": 10,
+    "Concentration": true,
+    "Components": ["Verbal", "Somatic", "Dense Core"],
+    "ResourceCost": {
+      "Mana": 42,
+      "Stamina": 0,
+      "Focus": 16
+    },
+    "Effects": [
+      {
+        "Type": "Crowd Control",
+        "Description": "Creates a localized gravity sink that pulls enemies inward and reduces movement speed by 65%.",
+        "Magnitude": "-65% movement",
+        "DamageType": "Force"
+      },
+      {
+        "Type": "Damage",
+        "Description": "Deals 70% spell power as force damage per second to trapped enemies.",
+        "Magnitude": "0.7 * SpellPower DPS",
+        "DamageType": "Force"
+      }
+    ],
+    "Scaling": "Tick damage gains +6% per 30 Intellect",
+    "Upgrades": [
+      {
+        "Name": "Singularity",
+        "Description": "The well implodes when concentration ends, dealing 220% spell power in a 4 m burst.",
+        "UnlockRequirement": "Complete Graviturgy Dissertation"
+      },
+      {
+        "Name": "Event Horizon",
+        "Description": "Adds a 15% chance to silence enemies each second they remain inside.",
+        "UnlockRequirement": "Acquire Voidstone Lens"
+      }
+    ],
+    "Tags": ["Control", "Damage", "Force"],
+    "SourceNote": "Developed from gravity well mechanics referenced in SRD-compatible psionic add-ons and 1990s space-fantasy campaigns."
+  },
+  {
+    "Id": 11,
+    "Name": "Mirage Step",
+    "School": "Illusion",
+    "Tier": "Circle I",
+    "SpellLevel": 2,
+    "CastTimeSeconds": 0.5,
+    "CooldownSeconds": 12,
+    "RangeMeters": 15,
+    "Area": "Self",
+    "DurationSeconds": 4,
+    "Concentration": false,
+    "Components": ["Somatic", "Foxglove Petal"],
+    "ResourceCost": {
+      "Mana": 16,
+      "Stamina": 0,
+      "Focus": 5
+    },
+    "Effects": [
+      {
+        "Type": "Movement",
+        "Description": "Blinks the caster up to 15 m and leaves behind a fading afterimage that distracts enemies.",
+        "Magnitude": "15 m blink",
+        "DamageType": "Teleport"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Enemies striking the mirage suffer -20% accuracy for 4 seconds.",
+        "Magnitude": "-20% accuracy",
+        "DamageType": "Illusion"
+      }
+    ],
+    "Scaling": "Cooldown reduced by 0.5 seconds per 40 Agility",
+    "Upgrades": [
+      {
+        "Name": "Echoed Path",
+        "Description": "Gain a second charge when combined with Chrono Reflexes.",
+        "UnlockRequirement": "Complete Trial: Time and Trickery"
+      },
+      {
+        "Name": "Mirror Snare",
+        "Description": "Afterimage now taunts for 2 seconds on non-boss enemies.",
+        "UnlockRequirement": "Craft Illusionist's Prism"
+      }
+    ],
+    "Tags": ["Mobility", "Utility", "Illusion"],
+    "SourceNote": "Inspired by blink-and-decoy spells in open SRD illusion compendiums and 1990s stealth magic designs."
+  },
+  {
+    "Id": 12,
+    "Name": "Thunderous Anthem",
+    "School": "Resonance",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 2.2,
+    "CooldownSeconds": 45,
+    "RangeMeters": 0,
+    "Area": "20 m radius",
+    "DurationSeconds": 20,
+    "Concentration": false,
+    "Components": ["Verbal", "Instrument"],
+    "ResourceCost": {
+      "Mana": 38,
+      "Stamina": 0,
+      "Focus": 14
+    },
+    "Effects": [
+      {
+        "Type": "Buff",
+        "Description": "Allies gain +18% weapon damage and +15% movement speed while the anthem persists.",
+        "Magnitude": "+18% damage",
+        "DamageType": "Buff"
+      },
+      {
+        "Type": "Mana Return",
+        "Description": "Restores 3 mana per second to allies actively using skills.",
+        "Magnitude": "3 mana/sec",
+        "DamageType": "Support"
+      }
+    ],
+    "Scaling": "+2% damage bonus per 30 Focus",
+    "Upgrades": [
+      {
+        "Name": "Battle Chorus",
+        "Description": "While War Cry Tactics is active, the anthem's speed bonus doubles.",
+        "UnlockRequirement": "Iron Chorus Rank III"
+      },
+      {
+        "Name": "Clamoring Echo",
+        "Description": "The anthem lingers for 5 seconds on allies after leaving the area.",
+        "UnlockRequirement": "Perform at the Triumphant Gala"
+      }
+    ],
+    "Tags": ["Buff", "Song", "Support"],
+    "SourceNote": "Modeled after bardic songs chronicled in SRD music magic sections and 1990s soundtrack-driven RPGs."
+  },
+  {
+    "Id": 13,
+    "Name": "Searing Nova",
+    "School": "Pyromancy",
+    "Tier": "Circle IV",
+    "SpellLevel": 7,
+    "CastTimeSeconds": 3.0,
+    "CooldownSeconds": 60,
+    "RangeMeters": 0,
+    "Area": "12 m radius",
+    "DurationSeconds": 6,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Phoenix Feather"],
+    "ResourceCost": {
+      "Mana": 58,
+      "Stamina": 0,
+      "Focus": 20
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Detonates a superheated blast for 260% spell power as fire damage to all nearby enemies.",
+        "Magnitude": "2.6 * SpellPower",
+        "DamageType": "Fire"
+      },
+      {
+        "Type": "Damage Over Time",
+        "Description": "Leaves a burning field dealing 40 fire damage per second for 6 seconds.",
+        "Magnitude": "40 DPS",
+        "DamageType": "Fire"
+      }
+    ],
+    "Scaling": "+15% damage if Ember Bolt has been cast in the last 10 seconds",
+    "Upgrades": [
+      {
+        "Name": "Solar Flare",
+        "Description": "Increases radius to 15 m but doubles cooldown.",
+        "UnlockRequirement": "Pyromancy Mastery Scroll"
+      },
+      {
+        "Name": "Ashen Guardian",
+        "Description": "Allies within the nova gain +25% fire resistance for 10 seconds.",
+        "UnlockRequirement": "Reforge Phoenix Sigil"
+      }
+    ],
+    "Tags": ["Damage", "Fire", "Area"],
+    "SourceNote": "Combined from high-tier firestorm spells in SRD releases and 1990s volcano dungeon boss mechanics."
+  },
+  {
+    "Id": 14,
+    "Name": "Lunar Mending",
+    "School": "Lumomancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 2.4,
+    "CooldownSeconds": 35,
+    "RangeMeters": 18,
+    "Area": "8 m radius",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Moonwater Vial"],
+    "ResourceCost": {
+      "Mana": 44,
+      "Stamina": 0,
+      "Focus": 10
+    },
+    "Effects": [
+      {
+        "Type": "Heal",
+        "Description": "Bathes allies in moonlight restoring 190% spell power split evenly among targets.",
+        "Magnitude": "1.9 * SpellPower",
+        "DamageType": "Healing"
+      },
+      {
+        "Type": "Cleanse",
+        "Description": "Removes one negative condition from each ally affected.",
+        "Magnitude": "Removes 1 debuff",
+        "DamageType": "Support"
+      }
+    ],
+    "Scaling": "Each ally healed beyond the first returns 4 mana to the caster",
+    "Upgrades": [
+      {
+        "Name": "Crescent Glow",
+        "Description": "Leaves a 20-second aura granting +8% healing received.",
+        "UnlockRequirement": "Complete Ritual of Two Moons"
+      },
+      {
+        "Name": "Night's Embrace",
+        "Description": "Targets with Spirit Bonding receive a 120-point shield.",
+        "UnlockRequirement": "Reach Spiritcallers Rank II"
+      }
+    ],
+    "Tags": ["Healing", "Cleanse", "Support"],
+    "SourceNote": "Derived from restorative lunar rites recorded in open-licensed cleric tomes and 1990s co-op raid guides."
+  },
+  {
+    "Id": 15,
+    "Name": "Void Shackles",
+    "School": "Voidmagic",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 1.6,
+    "CooldownSeconds": 28,
+    "RangeMeters": 20,
+    "Area": "Chain up to 3 targets",
+    "DurationSeconds": 8,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Obsidian Chain"],
+    "ResourceCost": {
+      "Mana": 36,
+      "Stamina": 0,
+      "Focus": 12
+    },
+    "Effects": [
+      {
+        "Type": "Debuff",
+        "Description": "Links enemies in void tendrils, rooting them and dealing 40 shadow damage per second.",
+        "Magnitude": "40 DPS",
+        "DamageType": "Shadow"
+      },
+      {
+        "Type": "Secondary",
+        "Description": "If one target breaks free, remaining targets take a 120 shadow damage backlash.",
+        "Magnitude": "120 burst",
+        "DamageType": "Shadow"
+      }
+    ],
+    "Scaling": "+5% damage per linked target beyond the first",
+    "Upgrades": [
+      {
+        "Name": "Rend the Veil",
+        "Description": "Roots now silence for 2 seconds on application.",
+        "UnlockRequirement": "Voidmagic Thesis"
+      },
+      {
+        "Name": "Lingering Chains",
+        "Description": "After expiration, targets remain slowed by 40% for 6 seconds.",
+        "UnlockRequirement": "Craft Void-Touched Fetters"
+      }
+    ],
+    "Tags": ["Control", "Shadow", "DoT"],
+    "SourceNote": "Inspired by void-binding spells hosted in open SRDs and 1990s dark fantasy sourcebooks."
+  },
+  {
+    "Id": 16,
+    "Name": "Phoenix Ascent",
+    "School": "Pyromancy",
+    "Tier": "Circle V",
+    "SpellLevel": 8,
+    "CastTimeSeconds": 3.5,
+    "CooldownSeconds": 120,
+    "RangeMeters": 18,
+    "Area": "Single Ally",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Phoenix Ember"],
+    "ResourceCost": {
+      "Mana": 72,
+      "Stamina": 0,
+      "Focus": 24
+    },
+    "Effects": [
+      {
+        "Type": "Resurrection",
+        "Description": "Revives a fallen ally with 45% health and 30% mana, cleansing death penalties.",
+        "Magnitude": "45% health",
+        "DamageType": "Support"
+      },
+      {
+        "Type": "Buff",
+        "Description": "Grants the revived ally +20% fire damage and immunity to burning for 20 seconds.",
+        "Magnitude": "+20% fire",
+        "DamageType": "Fire"
+      }
+    ],
+    "Scaling": "Revive health increases +8% per 50 Focus",
+    "Upgrades": [
+      {
+        "Name": "Ashen Reprisal",
+        "Description": "Upon revival, an AoE blast deals 160 fire damage to nearby foes.",
+        "UnlockRequirement": "Complete Quest: Wings of Renewal"
+      },
+      {
+        "Name": "Kindled Spirit",
+        "Description": "Revived ally gains a 200-point absorb shield.",
+        "UnlockRequirement": "Pyromancy Doctrine III"
+      }
+    ],
+    "Tags": ["Resurrection", "Fire", "Support"],
+    "SourceNote": "Aligned with phoenix-themed revivals covered in open SRD cleric expansions and 1990s JRPG finales."
+  },
+  {
+    "Id": 17,
+    "Name": "Tidal Barrier",
+    "School": "Hydromancy",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 1.8,
+    "CooldownSeconds": 50,
+    "RangeMeters": 25,
+    "Area": "12 m wall",
+    "DurationSeconds": 16,
+    "Concentration": true,
+    "Components": ["Verbal", "Somatic", "Pearl Dust"],
+    "ResourceCost": {
+      "Mana": 46,
+      "Stamina": 0,
+      "Focus": 18
+    },
+    "Effects": [
+      {
+        "Type": "Barrier",
+        "Description": "Summons a wall of water reducing ranged damage by 40% and extinguishing flames.",
+        "Magnitude": "-40% ranged damage",
+        "DamageType": "Water"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Enemies passing through are slowed by 50% and have fire buffs removed.",
+        "Magnitude": "-50% speed",
+        "DamageType": "Water"
+      }
+    ],
+    "Scaling": "Barrier strength increases +5% per 30 Focus",
+    "Upgrades": [
+      {
+        "Name": "Undertow",
+        "Description": "Adds periodic pulls dragging enemies 3 m towards the barrier's center.",
+        "UnlockRequirement": "Hydromancy Rank 6"
+      },
+      {
+        "Name": "Tidecaller's Gift",
+        "Description": "Allies crossing the barrier gain a 80-point water shield.",
+        "UnlockRequirement": "Quest: Calm the Stormfront"
+      }
+    ],
+    "Tags": ["Defensive", "Water", "Control"],
+    "SourceNote": "Constructed from water-wall spells published in SRD resources and 1990s seafaring RPG adventures."
+  },
+  {
+    "Id": 18,
+    "Name": "Starlight Arrow",
+    "School": "Astromancy",
+    "Tier": "Circle II",
+    "SpellLevel": 3,
+    "CastTimeSeconds": 1.1,
+    "CooldownSeconds": 14,
+    "RangeMeters": 32,
+    "Area": "Single Target",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Somatic", "Silver Arrowhead"],
+    "ResourceCost": {
+      "Mana": 20,
+      "Stamina": 0,
+      "Focus": 6
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Fires a luminous arrow dealing 150% spell power as radiant damage.",
+        "Magnitude": "1.5 * SpellPower",
+        "DamageType": "Radiant"
+      },
+      {
+        "Type": "Secondary",
+        "Description": "Generates a luminescent trail, granting allies +6% crit chance when following it for 4 seconds.",
+        "Magnitude": "+6% crit",
+        "DamageType": "Support"
+      }
+    ],
+    "Scaling": "Critical chance aura gains +1% per 40 Focus",
+    "Upgrades": [
+      {
+        "Name": "Comet Pierce",
+        "Description": "Arrow pierces the first target, hitting one additional foe for 90% damage.",
+        "UnlockRequirement": "Astromancy Rank 4"
+      },
+      {
+        "Name": "Celestial Flare",
+        "Description": "On crit, leaves behind a 3-second mote dealing 30 radiant damage per second.",
+        "UnlockRequirement": "Chart the Fallen Star"
+      }
+    ],
+    "Tags": ["Damage", "Radiant", "Support"],
+    "SourceNote": "Influenced by shining projectile spells chronicled in archery-focused SRD supplements and 1990s action RPGs."
+  },
+  {
+    "Id": 19,
+    "Name": "Obsidian Skin",
+    "School": "Geomancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.5,
+    "CooldownSeconds": 55,
+    "RangeMeters": 0,
+    "Area": "Self",
+    "DurationSeconds": 30,
+    "Concentration": false,
+    "Components": ["Somatic", "Obsidian Dust"],
+    "ResourceCost": {
+      "Mana": 40,
+      "Stamina": 0,
+      "Focus": 0
+    },
+    "Effects": [
+      {
+        "Type": "Buff",
+        "Description": "Hardens the caster's skin, granting +220 armor and immunity to bleed effects.",
+        "Magnitude": "Armor +220",
+        "DamageType": "Earth"
+      },
+      {
+        "Type": "Retaliation",
+        "Description": "Melee attackers take 18 fire damage from molten shards.",
+        "Magnitude": "18 fire",
+        "DamageType": "Fire"
+      }
+    ],
+    "Scaling": "Armor bonus gains +10 per 30 Strength",
+    "Upgrades": [
+      {
+        "Name": "Molten Core",
+        "Description": "Retaliation damage becomes 28 and can critically strike.",
+        "UnlockRequirement": "Geomancy Rank 6"
+      },
+      {
+        "Name": "Basalt Bastion",
+        "Description": "While active, incoming crowd control durations are reduced by 25%.",
+        "UnlockRequirement": "Quest: Stone and Flame"
+      }
+    ],
+    "Tags": ["Defensive", "Buff", "Earth"],
+    "SourceNote": "Modeled after protective skin spells found in open SRD earth domains and 1990s barbarian enchantments."
+  },
+  {
+    "Id": 20,
+    "Name": "Spirit Beacon",
+    "School": "Spiritualism",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.3,
+    "CooldownSeconds": 40,
+    "RangeMeters": 18,
+    "Area": "10 m radius",
+    "DurationSeconds": 15,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Incense"],
+    "ResourceCost": {
+      "Mana": 34,
+      "Stamina": 0,
+      "Focus": 14
+    },
+    "Effects": [
+      {
+        "Type": "Buff",
+        "Description": "Summons an ethereal beacon that increases healing received by 15% and grants +10% spirit resistance.",
+        "Magnitude": "+15% healing",
+        "DamageType": "Support"
+      },
+      {
+        "Type": "Resource",
+        "Description": "Allies regenerate 4 focus per second while inside the beacon.",
+        "Magnitude": "4 focus/sec",
+        "DamageType": "Support"
+      }
+    ],
+    "Scaling": "Healing bonus gains +2% per ally linked via Spirit Bonding",
+    "Upgrades": [
+      {
+        "Name": "Guided Spirits",
+        "Description": "Extends duration by 6 seconds if at least three allies remain within the beacon.",
+        "UnlockRequirement": "Spiritualism Rank 6"
+      },
+      {
+        "Name": "Soul Ward",
+        "Description": "Each second, grants a 30-point absorb shield stacking up to 150.",
+        "UnlockRequirement": "Complete Ritual: Ancestral Watch"
+      }
+    ],
+    "Tags": ["Support", "Healing", "Buff"],
+    "SourceNote": "Inspired by spirit totems from SRD shaman lists and 1990s cooperative shrine mechanics."
+  },
+  {
+    "Id": 21,
+    "Name": "Riftwalk",
+    "School": "Chronomancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 0.4,
+    "CooldownSeconds": 18,
+    "RangeMeters": 22,
+    "Area": "Self",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Somatic", "Temporal Quartz"],
+    "ResourceCost": {
+      "Mana": 22,
+      "Stamina": 0,
+      "Focus": 8
+    },
+    "Effects": [
+      {
+        "Type": "Movement",
+        "Description": "Phase steps through time to reappear up to 22 m away, cleansing slow effects.",
+        "Magnitude": "22 m teleport",
+        "DamageType": "Teleport"
+      },
+      {
+        "Type": "Buff",
+        "Description": "Grants +35% haste for 3 seconds after arrival.",
+        "Magnitude": "+35% haste",
+        "DamageType": "Buff"
+      }
+    ],
+    "Scaling": "Haste bonus lasts +0.4 seconds per 30 Focus",
+    "Upgrades": [
+      {
+        "Name": "Temporal Anchor",
+        "Description": "Allows a second cast within 6 seconds to return to the origin point.",
+        "UnlockRequirement": "Chronomancy Rank 5"
+      },
+      {
+        "Name": "Time Slip",
+        "Description": "Pairs with Chrono Reflexes to grant a free Mirage Step charge.",
+        "UnlockRequirement": "Complete Time-Slip Trials"
+      }
+    ],
+    "Tags": ["Mobility", "Utility", "Chronomancy"],
+    "SourceNote": "Recreated from time-step spells catalogued in SRD chronomancy modules and 1990s time-travel RPG mechanics."
+  },
+  {
+    "Id": 22,
+    "Name": "Plague Bloom",
+    "School": "Necrobotany",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 2.2,
+    "CooldownSeconds": 45,
+    "RangeMeters": 16,
+    "Area": "8 m radius",
+    "DurationSeconds": 20,
+    "Concentration": true,
+    "Components": ["Verbal", "Somatic", "Blight Spores"],
+    "ResourceCost": {
+      "Mana": 48,
+      "Stamina": 0,
+      "Focus": 18
+    },
+    "Effects": [
+      {
+        "Type": "Damage Over Time",
+        "Description": "Summons a fungal bloom that inflicts 45 nature damage per second and reduces healing received by 20%.",
+        "Magnitude": "45 DPS",
+        "DamageType": "Nature"
+      },
+      {
+        "Type": "Debuff",
+        "Description": "Enemies leaving the bloom trail spores that slow others by 35% for 6 seconds.",
+        "Magnitude": "-35% speed",
+        "DamageType": "Nature"
+      }
+    ],
+    "Scaling": "Damage increases +6% per diseased target inside",
+    "Upgrades": [
+      {
+        "Name": "Carrion Spread",
+        "Description": "On death, infected enemies explode for 120 nature damage in a 3 m radius.",
+        "UnlockRequirement": "Necrobotany Rank 5"
+      },
+      {
+        "Name": "Toxic Resurgence",
+        "Description": "Refreshing the bloom extends duration by 5 seconds, up to twice.",
+        "UnlockRequirement": "Quest: Garden of Rot"
+      }
+    ],
+    "Tags": ["Damage", "Nature", "Control"],
+    "SourceNote": "Guided by spore-based spells in SRD pathogen domains and 1990s dark druid game expansions."
+  },
+  {
+    "Id": 23,
+    "Name": "Avalanche Column",
+    "School": "Cryomancy",
+    "Tier": "Circle IV",
+    "SpellLevel": 6,
+    "CastTimeSeconds": 2.6,
+    "CooldownSeconds": 48,
+    "RangeMeters": 20,
+    "Area": "4 m radius",
+    "DurationSeconds": 0,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Frost Core"],
+    "ResourceCost": {
+      "Mana": 45,
+      "Stamina": 0,
+      "Focus": 12
+    },
+    "Effects": [
+      {
+        "Type": "Damage",
+        "Description": "Calls forth a pillar of ice dealing 220% spell power as cold damage and launching enemies upward.",
+        "Magnitude": "2.2 * SpellPower",
+        "DamageType": "Cold"
+      },
+      {
+        "Type": "Crowd Control",
+        "Description": "Falling enemies are stunned for 2 seconds upon impact.",
+        "Magnitude": "2 second stun",
+        "DamageType": "Cold"
+      }
+    ],
+    "Scaling": "Damage gains +12% against frozen targets",
+    "Upgrades": [
+      {
+        "Name": "Crystalline Shards",
+        "Description": "Creates icy spikes that persist for 6 seconds, slowing by 25%.",
+        "UnlockRequirement": "Cryomancy Rank 6"
+      },
+      {
+        "Name": "Avalanche Rush",
+        "Description": "If Frost Lattice is active, Avalanche Column's cooldown is reduced by 10 seconds.",
+        "UnlockRequirement": "Conquer Glacier Citadel"
+      }
+    ],
+    "Tags": ["Damage", "Cold", "Control"],
+    "SourceNote": "Inspired by ice burst spells archived in SRD icy domains and 1990s mountain siege adventures."
+  },
+  {
+    "Id": 24,
+    "Name": "Etheric Ward",
+    "School": "Ethermancy",
+    "Tier": "Circle III",
+    "SpellLevel": 5,
+    "CastTimeSeconds": 1.9,
+    "CooldownSeconds": 30,
+    "RangeMeters": 0,
+    "Area": "10 m radius",
+    "DurationSeconds": 12,
+    "Concentration": false,
+    "Components": ["Verbal", "Somatic", "Aether Quartz"],
+    "ResourceCost": {
+      "Mana": 36,
+      "Stamina": 0,
+      "Focus": 12
+    },
+    "Effects": [
+      {
+        "Type": "Shield",
+        "Description": "Erects a barrier reducing incoming magical damage by 35% for allies inside.",
+        "Magnitude": "-35% spell damage",
+        "DamageType": "Arcane"
+      },
+      {
+        "Type": "Resource",
+        "Description": "Allies absorb 20% of mitigated damage as mana at the end of the ward.",
+        "Magnitude": "20% mitigation as mana",
+        "DamageType": "Arcane"
+      }
+    ],
+    "Scaling": "Damage reduction gains +3% per 40 Focus (max 50%)",
+    "Upgrades": [
+      {
+        "Name": "Aether Pulse",
+        "Description": "When the ward expires, releases stored energy to heal allies for 120 health.",
+        "UnlockRequirement": "Ethermancy Rank 5"
+      },
+      {
+        "Name": "Harmonic Field",
+        "Description": "Extends ward radius to 14 m when Arcane Channeling is active.",
+        "UnlockRequirement": "Stabilize the Ether Conduit"
+      }
+    ],
+    "Tags": ["Defensive", "Arcane", "Support"],
+    "SourceNote": "Synthesized from magic barrier spells present in SRD arcane wards and 1990s cooperative tower defenses."
+  }
+]
+

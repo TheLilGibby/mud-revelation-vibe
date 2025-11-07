@@ -10,10 +10,19 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedRoom, setSelectedRoom] = useState(null);
-    const [isWikiOpen, setIsWikiOpen] = useState(true); // Wiki sidebar starts open
-    const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true); // Left sidebar starts open
+    const [isWikiOpen, setIsWikiOpen] = useState(() => {
+        const saved = localStorage.getItem('revelationMapIsWikiOpen');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
+    const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(() => {
+        const saved = localStorage.getItem('revelationMapIsLeftSidebarOpen');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
     const [connectedZones, setConnectedZones] = useState([]); // Track zone exits
-    const [showZoneInfo, setShowZoneInfo] = useState(true); // Show zone information overlay by default
+    const [showZoneInfo, setShowZoneInfo] = useState(() => {
+        const saved = localStorage.getItem('revelationMapShowZoneInfo');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
     const [iconSize, setIconSize] = useState(1); // Icon size multiplier (1 = normal, 1.5 = 150%, 2 = 200%)
     
     // Drag to pan state
@@ -33,7 +42,25 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
     const [highlightedExitZone, setHighlightedExitZone] = useState(null); // Name of zone exit to highlight
     
     // Info panel collapse state
-    const [isInfoPanelCollapsed, setIsInfoPanelCollapsed] = useState(false); // Default open
+    const [isInfoPanelCollapsed, setIsInfoPanelCollapsed] = useState(() => {
+        const saved = localStorage.getItem('revelationMapIsInfoPanelCollapsed');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
+    
+    // Hover state for rooms
+    const [hoveredRoom, setHoveredRoom] = useState(null); // Room being hovered over
+    
+    // Room focus mode - dims other rooms when one is selected
+    const [roomFocusMode, setRoomFocusMode] = useState(() => {
+        const saved = localStorage.getItem('revelationMapRoomFocusMode');
+        return saved !== null ? JSON.parse(saved) : true;
+    });
+    
+    // Left sidebar tab selection
+    const [leftSidebarTab, setLeftSidebarTab] = useState(() => {
+        const saved = localStorage.getItem('revelationMapLeftSidebarTab');
+        return saved !== null ? saved : 'zone';
+    });
 
     // Add CSS for range slider thumbs
     useEffect(() => {
@@ -92,6 +119,31 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
             document.head.removeChild(style);
         };
     }, []);
+
+    // Save collapsible section states to localStorage
+    useEffect(() => {
+        localStorage.setItem('revelationMapIsWikiOpen', JSON.stringify(isWikiOpen));
+    }, [isWikiOpen]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationMapIsLeftSidebarOpen', JSON.stringify(isLeftSidebarOpen));
+    }, [isLeftSidebarOpen]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationMapShowZoneInfo', JSON.stringify(showZoneInfo));
+    }, [showZoneInfo]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationMapIsInfoPanelCollapsed', JSON.stringify(isInfoPanelCollapsed));
+    }, [isInfoPanelCollapsed]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationMapRoomFocusMode', JSON.stringify(roomFocusMode));
+    }, [roomFocusMode]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationMapLeftSidebarTab', leftSidebarTab);
+    }, [leftSidebarTab]);
 
     // Load real MUD data
     useEffect(() => {
@@ -177,6 +229,16 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
     // Keyboard shortcut: Escape to close
     useEffect(() => {
         const handleKeyPress = (e) => {
+            // Don't intercept keyboard input if user is typing in an input field
+            const activeElement = document.activeElement;
+            if (activeElement && (
+                activeElement.tagName === 'INPUT' || 
+                activeElement.tagName === 'TEXTAREA' || 
+                activeElement.isContentEditable
+            )) {
+                return;
+            }
+
             if (e.key === 'Escape') {
                 onClose();
             } else if (e.key === 'PageUp' && zoneData && currentLevel < zoneData.gridSize.levels - 1) {
@@ -282,6 +344,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
         
         setIsPanning(true);
         setIsDragging(false);
+        setHoveredRoom(null); // Clear hover state when starting to pan
         setPanStart({ x: e.clientX, y: e.clientY });
         setScrollStart({ 
             x: e.currentTarget.scrollLeft, 
@@ -297,26 +360,32 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
         const dy = e.clientY - panStart.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // If moved more than 5px, consider it a drag (not a click)
-        if (distance > 5) {
+        // If moved more than 10px, consider it a drag (not a click)
+        if (distance > 10) {
             setIsDragging(true);
         }
 
-        // Update scroll position
-        e.currentTarget.scrollLeft = scrollStart.x - dx;
-        e.currentTarget.scrollTop = scrollStart.y - dy;
+        // Only actually pan if we're dragging
+        if (isDragging) {
+            // Update scroll position
+            e.currentTarget.scrollLeft = scrollStart.x - dx;
+            e.currentTarget.scrollTop = scrollStart.y - dy;
+        }
     };
 
     const handleMouseUp = (e) => {
         if (isPanning) {
             setIsPanning(false);
             e.currentTarget.style.cursor = 'grab';
+            // Reset dragging flag after a brief delay to allow click events to check it first
+            setTimeout(() => setIsDragging(false), 10);
         }
     };
 
     const handleMouseLeave = (e) => {
         if (isPanning) {
             setIsPanning(false);
+            setIsDragging(false);
             e.currentTarget.style.cursor = 'grab';
         }
     };
@@ -329,6 +398,34 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
             return;
         }
         setSelectedRoom(room);
+        
+        // Auto-switch to Room tab when a room is clicked
+        setLeftSidebarTab('room');
+        
+        // Auto-center on the selected room
+        if (mapCanvasRef.current) {
+            const cellSize = 60;
+            const canvas = mapCanvasRef.current;
+            
+            // Calculate the room's position on the canvas (accounting for flipped Y-axis)
+            const roomX = room.position.x * cellSize * zoom;
+            const roomY = (zoneData.gridSize.height - 1 - room.position.y) * cellSize * zoom;
+            
+            // Calculate the center of the room
+            const roomCenterX = roomX + (cellSize * zoom / 2);
+            const roomCenterY = roomY + (cellSize * zoom / 2);
+            
+            // Calculate scroll position to center the room in the viewport
+            const targetScrollLeft = roomCenterX - (canvas.clientWidth / 2);
+            const targetScrollTop = roomCenterY - (canvas.clientHeight / 2);
+            
+            // Smooth scroll to center the room
+            canvas.scrollTo({
+                left: Math.max(0, targetScrollLeft),
+                top: Math.max(0, targetScrollTop),
+                behavior: 'smooth'
+            });
+        }
     };
 
     // Highlight rooms containing a specific mob
@@ -579,9 +676,13 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                     // Flip Y-axis so north is up and south is down (invert Y coordinate)
                     const y = (zoneData.gridSize.height - 1 - room.position.y) * cellSize;
                     const isSelected = selectedRoom && selectedRoom.id === room.id;
+                    const isHovered = hoveredRoom && hoveredRoom.id === room.id;
                     const isHighlighted = highlightedRooms.has(room.id);
                     const roomColor = getTerrainColor(room.terrainColor);
                     const hasNpcs = room.npcs.length > 0;
+                    
+                    // Check if this room should be dimmed (when focus mode is on and another room is selected)
+                    const shouldDim = roomFocusMode && selectedRoom && !isSelected && !isHovered;
 
                     return (
                         <g key={room.id}>
@@ -622,6 +723,34 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                 </>
                             )}
                             
+                            {/* Hover glow effect */}
+                            {isHovered && !isSelected && (
+                                <rect
+                                    x={x - 2}
+                                    y={y - 2}
+                                    width={cellSize + 4}
+                                    height={cellSize + 4}
+                                    fill="none"
+                                    stroke="#00FFFF"
+                                    strokeWidth="3"
+                                    opacity="0.8"
+                                    pointerEvents="none"
+                                />
+                            )}
+                            
+                            {/* Dim overlay for focus mode */}
+                            {shouldDim && (
+                                <rect
+                                    x={x + 2}
+                                    y={y + 2}
+                                    width={cellSize - 4}
+                                    height={cellSize - 4}
+                                    fill="#000000"
+                                    fillOpacity={0.7}
+                                    pointerEvents="none"
+                                />
+                            )}
+                            
                             {/* Room cell - ALWAYS show terrain color */}
                             <rect
                                 x={x + 2}
@@ -629,13 +758,21 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                 width={cellSize - 4}
                                 height={cellSize - 4}
                                 fill={roomColor}
-                                fillOpacity={1}
-                                stroke={isSelected ? '#FFD700' : (isHighlighted ? '#FF00FF' : '#333333')}
-                                strokeWidth={isSelected ? 4 : (isHighlighted ? 2 : 1)}
+                                fillOpacity={shouldDim ? 0.4 : 1}
+                                stroke={isSelected ? '#FFD700' : (isHovered ? '#00FFFF' : (isHighlighted ? '#FF00FF' : '#333333'))}
+                                strokeWidth={isSelected ? 4 : (isHovered ? 3 : (isHighlighted ? 2 : 1))}
                                 style={{ cursor: 'pointer' }}
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     handleRoomClick(room);
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (!isPanning) {
+                                        setHoveredRoom(room);
+                                    }
+                                }}
+                                onMouseLeave={() => {
+                                    setHoveredRoom(null);
                                 }}
                             />
                             
@@ -652,16 +789,29 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                 />
                             )}
                             
-                            {/* Room ID - hide by default, show on hover or selection */}
+                            {/* Hover highlight overlay */}
+                            {isHovered && !isSelected && (
+                                <rect
+                                    x={x + 2}
+                                    y={y + 2}
+                                    width={cellSize - 4}
+                                    height={cellSize - 4}
+                                    fill="#00FFFF"
+                                    fillOpacity={0.2}
+                                    pointerEvents="none"
+                                />
+                            )}
+                            
+                            {/* Room ID - show more clearly on hover or selection */}
                             <text
                                 x={x + cellSize / 2}
                                 y={y + cellSize / 2}
                                 textAnchor="middle"
                                 dominantBaseline="middle"
-                                fill={isSelected ? '#FFD700' : '#000000'}
+                                fill={isSelected ? '#FFD700' : (isHovered ? '#00FFFF' : '#000000')}
                                 fontSize="10"
                                 fontWeight="bold"
-                                opacity={isSelected ? 1 : 0.6}
+                                opacity={shouldDim ? 0.2 : (isSelected || isHovered ? 1 : 0.6)}
                                 pointerEvents="none"
                             >
                                 {room.id}
@@ -676,6 +826,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                     fill="#FF0000"
                                     stroke="#FFFFFF"
                                     strokeWidth={1 * iconSize}
+                                    opacity={shouldDim ? 0.3 : 1}
                                 />
                             )}
 
@@ -689,7 +840,33 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                     fill="#00FFFF"
                                     stroke="#FFFFFF"
                                     strokeWidth={1 * iconSize}
+                                    opacity={shouldDim ? 0.3 : 1}
                                 />
+                            )}
+                            
+                            {/* Focus Lock Indicator - shows when room is selected and focus mode is on */}
+                            {isSelected && roomFocusMode && (
+                                <g>
+                                    {/* Lock icon background */}
+                                    <circle
+                                        cx={x + 12}
+                                        cy={y + cellSize - 12}
+                                        r="8"
+                                        fill="#000000"
+                                        opacity="0.9"
+                                    />
+                                    {/* Lock icon */}
+                                    <text
+                                        x={x + 12}
+                                        y={y + cellSize - 8}
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                        fontSize="12"
+                                        fill="#FFD700"
+                                    >
+                                        🔒
+                                    </text>
+                                </g>
                             )}
 
                             {/* Exit indicators - clickable navigation arrows */}
@@ -828,29 +1005,80 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
 
     return (
         <div className="detailed-map-overlay">
-            {/* Header spans full width */}
-            <div className="detailed-map-header" style={{
+            {/* Floating Close Button - Positioned over map area, avoiding right sidebar */}
+            <button 
+                onClick={onClose} 
+                title="Close Zone View (ESC)"
+                style={{
+                    position: 'fixed',
+                    top: '100px',
+                    right: isWikiOpen ? '420px' : '70px',
+                    background: 'rgba(26, 26, 26, 0.95)',
+                    border: '2px solid #ff0000',
+                    color: '#ff0000',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    fontSize: '0.9em',
+                    fontWeight: 'bold',
+                    borderRadius: '5px',
+                    zIndex: 10003,
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.8)',
+                    transition: 'right 0.3s ease, background 0.2s, color 0.2s, transform 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    fontFamily: "'VT323', monospace"
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#ff0000';
+                    e.currentTarget.style.color = '#000';
+                    e.currentTarget.style.borderColor = '#ff6666';
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(255, 0, 0, 0.6)';
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(26, 26, 26, 0.95)';
+                    e.currentTarget.style.color = '#ff0000';
+                    e.currentTarget.style.borderColor = '#ff0000';
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.8)';
+                }}
+            >
+                <span style={{ fontSize: '1.3em' }}>✕</span>
+                <span>ESC</span>
+            </button>
+
+            {/* Zone Info Badge - Positioned over map area, avoiding left sidebar */}
+            <div style={{
                 position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0,
-                zIndex: 10002,
-                background: '#1a1a1a',
-                borderBottom: '3px solid #00ff00',
-                padding: '15px 20px',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                top: '100px',
+                left: isLeftSidebarOpen ? '420px' : '70px',
+                background: 'rgba(26, 26, 26, 0.95)',
+                border: '2px solid #00ff00',
+                borderRadius: '5px',
+                padding: '12px 20px',
+                zIndex: 10003,
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.8)',
+                backdropFilter: 'blur(5px)',
+                transition: 'left 0.3s ease'
             }}>
-                <div>
-                    <h2 style={{ margin: 0, color: '#00ff00' }}>{zoneData.zoneName}</h2>
-                    <p className="location-type-badge" style={{ margin: 0, color: '#888' }}>
-                        Real MUD Data • {zoneData.totalRooms} Rooms
-                    </p>
+                <div style={{ 
+                    color: '#00ff00', 
+                    fontSize: '1.3em',
+                    fontWeight: 'bold',
+                    marginBottom: '4px',
+                    fontFamily: "'Press Start 2P', monospace",
+                    textShadow: '2px 2px 0px #000'
+                }}>
+                    {zoneData.zoneName}
                 </div>
-                <button className="close-button" onClick={onClose} title="Press Escape to close">
-                    ✕ <span style={{ fontSize: '0.7em', opacity: '0.7' }}>[ESC]</span>
-                </button>
+                <div style={{ 
+                    color: '#888', 
+                    fontSize: '0.9em',
+                    fontFamily: "'VT323', monospace"
+                }}>
+                    {zoneData.totalRooms} Rooms • {zoneData.gridSize.levels} Level{zoneData.gridSize.levels !== 1 ? 's' : ''}
+                </div>
             </div>
 
             {/* Three-column layout */}
@@ -953,6 +1181,114 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                         flexDirection: 'column',
                         height: '100%'
                     }}>
+                    {/* Tab Switcher */}
+                    <div style={{
+                        display: 'flex',
+                        gap: '5px',
+                        marginBottom: '15px',
+                        borderBottom: '2px solid #00ff00',
+                        paddingBottom: '10px'
+                    }}>
+                        <button
+                            onClick={() => setLeftSidebarTab('zone')}
+                            style={{
+                                flex: 1,
+                                padding: '10px',
+                                background: leftSidebarTab === 'zone' ? 'linear-gradient(135deg, #00ff00, #00aa00)' : '#2a2a2a',
+                                border: leftSidebarTab === 'zone' ? '2px solid #00ff00' : '2px solid #555',
+                                color: leftSidebarTab === 'zone' ? '#000' : '#888',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                fontSize: '0.9em',
+                                fontFamily: 'VT323, monospace',
+                                transition: 'all 0.2s',
+                                boxShadow: leftSidebarTab === 'zone' ? '0 0 10px rgba(0, 255, 0, 0.5)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (leftSidebarTab !== 'zone') {
+                                    e.currentTarget.style.background = '#3a3a3a';
+                                    e.currentTarget.style.color = '#aaa';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (leftSidebarTab !== 'zone') {
+                                    e.currentTarget.style.background = '#2a2a2a';
+                                    e.currentTarget.style.color = '#888';
+                                }
+                            }}
+                        >
+                            🗺️ Zone
+                        </button>
+                        <button
+                            onClick={() => setLeftSidebarTab('room')}
+                            disabled={!selectedRoom}
+                            style={{
+                                flex: 1,
+                                padding: '10px',
+                                background: leftSidebarTab === 'room' ? 'linear-gradient(135deg, #FFD700, #FFA500)' : '#2a2a2a',
+                                border: leftSidebarTab === 'room' ? '2px solid #FFD700' : '2px solid #555',
+                                color: leftSidebarTab === 'room' ? '#000' : (selectedRoom ? '#888' : '#444'),
+                                borderRadius: '5px',
+                                cursor: selectedRoom ? 'pointer' : 'not-allowed',
+                                fontWeight: 'bold',
+                                fontSize: '0.9em',
+                                fontFamily: 'VT323, monospace',
+                                transition: 'all 0.2s',
+                                boxShadow: leftSidebarTab === 'room' ? '0 0 10px rgba(255, 215, 0, 0.5)' : 'none',
+                                opacity: selectedRoom ? 1 : 0.5
+                            }}
+                            onMouseEnter={(e) => {
+                                if (leftSidebarTab !== 'room' && selectedRoom) {
+                                    e.currentTarget.style.background = '#3a3a3a';
+                                    e.currentTarget.style.color = '#aaa';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (leftSidebarTab !== 'room' && selectedRoom) {
+                                    e.currentTarget.style.background = '#2a2a2a';
+                                    e.currentTarget.style.color = '#888';
+                                }
+                            }}
+                        >
+                            🚪 Room
+                        </button>
+                        <button
+                            onClick={() => setLeftSidebarTab('tools')}
+                            style={{
+                                flex: 1,
+                                padding: '10px',
+                                background: leftSidebarTab === 'tools' ? 'linear-gradient(135deg, #00FFFF, #0088AA)' : '#2a2a2a',
+                                border: leftSidebarTab === 'tools' ? '2px solid #00FFFF' : '2px solid #555',
+                                color: leftSidebarTab === 'tools' ? '#000' : '#888',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                                fontSize: '0.9em',
+                                fontFamily: 'VT323, monospace',
+                                transition: 'all 0.2s',
+                                boxShadow: leftSidebarTab === 'tools' ? '0 0 10px rgba(0, 255, 255, 0.5)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (leftSidebarTab !== 'tools') {
+                                    e.currentTarget.style.background = '#3a3a3a';
+                                    e.currentTarget.style.color = '#aaa';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (leftSidebarTab !== 'tools') {
+                                    e.currentTarget.style.background = '#2a2a2a';
+                                    e.currentTarget.style.color = '#888';
+                                }
+                            }}
+                        >
+                            🔧 Tools
+                        </button>
+                    </div>
+
+                    {/* ZONE TAB */}
+                    {leftSidebarTab === 'zone' && (
+                    <>
                     {/* Details Section */}
                     <div style={{
                         marginBottom: '20px',
@@ -1379,22 +1715,466 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                         </div>
                     </div>
                 )}
+                </>
+                )}
+
+                {/* ROOM TAB */}
+                {leftSidebarTab === 'room' && selectedRoom && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        {/* Room Header */}
+                        <div style={{
+                            padding: '15px',
+                            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                            border: '2px solid #FFD700',
+                            borderRadius: '5px',
+                            boxShadow: '0 0 15px rgba(255, 215, 0, 0.4)'
+                        }}>
+                            <h4 style={{ 
+                                color: '#000', 
+                                marginTop: 0, 
+                                marginBottom: '8px',
+                                fontSize: '1.2em'
+                            }}>
+                                🚪 Room #{selectedRoom.id}
+                            </h4>
+                            <h3 style={{
+                                color: '#000',
+                                margin: 0,
+                                fontSize: '1.4em',
+                                fontWeight: 'bold'
+                            }}>
+                                {selectedRoom.name}
+                            </h3>
+                        </div>
+
+                        {/* Room Description */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #00ff00',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#00ff00', marginTop: 0, marginBottom: '10px' }}>
+                                📖 Description:
+                            </h4>
+                            <p style={{ 
+                                color: '#ccc', 
+                                lineHeight: '1.6', 
+                                margin: 0 
+                            }}>
+                                {selectedRoom.description}
+                            </p>
+                        </div>
+
+                        {/* Room Details */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #00FFFF',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#00FFFF', marginTop: 0, marginBottom: '10px' }}>
+                                📍 Details:
+                            </h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.95em' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span style={{ color: '#888' }}>Position:</span>
+                                    <span style={{ color: '#00FFFF' }}>
+                                        ({selectedRoom.originalPosition.x}, {selectedRoom.originalPosition.y}, {selectedRoom.originalPosition.z})
+                                    </span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <span style={{ color: '#888' }}>Terrain:</span>
+                                    <span style={{ color: '#00FFFF' }}>{selectedRoom.terrainColor}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Zone Exit Info */}
+                        {selectedRoom.isZoneExit && (
+                            <div style={{
+                                padding: '15px',
+                                background: 'linear-gradient(135deg, #00FFFF22, #0088AA22)',
+                                border: '2px solid #00FFFF',
+                                borderRadius: '5px'
+                            }}>
+                                <h4 style={{ color: '#00FFFF', marginTop: 0, marginBottom: '10px' }}>
+                                    🚪 Zone Exit:
+                                </h4>
+                                <p style={{ color: '#00FFFF', margin: 0, fontSize: '1.1em', fontWeight: 'bold' }}>
+                                    → {selectedRoom.exitToZone || 'Unknown destination'}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* NPCs in Room */}
+                        {selectedRoom.npcs && selectedRoom.npcs.length > 0 && (
+                            <div style={{
+                                padding: '15px',
+                                background: '#0a0a0a',
+                                border: '2px solid #ff6b6b',
+                                borderRadius: '5px'
+                            }}>
+                                <h4 style={{ color: '#ff6b6b', marginTop: 0, marginBottom: '10px' }}>
+                                    👹 NPCs in this Room:
+                                </h4>
+                                <ul style={{ margin: 0, paddingLeft: '20px', listStyle: 'none' }}>
+                                    {selectedRoom.npcs.map((npc, idx) => (
+                                        <li key={idx} style={{ 
+                                            color: '#ff6b6b', 
+                                            marginBottom: '8px',
+                                            padding: '8px',
+                                            background: '#1a1a1a',
+                                            borderRadius: '3px',
+                                            border: '1px solid #ff6b6b'
+                                        }}>
+                                            <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>
+                                                👹 {npc.name}
+                                            </div>
+                                            <div style={{ fontSize: '0.9em', color: '#888' }}>
+                                                Respawn: {npc.respawnRate}s
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        {/* Room Exits */}
+                        {selectedRoom.exits && Object.keys(selectedRoom.exits).length > 0 && (
+                            <div style={{
+                                padding: '15px',
+                                background: '#0a0a0a',
+                                border: '2px solid #FFD700',
+                                borderRadius: '5px'
+                            }}>
+                                <h4 style={{ color: '#FFD700', marginTop: 0, marginBottom: '10px' }}>
+                                    🧭 Exits:
+                                </h4>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
+                                    {Object.entries(selectedRoom.exits).map(([direction, roomId]) => (
+                                        <div key={direction} style={{
+                                            padding: '8px 12px',
+                                            background: '#1a1a1a',
+                                            border: '1px solid #FFD700',
+                                            borderRadius: '3px',
+                                            textAlign: 'center',
+                                            color: '#FFD700',
+                                            fontWeight: 'bold'
+                                        }}>
+                                            {direction.toUpperCase()}
+                                        </div>
+                                    ))}
+                                </div>
+                                {Object.keys(selectedRoom.exits).length === 0 && (
+                                    <p style={{ color: '#888', margin: 0, textAlign: 'center' }}>
+                                        No exits available
+                                    </p>
+                                )}
+                            </div>
+                        )}
                     </div>
-                    )}
+                )}
+
+                {/* TOOLS TAB */}
+                {leftSidebarTab === 'tools' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                        {/* Tools Header */}
+                        <div style={{
+                            padding: '15px',
+                            background: 'linear-gradient(135deg, #00FFFF, #0088AA)',
+                            border: '2px solid #00FFFF',
+                            borderRadius: '5px',
+                            boxShadow: '0 0 15px rgba(0, 255, 255, 0.4)'
+                        }}>
+                            <h4 style={{ 
+                                color: '#000', 
+                                margin: 0,
+                                fontSize: '1.3em',
+                                fontWeight: 'bold'
+                            }}>
+                                🔧 Tools & Tips
+                            </h4>
+                        </div>
+
+                        {/* Room Focus Mode Toggle */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #FFD700',
+                            borderRadius: '5px'
+                        }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                                <h4 style={{ color: '#FFD700', margin: 0 }}>
+                                    🔒 Room Focus Mode:
+                                </h4>
+                                <label style={{
+                                    position: 'relative',
+                                    display: 'inline-block',
+                                    width: '50px',
+                                    height: '24px'
+                                }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={roomFocusMode}
+                                        onChange={(e) => setRoomFocusMode(e.target.checked)}
+                                        style={{ opacity: 0, width: 0, height: 0 }}
+                                    />
+                                    <span style={{
+                                        position: 'absolute',
+                                        cursor: 'pointer',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        background: roomFocusMode ? '#FFD700' : '#ccc',
+                                        transition: '0.4s',
+                                        borderRadius: '24px'
+                                    }}>
+                                        <span style={{
+                                            position: 'absolute',
+                                            content: '""',
+                                            height: '18px',
+                                            width: '18px',
+                                            left: roomFocusMode ? '29px' : '3px',
+                                            bottom: '3px',
+                                            background: 'white',
+                                            transition: '0.4s',
+                                            borderRadius: '50%'
+                                        }}></span>
+                                    </span>
+                                </label>
+                            </div>
+                            <p style={{ color: '#888', margin: 0, fontSize: '0.85em', lineHeight: '1.5' }}>
+                                When enabled, selecting a room will dim all other rooms and lock focus on your selection
+                            </p>
+                        </div>
+
+                        {/* Icon Size Control */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #FF00FF',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#FF00FF', marginTop: 0, marginBottom: '10px' }}>
+                                🎨 Icon Size:
+                            </h4>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <span style={{ color: '#888', fontSize: '0.9em' }}>Small</span>
+                                <input
+                                    type="range"
+                                    min="6"
+                                    max="12"
+                                    value={iconSize}
+                                    onChange={(e) => setIconSize(parseInt(e.target.value))}
+                                    style={{ flex: 1 }}
+                                />
+                                <span style={{ color: '#888', fontSize: '0.9em' }}>Large</span>
+                            </div>
+                        </div>
+
+                        {/* Navigation Tips */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #00ff00',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#00ff00', marginTop: 0, marginBottom: '10px' }}>
+                                🗺️ Navigation:
+                            </h4>
+                            <ul style={{ margin: 0, paddingLeft: '20px', color: '#ccc', lineHeight: '1.8' }}>
+                                <li>Click any room to view details</li>
+                                <li>Use mouse wheel to zoom in/out</li>
+                                <li>Click and drag to pan the map</li>
+                                <li>Use PageUp/PageDown to change floors</li>
+                                <li>Click yellow arrows on selected rooms to navigate</li>
+                            </ul>
+                        </div>
+
+                        {/* Room Tips */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #FFD700',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#FFD700', marginTop: 0, marginBottom: '10px' }}>
+                                🚪 Room Tips:
+                            </h4>
+                            <ul style={{ margin: 0, paddingLeft: '20px', color: '#ccc', lineHeight: '1.8' }}>
+                                <li>Hover over rooms to see quick info</li>
+                                <li>Click to lock focus and view details</li>
+                                <li>Red dots indicate NPCs/mobs</li>
+                                <li>Cyan icons indicate zone exits</li>
+                                <li>Room colors represent terrain types</li>
+                            </ul>
+                        </div>
+
+                        {/* Map Legend */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #00FFFF',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#00FFFF', marginTop: 0, marginBottom: '10px' }}>
+                                📋 Legend:
+                            </h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '20px', height: '20px', background: '#FFD700', border: '3px solid #FFD700', borderRadius: '2px' }}></div>
+                                    <span style={{ color: '#ccc' }}>Selected Room</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '20px', height: '20px', background: 'transparent', border: '3px solid #00FFFF', borderRadius: '2px' }}></div>
+                                    <span style={{ color: '#ccc' }}>Hovered Room</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '10px', height: '10px', background: '#FF0000', border: '2px solid #FFF', borderRadius: '50%' }}></div>
+                                    <span style={{ color: '#ccc' }}>NPCs/Mobs</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '10px', height: '14px', background: '#00FFFF', border: '1px solid #FFF' }}></div>
+                                    <span style={{ color: '#ccc' }}>Zone Exit</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Keyboard Shortcuts */}
+                        <div style={{
+                            padding: '15px',
+                            background: '#0a0a0a',
+                            border: '2px solid #FF00FF',
+                            borderRadius: '5px'
+                        }}>
+                            <h4 style={{ color: '#FF00FF', marginTop: 0, marginBottom: '10px' }}>
+                                ⌨️ Keyboard Shortcuts:
+                            </h4>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.9em' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', background: '#1a1a1a', borderRadius: '3px' }}>
+                                    <span style={{ color: '#888' }}>PageUp</span>
+                                    <span style={{ color: '#ccc' }}>Go up one floor</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', background: '#1a1a1a', borderRadius: '3px' }}>
+                                    <span style={{ color: '#888' }}>PageDown</span>
+                                    <span style={{ color: '#ccc' }}>Go down one floor</span>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', padding: '5px', background: '#1a1a1a', borderRadius: '3px' }}>
+                                    <span style={{ color: '#888' }}>Escape</span>
+                                    <span style={{ color: '#ccc' }}>Close map viewer</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                </div>
+                )}
             </div>
 
-                {/* CENTER - Large Map Canvas */}
-                <div style={{
-                    flex: 1,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    overflow: 'hidden',
-                    position: 'relative',
-                    height: '100%',
-                    marginLeft: isLeftSidebarOpen ? '0' : '0',
-                    marginRight: isWikiOpen ? '400px' : '50px',
-                    transition: 'margin-left 0.3s ease, margin-right 0.3s ease'
-                }}>
+            {/* CENTER - Large Map Canvas */}
+            <div style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'visible',
+                position: 'relative',
+                height: '100%',
+                marginLeft: isLeftSidebarOpen ? '0' : '0',
+                marginRight: isWikiOpen ? '400px' : '50px',
+                transition: 'margin-left 0.3s ease, margin-right 0.3s ease'
+            }}>
+                {/* Focus Mode Banner - shows when room is selected and focus mode is on */}
+                    {selectedRoom && roomFocusMode && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '10px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            zIndex: 1000,
+                            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                            border: '2px solid #FFD700',
+                            borderRadius: '5px',
+                            padding: '12px 24px',
+                            pointerEvents: 'none',
+                            boxShadow: '0 4px 20px rgba(255, 215, 0, 0.6)',
+                            minWidth: '300px',
+                            textAlign: 'center',
+                            animation: 'pulse 2s ease-in-out infinite'
+                        }}>
+                            <div style={{
+                                color: '#000',
+                                fontSize: '1.1em',
+                                fontWeight: 'bold',
+                                fontFamily: 'VT323, monospace',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '8px'
+                            }}>
+                                <span style={{ fontSize: '1.3em' }}>🔒</span>
+                                <span>FOCUS LOCKED ON ROOM #{selectedRoom.id}</span>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* Fixed Hover Tooltip - appears at top center of map */}
+                    {hoveredRoom && !selectedRoom && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '10px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            zIndex: 1000,
+                            background: 'rgba(0, 0, 0, 0.95)',
+                            border: '2px solid #00FFFF',
+                            borderRadius: '5px',
+                            padding: '12px 20px',
+                            pointerEvents: 'none',
+                            boxShadow: '0 4px 20px rgba(0, 255, 255, 0.5)',
+                            minWidth: '300px',
+                            textAlign: 'center'
+                        }}>
+                            <div style={{
+                                color: '#00FFFF',
+                                fontSize: '1.2em',
+                                fontWeight: 'bold',
+                                fontFamily: 'VT323, monospace',
+                                marginBottom: '4px'
+                            }}>
+                                Room #{hoveredRoom.id}
+                            </div>
+                            <div style={{
+                                color: '#FFFFFF',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace'
+                            }}>
+                                {hoveredRoom.name}
+                            </div>
+                            {hoveredRoom.npcs && hoveredRoom.npcs.length > 0 && (
+                                <div style={{
+                                    color: '#ff6b6b',
+                                    fontSize: '0.9em',
+                                    marginTop: '6px',
+                                    fontFamily: 'VT323, monospace'
+                                }}>
+                                    👹 {hoveredRoom.npcs.length} NPC{hoveredRoom.npcs.length > 1 ? 's' : ''}
+                                </div>
+                            )}
+                            {hoveredRoom.isZoneExit && (
+                                <div style={{
+                                    color: '#00FFFF',
+                                    fontSize: '0.9em',
+                                    marginTop: '6px',
+                                    fontFamily: 'VT323, monospace'
+                                }}>
+                                    🚪 Zone Exit
+                                </div>
+                            )}
+                        </div>
+                    )}
+                    
                     {/* Map Canvas - takes full available space */}
                     <div 
                         ref={mapCanvasRef}
@@ -1482,9 +2262,28 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                     }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                             <div style={{ flex: 1 }}>
-                                <h4 style={{ color: '#d4af37', marginBottom: '5px' }}>
-                                    Room #{selectedRoom.id}: {selectedRoom.name}
-                                </h4>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '5px' }}>
+                                    <h4 style={{ color: '#d4af37', margin: 0 }}>
+                                        Room #{selectedRoom.id}: {selectedRoom.name}
+                                    </h4>
+                                    {roomFocusMode && (
+                                        <div style={{
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            gap: '5px',
+                                            padding: '4px 10px',
+                                            background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+                                            borderRadius: '3px',
+                                            fontSize: '0.75em',
+                                            fontWeight: 'bold',
+                                            color: '#000',
+                                            boxShadow: '0 0 10px rgba(255, 215, 0, 0.5)'
+                                        }}>
+                                            <span>🔒</span>
+                                            <span>FOCUSED</span>
+                                        </div>
+                                    )}
+                                </div>
                                 <p style={{ 
                                     fontSize: '0.9em', 
                                     lineHeight: '1.6', 
@@ -1797,6 +2596,69 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                     </div>
                                 </div>
 
+                                {/* Room Focus Mode Toggle */}
+                                <div style={{ 
+                                    marginTop: '15px',
+                                    paddingTop: '15px',
+                                    borderTop: '1px solid #00ff00'
+                                }}>
+                                    <h5 style={{ color: '#00ff00', marginTop: 0, marginBottom: '10px', fontSize: '1em' }}>
+                                        🎯 Room Focus Mode
+                                    </h5>
+                                    <div
+                                        onClick={() => setRoomFocusMode(!roomFocusMode)}
+                                        style={{
+                                            padding: '12px',
+                                            background: roomFocusMode ? 'linear-gradient(135deg, #00ff00, #00aa00)' : '#2a2a2a',
+                                            border: roomFocusMode ? '2px solid #00ff00' : '2px solid #555',
+                                            borderRadius: '5px',
+                                            cursor: 'pointer',
+                                            transition: 'all 0.3s ease',
+                                            boxShadow: roomFocusMode ? '0 0 15px rgba(0, 255, 0, 0.5)' : 'none',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            gap: '10px',
+                                            fontWeight: 'bold',
+                                            fontSize: '0.95em',
+                                            color: roomFocusMode ? '#000' : '#666'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            if (!roomFocusMode) {
+                                                e.currentTarget.style.background = '#3a3a3a';
+                                                e.currentTarget.style.color = '#888';
+                                            }
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            if (!roomFocusMode) {
+                                                e.currentTarget.style.background = '#2a2a2a';
+                                                e.currentTarget.style.color = '#666';
+                                            }
+                                        }}
+                                    >
+                                        <span style={{ fontSize: '1.3em' }}>
+                                            {roomFocusMode ? '🔦' : '💡'}
+                                        </span>
+                                        <span>
+                                            {roomFocusMode ? 'Focus Mode ON' : 'Focus Mode OFF'}
+                                        </span>
+                                    </div>
+                                    <div style={{
+                                        marginTop: '8px',
+                                        padding: '8px',
+                                        background: '#1a1a1a',
+                                        border: '1px solid #333',
+                                        borderRadius: '3px',
+                                        color: '#888',
+                                        fontSize: '0.85em',
+                                        textAlign: 'center'
+                                    }}>
+                                        {roomFocusMode 
+                                            ? '✓ Dims other rooms when one is selected' 
+                                            : '○ All rooms stay fully visible'}
+                                    </div>
+                                </div>
+
                                 {/* Icon Size Control Section */}
                                 <div style={{ 
                                     marginTop: '15px',
@@ -1925,7 +2787,6 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                         )}
                     </div>
                 )}
-                </div>
             </div>
 
             {/* Wiki Sidebar - Collapsible */}
@@ -2025,6 +2886,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                     currentFloor={currentLevel}
                 />
             </div>
+        </div>
         </div>
     );
 }

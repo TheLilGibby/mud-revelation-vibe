@@ -20,7 +20,7 @@
     "eastern_empire": {
       "name": "Eastern Empire",
       "color": "#ffd700",
-      "zones": ["epiach", "EpiachFields", "eastern_epiach_highway", "Tur'issik", "greeanjok", "silverspirehills", "silverspiremountains", "western_foothills", "Dragonspire_Reach"]
+      "zones": ["epiach", "EpiachFields", "eastern_epiach_highway", "Tur'issik", "greeanjok", "silverspirehills", "silverspiremountains", "Dragonspire_Reach"]
     },
     "southern_regions": {
       "name": "Southern Regions",
@@ -359,7 +359,7 @@
         "west": "Tur'issik",
         "south": "EpiachFields",
         "east": "eastern_epiach_highway",
-        "north": "western_foothills"
+        "north": "silverspirehills"
       }
     },
     "EpiachFields": {
@@ -402,28 +402,28 @@
     },
     "western_foothills": {
       "name": "western_foothills",
-      "displayName": "Western Foothills",
+      "displayName": "Western Epiach Foothills",
       "type": "Foothills",
       "region": "eastern_empire",
-      "gridX": 16,
+      "gridX": 14,
       "gridY": 5,
-      "description": "Foothills below the mountains",
+      "description": "Foothills west of Silverspire Foothills",
       "exits": {
-        "south": "epiach",
-        "north": "silverspirehills"
+        "east": "silverspirehills"
       }
     },
     "silverspirehills": {
       "name": "silverspirehills",
-      "displayName": "Silverspire Hills",
-      "type": "Hills",
+      "displayName": "Silverspire Foothills",
+      "type": "Foothills",
       "region": "eastern_empire",
       "gridX": 16,
-      "gridY": 3,
-      "description": "Rolling hills region",
+      "gridY": 5,
+      "description": "Foothills at the base of Silverspire Mountains",
       "exits": {
-        "south": "western_foothills",
-        "north": "silverspiremountains"
+        "south": "epiach",
+        "north": "silverspiremountains",
+        "west": "western_foothills"
       }
     },
     "silverspiremountains": {
@@ -432,7 +432,7 @@
       "type": "Mountains",
       "region": "eastern_empire",
       "gridX": 16,
-      "gridY": 1,
+      "gridY": 3,
       "description": "Towering mountain range",
       "exits": {
         "south": "silverspirehills",
@@ -445,7 +445,7 @@
       "type": "Mountains",
       "region": "eastern_empire",
       "gridX": 18,
-      "gridY": 1,
+      "gridY": 3,
       "description": "Dragon-inhabited peaks",
       "exits": {
         "west": "silverspiremountains"

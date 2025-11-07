@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useGameData } from '../contexts/DataContext';
+import MobSprite from '../components/MobSprite';
 
-function ItemsPage() {
+function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActive }) {
+    const { items: loadedItems, mobs: loadedMobs } = useGameData();
+    const [shareTooltip, setShareTooltip] = useState('');
     // Add CSS for range slider thumbs
     useEffect(() => {
         const style = document.createElement('style');
@@ -58,9 +62,10 @@ function ItemsPage() {
             document.head.removeChild(style);
         };
     }, []);
+    
     const [items, setItems] = useState([]);
     const [filteredItems, setFilteredItems] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedWeaponTypes, setSelectedWeaponTypes] = useState([]);
@@ -68,22 +73,51 @@ function ItemsPage() {
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(1);
     const [minLevel, setMinLevel] = useState(0);
-    const [maxLevel, setMaxLevel] = useState(150);
+    const [maxLevel, setMaxLevel] = useState(200);
+    const [absoluteMaxLevel, setAbsoluteMaxLevel] = useState(200); // Fixed max level for slider
     const [minValue, setMinValue] = useState(0);
     const [maxValue, setMaxValue] = useState(100000);
     const [absoluteMaxValue, setAbsoluteMaxValue] = useState(100000); // Fixed max value for slider
     const [minDamage, setMinDamage] = useState(0);
     const [maxDamage, setMaxDamage] = useState(1000);
     const [absoluteMaxDamage, setAbsoluteMaxDamage] = useState(1000); // Fixed max damage for slider
-    const [showItemTypes, setShowItemTypes] = useState(false);
-    const [showWeaponTypes, setShowWeaponTypes] = useState(false);
-    const [showArmorSlots, setShowArmorSlots] = useState(false);
+    const [minWeight, setMinWeight] = useState(0);
+    const [maxWeight, setMaxWeight] = useState(100);
+    const [absoluteMaxWeight, setAbsoluteMaxWeight] = useState(100); // Fixed max weight for slider
+    const [minRequiredLevel, setMinRequiredLevel] = useState(0);
+    const [maxRequiredLevel, setMaxRequiredLevel] = useState(100);
+    const [absoluteMaxRequiredLevel, setAbsoluteMaxRequiredLevel] = useState(100); // Fixed max required level for slider
+    const [showItemTypes, setShowItemTypes] = useState(() => {
+        const saved = localStorage.getItem('revelationItemsShowItemTypes');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
+    const [showWeaponTypes, setShowWeaponTypes] = useState(() => {
+        const saved = localStorage.getItem('revelationItemsShowWeaponTypes');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
+    const [showArmorSlots, setShowArmorSlots] = useState(() => {
+        const saved = localStorage.getItem('revelationItemsShowArmorSlots');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
     const [selectedArmorSlots, setSelectedArmorSlots] = useState([]);
-    const [showEffects, setShowEffects] = useState(false);
+    const [showEffects, setShowEffects] = useState(() => {
+        const saved = localStorage.getItem('revelationItemsShowEffects');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
     const [allEffects, setAllEffects] = useState([]);
     const [selectedEffects, setSelectedEffects] = useState([]);
     const [effectSearchTerm, setEffectSearchTerm] = useState('');
+    const [mobs, setMobs] = useState([]);
+    const [selectedMobForDrops, setSelectedMobForDrops] = useState(null);
+    const [showMobFilter, setShowMobFilter] = useState(() => {
+        const saved = localStorage.getItem('revelationItemsShowMobFilter');
+        return saved !== null ? JSON.parse(saved) : false;
+    });
+    const [mobSearchTerm, setMobSearchTerm] = useState('');
+    const [showMobNavigationConfirm, setShowMobNavigationConfirm] = useState(false);
+    const [selectedMobToNavigate, setSelectedMobToNavigate] = useState(null);
     const itemsPerPage = 50;
+    const isManualSelection = useRef(false); // Track if item selection is from user click vs URL
 
     // Clean item names from formatting codes
     const cleanItemName = (name) => {
@@ -94,6 +128,12 @@ function ItemsPage() {
             .replace(/\\cf\w+/gi, '')   // Remove any other formatting codes
             .trim()                      // Remove leading/trailing spaces
             .replace(/\.$/, '');         // Remove trailing period if it's the last character
+    };
+
+    // Clean mob names from formatting codes
+    const cleanMobName = (name) => {
+        if (!name) return '';
+        return name.replace(/\\cf\d+/gi, '').replace(/\\cf\w+/gi, '').trim().replace(/\.$/, '');
     };
 
     // Count all item effects
@@ -115,6 +155,32 @@ function ItemsPage() {
         return count;
     };
 
+    // Get mobs that drop a specific item
+    const getMobsForItem = (itemId) => {
+        return mobs.filter(mob => 
+            mob.DroppedItems && 
+            Array.isArray(mob.DroppedItems) && 
+            mob.DroppedItems.includes(itemId)
+        );
+    };
+
+    // Share item link - copy URL to clipboard
+    const handleShareItem = async (item) => {
+        // Create a clean URL with only the itemId parameter
+        const url = new URL(window.location.origin + window.location.pathname);
+        url.searchParams.set('itemId', item.Id);
+        
+        try {
+            await navigator.clipboard.writeText(url.toString());
+            setShareTooltip('Link copied!');
+            setTimeout(() => setShareTooltip(''), 2000);
+        } catch (err) {
+            console.error('Failed to copy link:', err);
+            setShareTooltip('Failed to copy');
+            setTimeout(() => setShareTooltip(''), 2000);
+        }
+    };
+
     // Handle slider z-index and pointer events for LEVEL slider
     useEffect(() => {
         const minSlider = document.querySelector('.dual-range-min-level');
@@ -127,7 +193,7 @@ function ItemsPage() {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const mouseX = e.clientX - rect.left;
                 const mousePercent = mouseX / rect.width;
-                const mouseValue = mousePercent * 200;
+                const mouseValue = mousePercent * absoluteMaxLevel;
                 
                 // Calculate distance from mouse to each thumb
                 const distanceToMin = Math.abs(mouseValue - minLevel);
@@ -155,7 +221,7 @@ function ItemsPage() {
                 sliderContainer.removeEventListener('mousemove', handleMouseMove);
             }
         };
-    }, [minLevel, maxLevel]);
+    }, [minLevel, maxLevel, absoluteMaxLevel]);
 
     // Handle slider z-index and pointer events for VALUE slider
     useEffect(() => {
@@ -241,72 +307,274 @@ function ItemsPage() {
         };
     }, [minDamage, maxDamage, absoluteMaxDamage]);
 
-    // Load items data
+    // Handle slider z-index and pointer events for WEIGHT slider
     useEffect(() => {
-        fetch('/GameData/Items.json')
-            .then(response => response.json())
-            .then(data => {
-                setItems(data);
-                setFilteredItems(data);
+        const minSlider = document.querySelector('.dual-range-min-weight');
+        const maxSlider = document.querySelector('.dual-range-max-weight');
+        
+        if (!minSlider || !maxSlider) return;
+
+        const handleMouseMove = (e) => {
+            if (!e.buttons) { // Only when not dragging
+                const rect = e.currentTarget.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mousePercent = mouseX / rect.width;
+                const mouseValue = mousePercent * absoluteMaxWeight;
                 
-                // Set all item types as selected by default
-                const allTypes = [...new Set(data.map(item => item.Type).filter(Boolean))];
-                setSelectedTypes(allTypes);
+                // Calculate distance from mouse to each thumb
+                const distanceToMin = Math.abs(mouseValue - minWeight);
+                const distanceToMax = Math.abs(mouseValue - maxWeight);
                 
-                // Set all weapon types as selected by default
-                const allWeaponTypes = [...new Set(data.filter(item => item.WeaponType).map(item => item.WeaponType))];
-                setSelectedWeaponTypes(allWeaponTypes);
+                // Bring the closer slider to the front
+                if (distanceToMin < distanceToMax) {
+                    minSlider.style.zIndex = '5';
+                    maxSlider.style.zIndex = '4';
+                } else {
+                    minSlider.style.zIndex = '4';
+                    maxSlider.style.zIndex = '5';
+                }
+            }
+        };
+        
+        // Add mousemove listener to parent container
+        const sliderContainer = minSlider.parentElement;
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mousemove', handleMouseMove);
+        }
+
+        return () => {
+            if (sliderContainer) {
+                sliderContainer.removeEventListener('mousemove', handleMouseMove);
+            }
+        };
+    }, [minWeight, maxWeight, absoluteMaxWeight]);
+
+    // Handle slider z-index and pointer events for REQUIRED LEVEL slider
+    useEffect(() => {
+        const minSlider = document.querySelector('.dual-range-min-req-level');
+        const maxSlider = document.querySelector('.dual-range-max-req-level');
+        
+        if (!minSlider || !maxSlider) return;
+
+        const handleMouseMove = (e) => {
+            if (!e.buttons) { // Only when not dragging
+                const rect = e.currentTarget.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mousePercent = mouseX / rect.width;
+                const mouseValue = mousePercent * absoluteMaxRequiredLevel;
                 
-                // Extract all unique armor slots
-                const allArmorSlots = [...new Set(data.filter(item => item.Slot && item.Slot.trim() !== '').map(item => item.Slot))].sort();
-                setSelectedArmorSlots(allArmorSlots); // All selected by default
+                // Calculate distance from mouse to each thumb
+                const distanceToMin = Math.abs(mouseValue - minRequiredLevel);
+                const distanceToMax = Math.abs(mouseValue - maxRequiredLevel);
                 
-                // Extract all unique effects from items
-                const effectsSet = new Set();
-                data.forEach(item => {
-                    // ItemEffects array
-                    if (item.ItemEffects && Array.isArray(item.ItemEffects)) {
-                        item.ItemEffects.forEach(effect => {
-                            if (effect && typeof effect === 'string') {
-                                effectsSet.add(effect.trim());
-                            }
-                        });
-                    }
-                    // PotionEffect
-                    if (item.PotionEffect) effectsSet.add(item.PotionEffect.trim());
-                    // PoisonEffect
-                    if (item.PoisonEffect) effectsSet.add(item.PoisonEffect.trim());
-                    // ScrollEffect
-                    if (item.ScrollEffect) effectsSet.add(item.ScrollEffect.trim());
-                    // UsableSpell
-                    if (item.UsableSpell) effectsSet.add(item.UsableSpell.trim());
-                    // ProcSpellName
-                    if (item.ProcSpellName) effectsSet.add(item.ProcSpellName.trim());
-                });
-                
-                const sortedEffects = Array.from(effectsSet).sort();
-                setAllEffects(sortedEffects);
-                setSelectedEffects(sortedEffects); // All selected by default
-                
-                // Calculate max value from data
-                const maxItemValue = Math.max(...data.map(item => item.Value || 0));
-                const calculatedMax = Math.ceil(maxItemValue / 1000) * 1000; // Round up to nearest 1000
-                setMaxValue(calculatedMax);
-                setAbsoluteMaxValue(calculatedMax);
-                
-                // Calculate max damage from data
-                const maxItemDamage = Math.max(...data.map(item => item.Damage || 0));
-                const calculatedMaxDamage = Math.max(100, Math.ceil(maxItemDamage / 10) * 10); // Round up to nearest 10, min 100
-                setMaxDamage(calculatedMaxDamage);
-                setAbsoluteMaxDamage(calculatedMaxDamage);
-                
-                setIsLoading(false);
-            })
-            .catch(error => {
-                console.error('Error loading items:', error);
-                setIsLoading(false);
+                // Bring the closer slider to the front
+                if (distanceToMin < distanceToMax) {
+                    minSlider.style.zIndex = '5';
+                    maxSlider.style.zIndex = '4';
+                } else {
+                    minSlider.style.zIndex = '4';
+                    maxSlider.style.zIndex = '5';
+                }
+            }
+        };
+        
+        // Add mousemove listener to parent container
+        const sliderContainer = minSlider.parentElement;
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mousemove', handleMouseMove);
+        }
+
+        return () => {
+            if (sliderContainer) {
+                sliderContainer.removeEventListener('mousemove', handleMouseMove);
+            }
+        };
+    }, [minRequiredLevel, maxRequiredLevel, absoluteMaxRequiredLevel]);
+
+    // Handle navigation from other pages (e.g., Guides, Mobs)
+    useEffect(() => {
+        // Only process navigation when page is active and we have data
+        if (!isActive || !navigationData || items.length === 0) return;
+
+        let foundItem = null;
+
+        // Handle navigation by item ID (from MobsPage)
+        if (navigationData.Id) {
+            foundItem = items.find(item => item.Id === navigationData.Id);
+            if (foundItem) {
+                console.log(`[ItemsPage] Navigated to item by Id: ${foundItem.Name}`);
+                // Mark as manual selection to prevent URL effect from re-processing
+                isManualSelection.current = true;
+                setSelectedItem(foundItem);
+                // Clear search to ensure the item is visible
+                setSearchTerm('');
+            } else {
+                console.warn(`[ItemsPage] Item with Id ${navigationData.Id} not found`);
+            }
+        }
+        // Handle navigation by item name (from GuidesPage)
+        else if (navigationData.searchItem) {
+            setSearchTerm(navigationData.searchItem);
+            foundItem = items.find(item => 
+                item.Name?.toLowerCase() === navigationData.searchItem.toLowerCase()
+            );
+            if (foundItem) {
+                console.log(`[ItemsPage] Navigated to item by name: ${foundItem.Name}`);
+                isManualSelection.current = true;
+                setSelectedItem(foundItem);
+            } else {
+                console.warn(`[ItemsPage] Item with name "${navigationData.searchItem}" not found`);
+            }
+        }
+        
+        // Clear navigation data after handling
+        if (onClearNavigation) {
+            onClearNavigation();
+        }
+    }, [isActive, navigationData, items, onClearNavigation]);
+
+    // Initialize with data from context
+    useEffect(() => {
+        if (loadedItems && loadedItems.length > 0) {
+            console.log(`[ItemsPage] Using ${loadedItems.length} items from context`);
+            setItems(loadedItems);
+            setFilteredItems(loadedItems);
+            
+            // No filters selected by default - show all results
+            // const allTypes = [...new Set(loadedItems.map(item => item.Type).filter(Boolean))];
+            setSelectedTypes([]);
+            
+            // const allWeaponTypes = [...new Set(loadedItems.filter(item => item.WeaponType).map(item => item.WeaponType))];
+            setSelectedWeaponTypes([]);
+            
+            // const allArmorSlots = [...new Set(loadedItems.filter(item => item.Slot && item.Slot.trim() !== '').map(item => item.Slot))].sort();
+            setSelectedArmorSlots([]); // No filters selected by default
+            
+            // Extract all unique effects from items
+            const effectsSet = new Set();
+            loadedItems.forEach(item => {
+                // ItemEffects array
+                if (item.ItemEffects && Array.isArray(item.ItemEffects)) {
+                    item.ItemEffects.forEach(effect => {
+                        if (effect && typeof effect === 'string') {
+                            effectsSet.add(effect.trim());
+                        }
+                    });
+                }
+                // PotionEffect
+                if (item.PotionEffect) effectsSet.add(item.PotionEffect.trim());
+                // PoisonEffect
+                if (item.PoisonEffect) effectsSet.add(item.PoisonEffect.trim());
+                // ScrollEffect
+                if (item.ScrollEffect) effectsSet.add(item.ScrollEffect.trim());
+                // UsableSpell
+                if (item.UsableSpell) effectsSet.add(item.UsableSpell.trim());
+                // ProcSpellName
+                if (item.ProcSpellName) effectsSet.add(item.ProcSpellName.trim());
             });
-    }, []);
+            
+            const sortedEffects = Array.from(effectsSet).sort();
+            setAllEffects(sortedEffects);
+            setSelectedEffects([]); // No filters selected by default
+            
+            // Calculate max level from data
+            const maxItemLevel = Math.max(...loadedItems.map(item => item.Level || 0));
+            const calculatedMaxLevel = Math.max(200, maxItemLevel); // Ensure at least 200
+            setMaxLevel(calculatedMaxLevel);
+            setAbsoluteMaxLevel(calculatedMaxLevel);
+            
+            // Calculate max value from data
+            const maxItemValue = Math.max(...loadedItems.map(item => item.Value || 0));
+            const calculatedMax = Math.ceil(maxItemValue / 1000) * 1000; // Round up to nearest 1000
+            setMaxValue(calculatedMax);
+            setAbsoluteMaxValue(calculatedMax);
+            
+            // Calculate max damage from data
+            const maxItemDamage = Math.max(...loadedItems.map(item => item.Damage || 0));
+            const calculatedMaxDamage = Math.max(100, Math.ceil(maxItemDamage / 10) * 10); // Round up to nearest 10, min 100
+            setMaxDamage(calculatedMaxDamage);
+            setAbsoluteMaxDamage(calculatedMaxDamage);
+            
+            // Calculate max weight from data
+            const maxItemWeight = Math.max(...loadedItems.map(item => item.Weight || 0));
+            const calculatedMaxWeight = Math.max(100, Math.ceil(maxItemWeight / 10) * 10); // Round up to nearest 10, min 100
+            setMaxWeight(calculatedMaxWeight);
+            setAbsoluteMaxWeight(calculatedMaxWeight);
+            
+            // Calculate max required level from data
+            const maxItemRequiredLevel = Math.max(...loadedItems.map(item => item.RequiredLevel || 0));
+            const calculatedMaxRequiredLevel = Math.max(100, maxItemRequiredLevel); // Ensure at least 100
+            setMaxRequiredLevel(calculatedMaxRequiredLevel);
+            setAbsoluteMaxRequiredLevel(calculatedMaxRequiredLevel);
+        }
+    }, [loadedItems]);
+
+    // Initialize mobs from context
+    useEffect(() => {
+        if (loadedMobs && loadedMobs.length > 0) {
+            console.log(`[ItemsPage] Using ${loadedMobs.length} mobs from context`);
+            setMobs(loadedMobs);
+        }
+    }, [loadedMobs]);
+
+    // Save collapsible section states to localStorage
+    useEffect(() => {
+        localStorage.setItem('revelationItemsShowItemTypes', JSON.stringify(showItemTypes));
+    }, [showItemTypes]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationItemsShowWeaponTypes', JSON.stringify(showWeaponTypes));
+    }, [showWeaponTypes]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationItemsShowArmorSlots', JSON.stringify(showArmorSlots));
+    }, [showArmorSlots]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationItemsShowEffects', JSON.stringify(showEffects));
+    }, [showEffects]);
+
+    useEffect(() => {
+        localStorage.setItem('revelationItemsShowMobFilter', JSON.stringify(showMobFilter));
+    }, [showMobFilter]);
+
+    // Handle URL parameters for direct item linking (only on initial load)
+    useEffect(() => {
+        if (!isActive || !items || items.length === 0) return;
+        
+        // Only process URL parameters if not a manual selection
+        if (isManualSelection.current) {
+            isManualSelection.current = false;
+            return;
+        }
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const itemId = urlParams.get('itemId');
+        
+        if (itemId) {
+            const item = items.find(i => i.Id === parseInt(itemId));
+            if (item && selectedItem?.Id !== item.Id) {
+                console.log(`[ItemsPage] Opening item from URL: ${item.Name} (ID: ${item.Id})`);
+                setSelectedItem(item);
+            }
+        }
+    }, [isActive, items, selectedItem]);
+
+    // Update URL when item is selected (for browser history)
+    useEffect(() => {
+        if (!isActive) return;
+        
+        if (selectedItem) {
+            // Create clean URL with only itemId parameter
+            const url = new URL(window.location.origin + window.location.pathname);
+            url.searchParams.set('itemId', selectedItem.Id);
+            window.history.replaceState({}, '', url);
+        } else {
+            // Clear URL parameters when no item is selected
+            const url = new URL(window.location.origin + window.location.pathname);
+            window.history.replaceState({}, '', url);
+        }
+    }, [selectedItem, isActive]);
 
     // Filter and sort items
     useEffect(() => {
@@ -341,7 +609,8 @@ function ItemsPage() {
             // Only filter if not all slots are selected
             if (selectedArmorSlots.length < allArmorSlots.length) {
                 filtered = filtered.filter(item => 
-                    item.Slot && selectedArmorSlots.includes(item.Slot)
+                    // Include items without a slot (like weapons), or items with a selected slot
+                    !item.Slot || item.Slot.trim() === '' || selectedArmorSlots.includes(item.Slot)
                 );
             }
         }
@@ -385,6 +654,27 @@ function ItemsPage() {
             return itemDamage >= minDamage && itemDamage <= maxDamage;
         });
 
+        // Weight filter
+        filtered = filtered.filter(item => {
+            const itemWeight = item.Weight || 0;
+            return itemWeight >= minWeight && itemWeight <= maxWeight;
+        });
+
+        // Required level filter
+        filtered = filtered.filter(item => {
+            const itemRequiredLevel = item.RequiredLevel || 0;
+            return itemRequiredLevel >= minRequiredLevel && itemRequiredLevel <= maxRequiredLevel;
+        });
+
+        // Mob filter - filter by items dropped by selected mob
+        if (selectedMobForDrops) {
+            filtered = filtered.filter(item => 
+                selectedMobForDrops.DroppedItems && 
+                Array.isArray(selectedMobForDrops.DroppedItems) && 
+                selectedMobForDrops.DroppedItems.includes(item.Id)
+            );
+        }
+
         // Sort
         filtered.sort((a, b) => {
             switch (sortBy) {
@@ -403,7 +693,7 @@ function ItemsPage() {
 
         setFilteredItems(filtered);
         setCurrentPage(1);
-    }, [searchTerm, selectedTypes, selectedWeaponTypes, selectedArmorSlots, selectedEffects, allEffects, sortBy, minLevel, maxLevel, minValue, maxValue, minDamage, maxDamage, items]);
+    }, [searchTerm, selectedTypes, selectedWeaponTypes, selectedArmorSlots, selectedEffects, allEffects, sortBy, minLevel, maxLevel, minValue, maxValue, minDamage, maxDamage, minWeight, maxWeight, minRequiredLevel, maxRequiredLevel, items, selectedMobForDrops]);
 
     // Get unique types, weapon types, and armor slots
     const itemTypes = [...new Set(items.map(item => item.Type).filter(Boolean))].sort();
@@ -465,6 +755,52 @@ function ItemsPage() {
         return '#aaaaaa'; // Common
     };
 
+    // Clean and normalize mob name for comparison
+    const normalizeMobNameForComparison = (name) => {
+        if (!name) return '';
+        
+        // Remove color codes, trailing dots, superscript numbers, and trim
+        let cleaned = name
+            .replace(/\\cf\d+/gi, '')
+            .replace(/\\cf\w+/gi, '')
+            .replace(/[¹²³⁴⁵⁶⁷⁸⁹⁰]+/g, '') // Remove superscript numbers
+            .trim()
+            .replace(/\.$/, '');
+        
+        // Normalize articles - remove leading "A ", "An ", "The "
+        cleaned = cleaned.replace(/^(A|An|The)\s+/i, '');
+        
+        return cleaned.toLowerCase();
+    };
+
+    // Get mobs that drop this item
+    const getMobsThatDropItem = (item) => {
+        if (!item || !item.DroppedBy || !mobs || mobs.length === 0) return [];
+        
+        const droppedByText = item.DroppedBy.trim();
+        if (droppedByText === '') return [];
+        
+        // Split by comma to get individual mob names
+        const mobNamesFromItem = droppedByText.split(',').map(m => m.trim());
+        
+        // Find matching mobs
+        const matchingMobs = [];
+        for (const mobNameFromItem of mobNamesFromItem) {
+            const normalizedItemMobName = normalizeMobNameForComparison(mobNameFromItem);
+            
+            // Find mob(s) that match this name
+            const foundMob = mobs.find(mob => 
+                normalizeMobNameForComparison(mob.Name) === normalizedItemMobName
+            );
+            
+            if (foundMob) {
+                matchingMobs.push(foundMob);
+            }
+        }
+        
+        return matchingMobs;
+    };
+
     if (isLoading) {
         return (
             <div style={{
@@ -490,7 +826,7 @@ function ItemsPage() {
 
     return (
         <div style={{
-            height: '100vh',
+            height: '100%',
             background: '#0a0a0a',
             color: '#00ff00',
             display: 'flex',
@@ -501,12 +837,15 @@ function ItemsPage() {
             {/* Left Sidebar - Filters */}
             <div style={{
                 width: '420px',
+                maxWidth: '420px',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%)',
                 borderRight: '3px solid #00ff00',
                 padding: '20px',
                 overflowY: 'auto',
+                overflowX: 'hidden',
                 flexShrink: 0,
-                boxShadow: '3px 0 15px rgba(0, 0, 0, 0.5)'
+                boxShadow: '3px 0 15px rgba(0, 0, 0, 0.5)',
+                minWidth: 0
             }}>
                 <h2 style={{
                     fontSize: '2em',
@@ -549,12 +888,12 @@ function ItemsPage() {
                             display: 'flex', 
                             justifyContent: 'space-between', 
                             alignItems: 'center',
-                            padding: '12px',
+                            padding: '8px',
                             background: '#2a2a2a',
                             border: '2px solid #00ff00',
                             borderRadius: '5px',
                             cursor: 'pointer',
-                            marginBottom: showItemTypes ? '12px' : '0',
+                            marginBottom: showItemTypes ? '8px' : '0',
                             transition: 'all 0.2s'
                         }}
                         onMouseEnter={(e) => {
@@ -588,7 +927,7 @@ function ItemsPage() {
                             background: '#2a2a2a',
                             border: '2px solid #00ff00',
                             borderRadius: '5px',
-                            padding: '12px',
+                            padding: '8px',
                             maxHeight: '300px',
                             overflowY: 'auto'
                         }}>
@@ -597,8 +936,8 @@ function ItemsPage() {
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    padding: '10px 8px',
-                                    marginBottom: '8px',
+                                    padding: '8px 6px',
+                                    marginBottom: '6px',
                                     background: selectedTypes.length === itemTypes.length ? '#00ff0030' : '#1a1a1a',
                                     border: `2px solid ${selectedTypes.length === itemTypes.length ? '#00ff00' : '#555'}`,
                                     borderRadius: '3px',
@@ -647,8 +986,8 @@ function ItemsPage() {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        padding: '8px',
-                                        marginBottom: '4px',
+                                        padding: '6px',
+                                        marginBottom: '3px',
                                         background: selectedTypes.includes(type) ? '#00ff0020' : 'transparent',
                                         border: `1px solid ${selectedTypes.includes(type) ? '#00ff00' : '#555'}`,
                                         borderRadius: '3px',
@@ -709,7 +1048,7 @@ function ItemsPage() {
                                 display: 'flex', 
                                 justifyContent: 'space-between', 
                                 alignItems: 'center',
-                                padding: '12px',
+                                padding: '8px',
                                 background: '#2a2a2a',
                                 border: '2px solid #00ff00',
                                 borderRadius: showWeaponTypes ? '5px 5px 0 0' : '5px',
@@ -748,7 +1087,7 @@ function ItemsPage() {
                                 border: '2px solid #00ff00',
                                 borderTop: 'none',
                                 borderRadius: '0 0 5px 5px',
-                                padding: '12px',
+                                padding: '8px',
                                 maxHeight: '300px',
                                 overflowY: 'auto'
                             }}>
@@ -757,8 +1096,8 @@ function ItemsPage() {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        padding: '10px 8px',
-                                        marginBottom: '8px',
+                                        padding: '8px 6px',
+                                        marginBottom: '6px',
                                         background: selectedWeaponTypes.length === weaponTypes.length ? '#00ff0030' : '#1a1a1a',
                                         border: `2px solid ${selectedWeaponTypes.length === weaponTypes.length ? '#00ff00' : '#555'}`,
                                         borderRadius: '3px',
@@ -807,8 +1146,8 @@ function ItemsPage() {
                                         style={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            padding: '8px',
-                                            marginBottom: '4px',
+                                            padding: '6px',
+                                            marginBottom: '3px',
                                             background: selectedWeaponTypes.includes(weaponType) ? '#00ff0020' : 'transparent',
                                             border: `1px solid ${selectedWeaponTypes.includes(weaponType) ? '#00ff00' : '#555'}`,
                                             borderRadius: '3px',
@@ -869,7 +1208,7 @@ function ItemsPage() {
                                 display: 'flex', 
                                 justifyContent: 'space-between', 
                                 alignItems: 'center',
-                                padding: '12px',
+                                padding: '8px',
                                 background: '#2a2a2a',
                                 border: '2px solid #00ff00',
                                 borderRadius: showArmorSlots ? '5px 5px 0 0' : '5px',
@@ -908,7 +1247,7 @@ function ItemsPage() {
                                 border: '2px solid #00ff00',
                                 borderTop: 'none',
                                 borderRadius: '0 0 5px 5px',
-                                padding: '12px',
+                                padding: '8px',
                                 maxHeight: '300px',
                                 overflowY: 'auto'
                             }}>
@@ -917,8 +1256,8 @@ function ItemsPage() {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        padding: '10px 8px',
-                                        marginBottom: '8px',
+                                        padding: '8px 6px',
+                                        marginBottom: '6px',
                                         background: selectedArmorSlots.length === armorSlots.length ? '#00ff0030' : '#1a1a1a',
                                         border: `2px solid ${selectedArmorSlots.length === armorSlots.length ? '#00ff00' : '#555'}`,
                                         borderRadius: '3px',
@@ -967,8 +1306,8 @@ function ItemsPage() {
                                         style={{
                                             display: 'flex',
                                             alignItems: 'center',
-                                            padding: '8px',
-                                            marginBottom: '4px',
+                                            padding: '6px',
+                                            marginBottom: '3px',
                                             background: selectedArmorSlots.includes(slot) ? '#00ff0020' : 'transparent',
                                             border: `1px solid ${selectedArmorSlots.includes(slot) ? '#00ff00' : '#555'}`,
                                             borderRadius: '3px',
@@ -1037,7 +1376,7 @@ function ItemsPage() {
                                 display: 'flex', 
                                 justifyContent: 'space-between', 
                                 alignItems: 'center',
-                                padding: '12px',
+                                padding: '8px',
                                 background: '#2a2a2a',
                                 border: '2px solid #00ff00',
                                 borderRadius: showEffects ? '5px 5px 0 0' : '5px',
@@ -1076,7 +1415,7 @@ function ItemsPage() {
                                 border: '2px solid #00ff00',
                                 borderTop: 'none',
                                 borderRadius: '0 0 5px 5px',
-                                padding: '12px',
+                                padding: '8px',
                                 maxHeight: '400px',
                                 overflowY: 'auto'
                             }}>
@@ -1088,8 +1427,8 @@ function ItemsPage() {
                                     onChange={(e) => setEffectSearchTerm(e.target.value)}
                                     style={{
                                         width: '100%',
-                                        padding: '10px',
-                                        marginBottom: '12px',
+                                        padding: '8px',
+                                        marginBottom: '8px',
                                         background: '#1a1a1a',
                                         border: '2px solid #00ff00',
                                         borderRadius: '3px',
@@ -1111,8 +1450,8 @@ function ItemsPage() {
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
-                                        padding: '10px 8px',
-                                        marginBottom: '8px',
+                                        padding: '8px 6px',
+                                        marginBottom: '6px',
                                         background: selectedEffects.length === allEffects.length ? '#00ff0030' : '#1a1a1a',
                                         border: `2px solid ${selectedEffects.length === allEffects.length ? '#00ff00' : '#555'}`,
                                         borderRadius: '3px',
@@ -1202,6 +1541,18 @@ function ItemsPage() {
                                                 return false;
                                             }
                                             
+                                            // Weight filter
+                                            const itemWeight = item.Weight || 0;
+                                            if (itemWeight < minWeight || itemWeight > maxWeight) {
+                                                return false;
+                                            }
+                                            
+                                            // Required level filter
+                                            const itemRequiredLevel = item.RequiredLevel || 0;
+                                            if (itemRequiredLevel < minRequiredLevel || itemRequiredLevel > maxRequiredLevel) {
+                                                return false;
+                                            }
+                                            
                                             // Now check if item has this specific effect
                                             const itemEffects = [];
                                             if (item.ItemEffects && Array.isArray(item.ItemEffects)) {
@@ -1221,8 +1572,8 @@ function ItemsPage() {
                                                 style={{
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    padding: '8px',
-                                                    marginBottom: '4px',
+                                                    padding: '6px',
+                                                    marginBottom: '3px',
                                                     background: selectedEffects.includes(effect) ? '#00ff0020' : 'transparent',
                                                     border: `1px solid ${selectedEffects.includes(effect) ? '#00ff00' : '#555'}`,
                                                     borderRadius: '3px',
@@ -1282,6 +1633,191 @@ function ItemsPage() {
                     </div>
                 )}
 
+                {/* Mob Filter - Filter items by mob drops */}
+                {mobs.length > 0 && (
+                    <div style={{ marginBottom: '20px' }}>
+                        {/* Collapsible Header */}
+                        <div 
+                            onClick={() => setShowMobFilter(!showMobFilter)}
+                            style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between', 
+                                alignItems: 'center',
+                                padding: '8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #ff6600',
+                                borderRadius: showMobFilter ? '5px 5px 0 0' : '5px',
+                                cursor: 'pointer',
+                                transition: 'background 0.2s, box-shadow 0.2s, border-radius 0.2s'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#ff660020';
+                                e.currentTarget.style.boxShadow = '0 0 10px rgba(255, 102, 0, 0.3)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = '#2a2a2a';
+                                e.currentTarget.style.boxShadow = 'none';
+                            }}
+                        >
+                            <div style={{ fontSize: '1.2em' }}>
+                                👹 Filter by Mob Drops
+                                {selectedMobForDrops && (
+                                    <span style={{ color: '#ffff00', marginLeft: '8px' }}>
+                                        ({cleanMobName(selectedMobForDrops.Name)})
+                                    </span>
+                                )}
+                            </div>
+                            <span style={{ 
+                                fontSize: '1.5em',
+                                transition: 'transform 0.2s',
+                                transform: showMobFilter ? 'rotate(180deg)' : 'rotate(0deg)',
+                                display: 'inline-block'
+                            }}>
+                                ▼
+                            </span>
+                        </div>
+
+                        {/* Collapsible Content */}
+                        {showMobFilter && (
+                            <div style={{
+                                background: '#2a2a2a',
+                                border: '2px solid #ff6600',
+                                borderTop: 'none',
+                                borderRadius: '0 0 5px 5px',
+                                padding: '8px',
+                                maxHeight: '400px',
+                                overflowY: 'auto'
+                            }}>
+                                {/* Search Box */}
+                                <input
+                                    type="text"
+                                    placeholder="🔍 Search mobs..."
+                                    value={mobSearchTerm}
+                                    onChange={(e) => setMobSearchTerm(e.target.value)}
+                                    style={{
+                                        width: '100%',
+                                        padding: '8px',
+                                        marginBottom: '8px',
+                                        background: '#1a1a1a',
+                                        border: '2px solid #ff6600',
+                                        borderRadius: '3px',
+                                        color: '#ff6600',
+                                        fontSize: '1em',
+                                        fontFamily: 'VT323, monospace',
+                                        outline: 'none'
+                                    }}
+                                    onFocus={(e) => {
+                                        e.target.style.boxShadow = '0 0 10px rgba(255, 102, 0, 0.5)';
+                                    }}
+                                    onBlur={(e) => {
+                                        e.target.style.boxShadow = 'none';
+                                    }}
+                                />
+
+                                {/* Clear Filter Button */}
+                                {selectedMobForDrops && (
+                                    <button
+                                        onClick={() => setSelectedMobForDrops(null)}
+                                        style={{
+                                            width: '100%',
+                                            padding: '10px',
+                                            marginBottom: '12px',
+                                            background: '#ff0000',
+                                            border: '2px solid #ff6600',
+                                            borderRadius: '3px',
+                                            color: '#fff',
+                                            fontSize: '1.1em',
+                                            fontFamily: 'VT323, monospace',
+                                            cursor: 'pointer',
+                                            fontWeight: 'bold'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.target.style.background = '#cc0000';
+                                            e.target.style.boxShadow = '0 0 10px rgba(255, 0, 0, 0.5)';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.target.style.background = '#ff0000';
+                                            e.target.style.boxShadow = 'none';
+                                        }}
+                                    >
+                                        ✕ Clear Mob Filter
+                                    </button>
+                                )}
+
+                                {/* Mob List */}
+                                {mobs
+                                    .filter(mob => {
+                                        const mobName = cleanMobName(mob.Name).toLowerCase();
+                                        return mobName.includes(mobSearchTerm.toLowerCase()) &&
+                                               mob.DroppedItems && 
+                                               Array.isArray(mob.DroppedItems) && 
+                                               mob.DroppedItems.length > 0;
+                                    })
+                                    .sort((a, b) => cleanMobName(a.Name).localeCompare(cleanMobName(b.Name)))
+                                    .map(mob => {
+                                        const itemCount = mob.DroppedItems.length;
+                                        const isSelected = selectedMobForDrops?.Id === mob.Id;
+
+                                        return (
+                                            <div
+                                                key={mob.Id}
+                                                onClick={() => setSelectedMobForDrops(isSelected ? null : mob)}
+                                                style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    padding: '8px',
+                                                    marginBottom: '4px',
+                                                    background: isSelected ? '#ff660030' : 'transparent',
+                                                    border: `2px solid ${isSelected ? '#ff6600' : '#555'}`,
+                                                    borderRadius: '3px',
+                                                    cursor: 'pointer',
+                                                    transition: 'all 0.2s',
+                                                    fontSize: '1.1em'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    if (!isSelected) {
+                                                        e.currentTarget.style.background = '#ff660015';
+                                                    }
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    if (!isSelected) {
+                                                        e.currentTarget.style.background = 'transparent';
+                                                    }
+                                                }}
+                                            >
+                                                <MobSprite 
+                                                    mobId={mob.Id} 
+                                                    size={32}
+                                                    style={{ marginRight: '10px' }}
+                                                />
+                                                <span style={{ 
+                                                    flex: 1,
+                                                    color: isSelected ? '#ff6600' : '#aaa'
+                                                }}>
+                                                    {cleanMobName(mob.Name)}
+                                                </span>
+                                                <span style={{ 
+                                                    fontSize: '0.9em',
+                                                    color: '#888',
+                                                    marginLeft: '8px'
+                                                }}>
+                                                    Lvl {mob.Level}
+                                                </span>
+                                                <span style={{ 
+                                                    fontSize: '0.9em',
+                                                    color: '#888',
+                                                    marginLeft: '8px'
+                                                }}>
+                                                    ({itemCount} items)
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                        )}
+                    </div>
+                )}
+
                 {/* Level Range Filter */}
                 <div style={{ marginBottom: '20px' }}>
                     <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.2em' }}>
@@ -1296,13 +1832,13 @@ function ItemsPage() {
                                 } else {
                                     const numValue = parseInt(value);
                                     if (!isNaN(numValue)) {
-                                        setMinLevel(Math.max(0, Math.min(200, numValue)));
+                                        setMinLevel(Math.max(0, Math.min(absoluteMaxLevel, numValue)));
                                     }
                                 }
                             }}
                             onBlur={(e) => {
                                 const value = parseInt(e.target.value) || 0;
-                                setMinLevel(Math.max(0, Math.min(200, value)));
+                                setMinLevel(Math.max(0, Math.min(absoluteMaxLevel, value)));
                             }}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
@@ -1312,7 +1848,7 @@ function ItemsPage() {
                             onDoubleClick={(e) => e.target.select()}
                             onFocus={(e) => e.target.select()}
                             min="0"
-                            max="200"
+                            max={absoluteMaxLevel}
                             style={{
                                 width: '60px',
                                 marginLeft: '8px',
@@ -1337,13 +1873,13 @@ function ItemsPage() {
                                 } else {
                                     const numValue = parseInt(value);
                                     if (!isNaN(numValue)) {
-                                        setMaxLevel(Math.max(0, Math.min(200, numValue)));
+                                        setMaxLevel(Math.max(0, Math.min(absoluteMaxLevel, numValue)));
                                     }
                                 }
                             }}
                             onBlur={(e) => {
                                 const value = parseInt(e.target.value) || 0;
-                                setMaxLevel(Math.max(0, Math.min(200, value)));
+                                setMaxLevel(Math.max(0, Math.min(absoluteMaxLevel, value)));
                             }}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
@@ -1353,7 +1889,7 @@ function ItemsPage() {
                             onDoubleClick={(e) => e.target.select()}
                             onFocus={(e) => e.target.select()}
                             min="0"
-                            max="200"
+                            max={absoluteMaxLevel}
                             style={{
                                 width: '60px',
                                 padding: '4px 8px',
@@ -1386,8 +1922,8 @@ function ItemsPage() {
                         <div style={{
                             position: 'absolute',
                             top: '16px',
-                            left: `${(minLevel / 200) * 100}%`,
-                            width: `${((maxLevel - minLevel) / 200) * 100}%`,
+                            left: `${(minLevel / absoluteMaxLevel) * 100}%`,
+                            width: `${((maxLevel - minLevel) / absoluteMaxLevel) * 100}%`,
                             height: '8px',
                             background: 'linear-gradient(90deg, #00ff00, #ffff00, #ff6600)',
                             border: '2px solid #00ff00',
@@ -1400,7 +1936,7 @@ function ItemsPage() {
                             type="range"
                             className="dual-range dual-range-max-level"
                             min="0"
-                            max="200"
+                            max={absoluteMaxLevel}
                             value={maxLevel}
                             onChange={(e) => {
                                 const value = parseInt(e.target.value);
@@ -1427,7 +1963,7 @@ function ItemsPage() {
                             type="range"
                             className="dual-range dual-range-min-level"
                             min="0"
-                            max="200"
+                            max={absoluteMaxLevel}
                             value={minLevel}
                             onChange={(e) => {
                                 const value = parseInt(e.target.value);
@@ -1448,20 +1984,6 @@ function ItemsPage() {
                                 zIndex: 5
                             }}
                         />
-                    </div>
-                    
-                    {/* Level Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>50</span>
-                        <span>100</span>
-                        <span>150</span>
-                        <span>200</span>
                     </div>
                 </div>
 
@@ -1608,20 +2130,6 @@ function ItemsPage() {
                             }}
                         />
                     </div>
-                    
-                    {/* Value Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>{Math.floor(absoluteMaxValue * 0.25).toLocaleString()}</span>
-                        <span>{Math.floor(absoluteMaxValue * 0.5).toLocaleString()}</span>
-                        <span>{Math.floor(absoluteMaxValue * 0.75).toLocaleString()}</span>
-                        <span>{absoluteMaxValue.toLocaleString()}</span>
-                    </div>
                 </div>
 
                 {/* Damage Range Filter */}
@@ -1757,19 +2265,275 @@ function ItemsPage() {
                             }}
                         />
                     </div>
+                </div>
+
+                {/* Weight Range Filter */}
+                <div style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.2em' }}>
+                        ⚖️ Weight Range: 
+                        <input 
+                            type="number"
+                            value={minWeight}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxWeight, parseInt(e.target.value) || 0));
+                                setMinWeight(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                marginLeft: '8px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #888',
+                                borderRadius: '3px',
+                                color: '#888',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                        <span style={{ color: '#888', margin: '0 8px' }}>-</span>
+                        <input 
+                            type="number"
+                            value={maxWeight}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxWeight, parseInt(e.target.value) || 0));
+                                setMaxWeight(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #888',
+                                borderRadius: '3px',
+                                color: '#888',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                    </label>
                     
-                    {/* Damage Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.25)}</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.5)}</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.75)}</span>
-                        <span>{absoluteMaxDamage}</span>
+                    {/* Dual Thumb Range Slider */}
+                    <div style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
+                        {/* Track Background */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: '0',
+                            right: '0',
+                            height: '8px',
+                            background: '#2a2a2a',
+                            border: '2px solid #555',
+                            borderRadius: '5px'
+                        }} />
+                        
+                        {/* Selected Range Highlight */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: `${(minWeight / absoluteMaxWeight) * 100}%`,
+                            width: `${((maxWeight - minWeight) / absoluteMaxWeight) * 100}%`,
+                            height: '8px',
+                            background: 'linear-gradient(90deg, #666, #aaa)',
+                            border: '2px solid #888',
+                            borderRadius: '5px',
+                            boxShadow: '0 0 10px rgba(136, 136, 136, 0.5)'
+                        }} />
+                        
+                        {/* Max Weight Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-max-weight"
+                            min="0"
+                            max={absoluteMaxWeight}
+                            step="1"
+                            value={maxWeight}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value >= minWeight) {
+                                    setMaxWeight(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 4
+                            }}
+                        />
+                        
+                        {/* Min Weight Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-min-weight"
+                            min="0"
+                            max={absoluteMaxWeight}
+                            step="1"
+                            value={minWeight}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value <= maxWeight) {
+                                    setMinWeight(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 5
+                            }}
+                        />
+                    </div>
+                </div>
+
+                {/* Required Level Range Filter */}
+                <div style={{ marginBottom: '20px' }}>
+                    <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.2em' }}>
+                        🎓 Required Level: 
+                        <input 
+                            type="number"
+                            value={minRequiredLevel}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxRequiredLevel, parseInt(e.target.value) || 0));
+                                setMinRequiredLevel(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                marginLeft: '8px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #00aaff',
+                                borderRadius: '3px',
+                                color: '#00aaff',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                        <span style={{ color: '#00aaff', margin: '0 8px' }}>-</span>
+                        <input 
+                            type="number"
+                            value={maxRequiredLevel}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxRequiredLevel, parseInt(e.target.value) || 0));
+                                setMaxRequiredLevel(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #00aaff',
+                                borderRadius: '3px',
+                                color: '#00aaff',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                    </label>
+                    
+                    {/* Dual Thumb Range Slider */}
+                    <div style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
+                        {/* Track Background */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: '0',
+                            right: '0',
+                            height: '8px',
+                            background: '#2a2a2a',
+                            border: '2px solid #555',
+                            borderRadius: '5px'
+                        }} />
+                        
+                        {/* Selected Range Highlight */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: `${(minRequiredLevel / absoluteMaxRequiredLevel) * 100}%`,
+                            width: `${((maxRequiredLevel - minRequiredLevel) / absoluteMaxRequiredLevel) * 100}%`,
+                            height: '8px',
+                            background: 'linear-gradient(90deg, #00aaff, #0077cc)',
+                            border: '2px solid #00aaff',
+                            borderRadius: '5px',
+                            boxShadow: '0 0 10px rgba(0, 170, 255, 0.5)'
+                        }} />
+                        
+                        {/* Max Required Level Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-max-req-level"
+                            min="0"
+                            max={absoluteMaxRequiredLevel}
+                            step="1"
+                            value={maxRequiredLevel}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value >= minRequiredLevel) {
+                                    setMaxRequiredLevel(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 4
+                            }}
+                        />
+                        
+                        {/* Min Required Level Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-min-req-level"
+                            min="0"
+                            max={absoluteMaxRequiredLevel}
+                            step="1"
+                            value={minRequiredLevel}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value <= maxRequiredLevel) {
+                                    setMinRequiredLevel(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 5
+                            }}
+                        />
                     </div>
                 </div>
 
@@ -1804,18 +2568,22 @@ function ItemsPage() {
                 <button
                     onClick={() => {
                         setSearchTerm('');
-                        setSelectedTypes([...itemTypes]); // Reset to all types selected
-                        setSelectedWeaponTypes([...weaponTypes]); // Reset to all weapon types selected
-                        setSelectedArmorSlots([...armorSlots]); // Reset to all armor slots selected
-                        setSelectedEffects([...allEffects]); // Reset to all effects selected
+                        setSelectedTypes([]); // Reset to 0 selected
+                        setSelectedWeaponTypes([]); // Reset to 0 selected
+                        setSelectedArmorSlots([]); // Reset to 0 selected
+                        setSelectedEffects([]); // Reset to 0 selected
                         setEffectSearchTerm(''); // Clear effect search
                         setSortBy('name');
                         setMinLevel(0);
-                        setMaxLevel(200);
+                        setMaxLevel(absoluteMaxLevel);
                         setMinValue(0);
                         setMaxValue(absoluteMaxValue);
                         setMinDamage(0);
                         setMaxDamage(absoluteMaxDamage);
+                        setMinWeight(0);
+                        setMaxWeight(absoluteMaxWeight);
+                        setMinRequiredLevel(0);
+                        setMaxRequiredLevel(absoluteMaxRequiredLevel);
                     }}
                     style={{
                         width: '100%',
@@ -1846,24 +2614,30 @@ function ItemsPage() {
             {/* Main Content - Item List */}
             <div style={{
                 flex: 1,
-                padding: '20px',
-                paddingBottom: '40px',
-                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
                 background: 'linear-gradient(180deg, #0a0a0a 0%, #050505 100%)',
-                position: 'relative'
+                position: 'relative',
+                overflow: 'hidden'
             }}>
-                {/* Pagination Info */}
                 <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '20px',
-                    padding: '15px 20px',
-                    background: 'linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%)',
-                    border: '2px solid #00ff00',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0, 255, 0, 0.1)'
+                    flex: 1,
+                    overflow: 'auto',
+                    padding: '20px',
+                    paddingBottom: '40px'
                 }}>
+                    {/* Pagination Info */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '20px',
+                        padding: '15px 20px',
+                        background: 'linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%)',
+                        border: '2px solid #00ff00',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0, 255, 0, 0.1)'
+                    }}>
                     <div style={{ fontSize: '1.3em' }}>
                         Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredItems.length)} of {filteredItems.length}
                     </div>
@@ -1947,106 +2721,181 @@ function ItemsPage() {
                     </div>
                 </div>
 
-                {/* Item Grid */}
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                    gap: '15px'
-                }}>
-                    {currentItems.map(item => (
-                        <div
-                            key={item.Id}
-                            onClick={() => setSelectedItem(item)}
-                            style={{
-                                background: '#1a1a1a',
-                                border: `2px solid ${getRarityColor(item)}`,
-                                borderRadius: '8px',
-                                padding: '15px',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s'
-                            }}
-                            onMouseEnter={(e) => {
-                                e.currentTarget.style.boxShadow = `0 0 20px ${getRarityColor(item)}80`;
-                                e.currentTarget.style.transform = 'translateY(-2px)';
-                            }}
-                            onMouseLeave={(e) => {
-                                e.currentTarget.style.boxShadow = 'none';
-                                e.currentTarget.style.transform = 'none';
-                            }}
-                        >
-                            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                                <span style={{ fontSize: '2em', marginRight: '10px' }}>
-                                    {getItemIcon(item)}
-                                </span>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{
-                                        fontSize: '1.3em',
-                                        fontWeight: 'bold',
-                                        color: getRarityColor(item),
-                                        marginBottom: '3px'
-                                    }}>
-                                        {cleanItemName(item.Name) || 'Unknown Item'}
-                                    </div>
-                                    <div style={{ fontSize: '0.9em', color: '#888' }}>
-                                        {item.Type || 'Unknown'} {item.WeaponType ? `- ${item.WeaponType}` : ''}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style={{ fontSize: '1.1em', color: '#aaa', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                                {item.Level > 0 && (
-                                    <div>Level: <span style={{ color: '#ffff00' }}>{item.Level}</span></div>
-                                )}
-                                {item.Damage > 0 && (
-                                    <div>Damage: <span style={{ color: '#ff6600' }}>{item.Damage}</span></div>
-                                )}
-                                {item.Armor > 0 && (
-                                    <div>Armor: <span style={{ color: '#00aaff' }}>{item.Armor}</span></div>
-                                )}
-                                {item.Value > 0 && (
-                                    <div>Value: <span style={{ color: '#ffd700' }}>{item.Value}</span></div>
-                                )}
-                                {getItemEffectCount(item) > 0 && (
-                                    <div>Effects: <span style={{ color: '#ff00ff' }}>✨ {getItemEffectCount(item)}</span></div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {filteredItems.length === 0 && (
+                    {/* Item Table */}
                     <div style={{
-                        textAlign: 'center',
-                        padding: '60px 20px',
-                        marginTop: '50px',
-                        background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
-                        border: '2px solid #555',
-                        borderRadius: '10px',
-                        boxShadow: 'inset 0 0 30px rgba(0, 0, 0, 0.5)'
+                        background: '#101010',
+                        border: '2px solid #00ff00',
+                        borderRadius: '8px',
+                        boxShadow: '0 0 25px rgba(0, 255, 0, 0.15)'
                     }}>
-                        <div style={{ 
-                            fontSize: '3em', 
-                            marginBottom: '20px',
-                            filter: 'grayscale(1)'
+                        <table style={{ 
+                            width: '100%', 
+                            borderCollapse: 'collapse', 
+                            fontSize: '1.1em',
+                            tableLayout: 'fixed',
+                            minWidth: '1000px'
                         }}>
-                            🔍
-                        </div>
-                        <div style={{ 
-                            fontSize: '1.8em',
-                            color: '#666',
-                            marginBottom: '10px',
-                            fontWeight: 'bold'
-                        }}>
-                            No items found
-                        </div>
-                        <div style={{ 
-                            fontSize: '1.2em',
-                            color: '#555'
-                        }}>
-                            Try adjusting your filters or search term
-                        </div>
-                    </div>
-                )}
+                        <thead>
+                            <tr style={{
+                                background: '#00ff0025',
+                                color: '#00ff00',
+                                textTransform: 'uppercase',
+                                letterSpacing: '1px'
+                            }}>
+                                <th style={{ padding: '12px 14px', width: '60px', textAlign: 'center', borderBottom: '2px solid #00ff00' }}>📦</th>
+                                <th style={{ padding: '12px 14px', width: '30%', textAlign: 'left', borderBottom: '2px solid #00ff00' }}>Item Name</th>
+                                <th style={{ padding: '12px 14px', width: '15%', textAlign: 'left', borderBottom: '2px solid #00ff00' }}>Type</th>
+                                <th style={{ padding: '12px 14px', width: '80px', textAlign: 'center', borderBottom: '2px solid #00ff00' }}>Level</th>
+                                <th style={{ padding: '12px 14px', width: '90px', textAlign: 'right', borderBottom: '2px solid #00ff00' }}>DMG</th>
+                                <th style={{ padding: '12px 14px', width: '90px', textAlign: 'right', borderBottom: '2px solid #00ff00' }}>ARM</th>
+                                <th style={{ padding: '12px 14px', width: '100px', textAlign: 'right', borderBottom: '2px solid #00ff00' }}>Value</th>
+                                <th style={{ padding: '12px 14px', width: '80px', textAlign: 'center', borderBottom: '2px solid #00ff00' }}>Effects</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredItems.length === 0 ?
+                                (
+                                    <tr>
+                                        <td colSpan="8" style={{ 
+                                            textAlign: 'center', 
+                                            padding: '40px', 
+                                            color: '#888',
+                                            fontSize: '1.2em'
+                                        }}>
+                                            <div style={{ marginBottom: '15px', fontSize: '2em' }}>🔍</div>
+                                            <div style={{ marginBottom: '8px', fontWeight: 'bold' }}>No items found</div>
+                                            <div style={{ fontSize: '0.9em', color: '#666' }}>Try adjusting your filters or search term</div>
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    currentItems.map(item => (
+                                        <tr
+                                            key={item.Id}
+                                            onClick={() => {
+                                                isManualSelection.current = true;
+                                                setSelectedItem(item);
+                                            }}
+                                            style={{
+                                                cursor: 'pointer',
+                                                borderBottom: '1px solid #00ff0020',
+                                                transition: 'all 0.2s',
+                                                background: selectedItem?.Id === item.Id ? '#00ff0015' : 'transparent'
+                                            }}
+                                            onMouseEnter={(e) => {
+                                                if (selectedItem?.Id !== item.Id) {
+                                                    e.currentTarget.style.background = '#00ff0010';
+                                                }
+                                                e.currentTarget.style.boxShadow = `inset 0 0 20px ${getRarityColor(item)}30`;
+                                            }}
+                                            onMouseLeave={(e) => {
+                                                if (selectedItem?.Id !== item.Id) {
+                                                    e.currentTarget.style.background = 'transparent';
+                                                }
+                                                e.currentTarget.style.boxShadow = 'none';
+                                            }}
+                                        >
+                                            {/* Item Icon */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'center',
+                                                fontSize: '1.8em',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {getItemIcon(item)}
+                                            </td>
+                                            
+                                            {/* Item Name */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                color: getRarityColor(item),
+                                                fontWeight: 'bold',
+                                                fontSize: '1.1em',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {cleanItemName(item.Name) || 'Unknown Item'}
+                                            </td>
+                                            
+                                            {/* Type */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                color: '#aaa',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {item.Type || 'Unknown'}
+                                                {item.WeaponType && (
+                                                    <div style={{ fontSize: '0.9em', color: '#888' }}>
+                                                        {item.WeaponType}
+                                                    </div>
+                                                )}
+                                                {item.ArmorSlot && (
+                                                    <div style={{ fontSize: '0.9em', color: '#888' }}>
+                                                        {item.ArmorSlot}
+                                                    </div>
+                                                )}
+                                            </td>
+                                            
+                                            {/* Level */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'center',
+                                                color: '#ffff00',
+                                                fontWeight: 'bold',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {item.Level > 0 ? item.Level : '-'}
+                                            </td>
+                                            
+                                            {/* Damage */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'right',
+                                                color: '#ff6600',
+                                                fontWeight: 'bold',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {item.Damage > 0 ? item.Damage : '-'}
+                                            </td>
+                                            
+                                            {/* Armor */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'right',
+                                                color: '#00aaff',
+                                                fontWeight: 'bold',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {item.Armor > 0 ? item.Armor : '-'}
+                                            </td>
+                                            
+                                            {/* Value */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'right',
+                                                color: '#ffd700',
+                                                fontWeight: 'bold',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {item.Value > 0 ? item.Value.toLocaleString() : '-'}
+                                            </td>
+                                            
+                                            {/* Effects */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'center',
+                                                color: '#ff00ff',
+                                                fontWeight: 'bold',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}>
+                                                {getItemEffectCount(item) > 0 ? `✨ ${getItemEffectCount(item)}` : '-'}
+                                            </td>
+                                        </tr>
+                                    ))
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                </div>
             </div>
 
             {/* Right Panel - Item Details */}
@@ -2059,15 +2908,79 @@ function ItemsPage() {
                     paddingBottom: '40px',
                     overflowY: 'auto',
                     flexShrink: 0,
-                    boxShadow: `-8px 0 25px rgba(0, 0, 0, 0.7), inset 0 0 30px ${getRarityColor(selectedItem)}15`
+                    boxShadow: `-8px 0 25px rgba(0, 0, 0, 0.7), inset 0 0 30px ${getRarityColor(selectedItem)}15`,
+                    position: 'relative'
                 }}>
+                    {/* Share Button */}
+                    <button
+                        onClick={() => handleShareItem(selectedItem)}
+                        style={{
+                            position: 'absolute',
+                            top: '15px',
+                            right: '60px',
+                            zIndex: 100,
+                            background: 'transparent',
+                            border: '2px solid #00ff00',
+                            color: '#00ff00',
+                            width: '35px',
+                            height: '35px',
+                            borderRadius: '3px',
+                            cursor: 'pointer',
+                            fontSize: '1.2em',
+                            fontFamily: 'VT323, monospace',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'all 0.2s'
+                        }}
+                        onMouseEnter={(e) => {
+                            e.target.style.background = '#00ff00';
+                            e.target.style.color = '#000';
+                            e.target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.8)';
+                        }}
+                        onMouseLeave={(e) => {
+                            e.target.style.background = 'transparent';
+                            e.target.style.color = '#00ff00';
+                            e.target.style.boxShadow = 'none';
+                        }}
+                        title="Share this item"
+                    >
+                        🔗
+                    </button>
+                    
+                    {/* Share Tooltip */}
+                    {shareTooltip && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '60px',
+                            right: '60px',
+                            background: '#00ff00',
+                            color: '#000',
+                            padding: '8px 12px',
+                            borderRadius: '3px',
+                            fontSize: '1em',
+                            fontFamily: 'VT323, monospace',
+                            fontWeight: 'bold',
+                            boxShadow: '0 0 15px rgba(0, 255, 0, 0.8)',
+                            zIndex: 1000,
+                            whiteSpace: 'nowrap'
+                        }}>
+                            {shareTooltip}
+                        </div>
+                    )}
+
                     {/* Close Button */}
                     <button
-                        onClick={() => setSelectedItem(null)}
+                        onClick={() => {
+                            isManualSelection.current = true;
+                            setSelectedItem(null);
+                        }}
                         style={{
                             position: 'absolute',
                             top: '15px',
                             right: '15px',
+                            zIndex: 100,
                             background: 'transparent',
                             border: '2px solid #ff0000',
                             color: '#ff0000',
@@ -2285,8 +3198,8 @@ function ItemsPage() {
                                 {/* Item Effects Array */}
                                 {selectedItem.ItemEffects?.length > 0 && selectedItem.ItemEffects.map((effect, idx) => (
                                     <div key={idx} style={{ 
-                                        marginBottom: '8px',
-                                        padding: '8px',
+                                        marginBottom: '4px',
+                                        padding: '4px 6px',
                                         background: '#0a0a0a',
                                         borderRadius: '3px',
                                         border: '1px solid #ff00ff40'
@@ -2395,6 +3308,7 @@ function ItemsPage() {
                             border: '2px solid #666',
                             borderRadius: '3px',
                             padding: '18px',
+                            marginBottom: '15px',
                             fontSize: '1.1em',
                             color: '#ccc',
                             lineHeight: '1.8',
@@ -2412,6 +3326,395 @@ function ItemsPage() {
                             {selectedItem.Description}
                         </div>
                     )}
+
+                    {/* Dropped By Section */}
+                    {(() => {
+                        const droppingMobs = getMobsThatDropItem(selectedItem);
+                        if (droppingMobs.length > 0) {
+                            return (
+                                <div style={{
+                                    background: '#1a1a1a',
+                                    border: '2px solid #ff6600',
+                                    borderRadius: '3px',
+                                    padding: '18px',
+                                    marginBottom: '15px',
+                                    boxShadow: 'inset 0 0 20px rgba(255, 102, 0, 0.1)'
+                                }}>
+                                    <h3 style={{ 
+                                        color: '#ff6600', 
+                                        marginBottom: '12px', 
+                                        fontSize: '1.6em',
+                                        borderBottom: '1px solid #ff660040',
+                                        paddingBottom: '8px'
+                                    }}>
+                                        👹 Dropped By ({droppingMobs.length}):
+                                    </h3>
+                                    <div style={{ 
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        gap: '8px',
+                                        maxHeight: '300px',
+                                        overflowY: 'auto',
+                                        overflowX: 'hidden'
+                                    }}>
+                                        {droppingMobs.map((mob, idx) => (
+                                            <div 
+                                                key={idx}
+                                                onClick={() => {
+                                                    setSelectedMobToNavigate(mob);
+                                                    setShowMobNavigationConfirm(true);
+                                                }}
+                                                style={{
+                                                    padding: '10px',
+                                                    background: '#0a0a0a',
+                                                    borderRadius: '3px',
+                                                    border: '1px solid #ff660040',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '12px',
+                                                    transition: 'all 0.2s',
+                                                    cursor: 'pointer'
+                                                }}
+                                                onMouseEnter={(e) => {
+                                                    e.currentTarget.style.background = '#1a1a0a';
+                                                    e.currentTarget.style.borderColor = '#ff6600';
+                                                    e.currentTarget.style.transform = 'translateX(4px)';
+                                                }}
+                                                onMouseLeave={(e) => {
+                                                    e.currentTarget.style.background = '#0a0a0a';
+                                                    e.currentTarget.style.borderColor = '#ff660040';
+                                                    e.currentTarget.style.transform = 'translateX(0)';
+                                                }}>
+                                                {/* Mob Sprite */}
+                                                <div style={{ 
+                                                    width: '48px',
+                                                    height: '48px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center',
+                                                    background: '#1a1a1a',
+                                                    border: '2px solid #ff6600',
+                                                    borderRadius: '4px',
+                                                    boxShadow: '0 0 8px rgba(255, 102, 0, 0.4)',
+                                                    padding: '2px',
+                                                    flexShrink: 0
+                                                }}>
+                                                    <MobSprite 
+                                                        mobId={mob.Id}
+                                                        size={48}
+                                                        alt={cleanMobName(mob.Name)}
+                                                        lazy={true}
+                                                        style={{
+                                                            width: '100%',
+                                                            height: '100%'
+                                                        }}
+                                                    />
+                                                </div>
+                                                
+                                                {/* Mob Info */}
+                                                <div style={{ flex: 1, minWidth: 0 }}>
+                                                    <div style={{ 
+                                                        color: '#ff6600', 
+                                                        fontWeight: 'bold',
+                                                        fontSize: '1.1em',
+                                                        marginBottom: '4px',
+                                                        wordWrap: 'break-word',
+                                                        overflowWrap: 'break-word'
+                                                    }}>
+                                                        {cleanMobName(mob.Name)}
+                                                        {mob.IsBoss && (
+                                                            <span style={{
+                                                                marginLeft: '6px',
+                                                                padding: '2px 6px',
+                                                                background: '#ff00ff30',
+                                                                border: '1px solid #ff00ff',
+                                                                borderRadius: '3px',
+                                                                color: '#ff00ff',
+                                                                fontSize: '0.8em'
+                                                            }}>
+                                                                👑 BOSS
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <div style={{ 
+                                                        fontSize: '0.95em', 
+                                                        color: '#888',
+                                                        display: 'flex',
+                                                        gap: '12px',
+                                                        flexWrap: 'wrap'
+                                                    }}>
+                                                        {mob.Level > 0 && (
+                                                            <span style={{ color: '#ffff00' }}>
+                                                                Lvl {mob.Level}
+                                                            </span>
+                                                        )}
+                                                        {mob.Health > 0 && (
+                                                            <span style={{ color: '#ff6666' }}>
+                                                                HP: {mob.Health.toLocaleString()}
+                                                            </span>
+                                                        )}
+                                                        {mob.Location && (
+                                                            <span style={{ color: '#00aaff' }}>
+                                                                📍 {Array.isArray(mob.Location) ? mob.Location[0] : mob.Location}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                                
+                                                {/* View icon */}
+                                                <div style={{ 
+                                                    fontSize: '1.2em', 
+                                                    color: '#ff6600',
+                                                    flexShrink: 0
+                                                }}>
+                                                    👁️
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })()}
+                </div>
+            )}
+
+            {/* Mob Navigation Confirmation Dialog */}
+            {showMobNavigationConfirm && selectedMobToNavigate && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        backgroundColor: 'rgba(0, 0, 0, 0.85)',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        zIndex: 10000,
+                        backdropFilter: 'blur(5px)'
+                    }}
+                    onClick={() => {
+                        setShowMobNavigationConfirm(false);
+                        setSelectedMobToNavigate(null);
+                    }}
+                >
+                    <div
+                        style={{
+                            background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+                            border: '3px solid #ff6600',
+                            borderRadius: '10px',
+                            padding: '30px',
+                            maxWidth: '500px',
+                            width: '90%',
+                            boxShadow: '0 0 40px rgba(255, 102, 0, 0.6), inset 0 0 20px rgba(255, 102, 0, 0.1)',
+                            position: 'relative'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => {
+                                setShowMobNavigationConfirm(false);
+                                setSelectedMobToNavigate(null);
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'transparent',
+                                border: 'none',
+                                color: '#ff6600',
+                                fontSize: '24px',
+                                cursor: 'pointer',
+                                width: '30px',
+                                height: '30px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: '50%',
+                                transition: 'all 0.2s'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#ff6600';
+                                e.currentTarget.style.color = '#000';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'transparent';
+                                e.currentTarget.style.color = '#ff6600';
+                            }}
+                        >
+                            ×
+                        </button>
+
+                        {/* Title */}
+                        <h2 style={{
+                            color: '#ff6600',
+                            textAlign: 'center',
+                            marginBottom: '20px',
+                            fontSize: '1.8em',
+                            textShadow: '0 0 10px rgba(255, 102, 0, 0.5)',
+                            borderBottom: '2px solid #ff660040',
+                            paddingBottom: '15px'
+                        }}>
+                            👹 Navigate to Mob?
+                        </h2>
+
+                        {/* Mob preview */}
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '15px',
+                            padding: '20px',
+                            background: '#0a0a0a',
+                            borderRadius: '8px',
+                            border: '2px solid #ff660040',
+                            marginBottom: '25px',
+                            boxShadow: 'inset 0 0 15px rgba(255, 102, 0, 0.1)'
+                        }}>
+                            {/* Mob Sprite */}
+                            <div style={{
+                                width: '64px',
+                                height: '64px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                background: '#1a1a1a',
+                                border: '2px solid #ff6600',
+                                borderRadius: '8px',
+                                boxShadow: '0 0 15px rgba(255, 102, 0, 0.5)',
+                                padding: '4px',
+                                flexShrink: 0
+                            }}>
+                                <MobSprite
+                                    mobId={selectedMobToNavigate.Id}
+                                    size={64}
+                                    alt={cleanMobName(selectedMobToNavigate.Name)}
+                                    lazy={false}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%'
+                                    }}
+                                />
+                            </div>
+
+                            {/* Mob Info */}
+                            <div style={{ flex: 1 }}>
+                                <div style={{
+                                    color: '#ff6600',
+                                    fontWeight: 'bold',
+                                    fontSize: '1.3em',
+                                    marginBottom: '5px'
+                                }}>
+                                    {cleanMobName(selectedMobToNavigate.Name)}
+                                    {selectedMobToNavigate.IsBoss && (
+                                        <span style={{
+                                            marginLeft: '8px',
+                                            fontSize: '0.9em',
+                                            color: '#ff0000',
+                                            textShadow: '0 0 8px rgba(255, 0, 0, 0.8)'
+                                        }}>
+                                            👑 BOSS
+                                        </span>
+                                    )}
+                                </div>
+                                {selectedMobToNavigate.Level && (
+                                    <div style={{
+                                        color: '#00ff00',
+                                        fontSize: '0.95em'
+                                    }}>
+                                        Level: {selectedMobToNavigate.Level}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Message */}
+                        <p style={{
+                            color: '#cccccc',
+                            textAlign: 'center',
+                            marginBottom: '25px',
+                            fontSize: '1.1em',
+                            lineHeight: '1.5'
+                        }}>
+                            Would you like to navigate to the <span style={{ color: '#ff6600', fontWeight: 'bold' }}>Mobs</span> page to view this mob's details?
+                        </p>
+
+                        {/* Action buttons */}
+                        <div style={{
+                            display: 'flex',
+                            gap: '15px',
+                            justifyContent: 'center'
+                        }}>
+                            <button
+                                onClick={() => {
+                                    console.log('[ItemsPage] Navigating to mob:', selectedMobToNavigate.Name, 'ID:', selectedMobToNavigate.Id);
+                                    if (onNavigateToMob) {
+                                        onNavigateToMob({ Id: selectedMobToNavigate.Id });
+                                    }
+                                    setShowMobNavigationConfirm(false);
+                                    setSelectedMobToNavigate(null);
+                                }}
+                                style={{
+                                    padding: '12px 30px',
+                                    fontSize: '1.1em',
+                                    fontWeight: 'bold',
+                                    background: '#ff6600',
+                                    color: '#000',
+                                    border: 'none',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    boxShadow: '0 0 15px rgba(255, 102, 0, 0.5)',
+                                    minWidth: '120px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = '#ffaa00';
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 0 25px rgba(255, 170, 0, 0.8)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = '#ff6600';
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = '0 0 15px rgba(255, 102, 0, 0.5)';
+                                }}
+                            >
+                                ✓ Yes, Go!
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowMobNavigationConfirm(false);
+                                    setSelectedMobToNavigate(null);
+                                }}
+                                style={{
+                                    padding: '12px 30px',
+                                    fontSize: '1.1em',
+                                    fontWeight: 'bold',
+                                    background: '#333',
+                                    color: '#fff',
+                                    border: '2px solid #666',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    minWidth: '120px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = '#555';
+                                    e.currentTarget.style.borderColor = '#999';
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = '#333';
+                                    e.currentTarget.style.borderColor = '#666';
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                }}
+                            >
+                                ✗ Cancel
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

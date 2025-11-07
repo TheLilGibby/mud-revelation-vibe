@@ -28,6 +28,7 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
     const [cityNameFontSize, setCityNameFontSize] = useState(16); // Font size for city/zone names
     const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(true); // Left sidebar visibility
     const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(true); // Right sidebar visibility
+    const [followPlayer, setFollowPlayer] = useState(true); // Camera follows player movement
     const svgRef = useRef(null);
     const containerRef = useRef(null);
 
@@ -48,9 +49,33 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
     // Get detail level based on zoom
     const detailLevel = getDetailLevel(zoomLevel);
 
+    // Center camera on a specific zone
+    const centerOnZone = (zoneName) => {
+        if (!followPlayer) return;
+        // For viewBox-based panning, clearing the pan offset recenters the view on currentZone
+        setPanOffset({ x: 0, y: 0 });
+    };
+
+    // When re-enabling camera lock or changing zone while locked, recenter
+    useEffect(() => {
+        if (followPlayer) {
+            setPanOffset({ x: 0, y: 0 });
+        }
+    }, [followPlayer, currentZone]);
+
     // Handle keyboard navigation
     useEffect(() => {
         const handleKeyPress = (e) => {
+            // Don't intercept keyboard input if user is typing in an input field
+            const activeElement = document.activeElement;
+            if (activeElement && (
+                activeElement.tagName === 'INPUT' || 
+                activeElement.tagName === 'TEXTAREA' || 
+                activeElement.isContentEditable
+            )) {
+                return;
+            }
+
             const zone = worldMapData.locations[currentZone];
             if (!zone) return;
 
@@ -120,6 +145,11 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
                 setCurrentZone(newZone);
                 setVisitedZones(prev => new Set([...prev, newZone]));
                 
+                // Center camera on new zone if follow player is enabled
+                if (followPlayer) {
+                    setTimeout(() => centerOnZone(newZone), 50);
+                }
+                
                 if (onZoneSelect) {
                     const zoneData = worldMapData.locations[newZone];
                     onZoneSelect({
@@ -135,11 +165,15 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [currentZone, onZoneSelect]);
+    }, [currentZone, onZoneSelect, followPlayer, zoomLevel]);
 
     // Mouse drag handlers
     const handleMouseDown = (e) => {
         if (e.button === 0) {
+            // Disable camera lock when user starts dragging
+            if (followPlayer) {
+                setFollowPlayer(false);
+            }
             setIsDragging(true);
             setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
         }
@@ -217,12 +251,19 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
 
     // Filter zones by region
     const getFilteredZones = () => {
+        const allEntries = Object.entries(worldMapData.locations);
         if (selectedRegion === 'all') {
-            return Object.entries(worldMapData.locations);
+            return allEntries;
         }
-        return Object.entries(worldMapData.locations).filter(([_, zone]) => 
-            zone.region === selectedRegion
-        );
+        const filtered = allEntries.filter(([_, zone]) => zone.region === selectedRegion);
+        // Always include the current zone even if it is outside the selected region
+        if (currentZone && worldMapData.locations[currentZone]) {
+            const alreadyIncluded = filtered.some(([name]) => name === currentZone);
+            if (!alreadyIncluded) {
+                filtered.push([currentZone, worldMapData.locations[currentZone]]);
+            }
+        }
+        return filtered;
     };
 
     // Render individual rooms for a zone
@@ -517,6 +558,9 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
                                         e.stopPropagation();
                                         setCurrentZone(zoneName);
                                         setVisitedZones(prev => new Set([...prev, zoneName]));
+                                if (followPlayer) {
+                                    setTimeout(() => centerOnZone(zoneName), 0);
+                                }
                                         if (onZoneSelect) {
                                             onZoneSelect({
                                                 name: zoneName,
@@ -773,6 +817,66 @@ function UnifiedWorldMap({ onZoneSelect, onOpenDetailedMap, selectedZone, highli
                             Floor: {currentFloor}
                         </div>
                     )}
+                </div>
+
+                {/* Follow Player Toggle */}
+                <div style={{ marginBottom: '20px' }}>
+                    <h4 style={{ color: '#00ff00', marginBottom: '10px' }}>📍 Camera Controls:</h4>
+                    <div
+                        onClick={() => setFollowPlayer(!followPlayer)}
+                        style={{
+                            width: '100%',
+                            padding: '12px',
+                            background: followPlayer ? '#00ff00' : '#2a2a2a',
+                            border: followPlayer ? '2px solid #00ff00' : '2px solid #666',
+                            color: followPlayer ? '#000' : '#666',
+                            fontSize: '1.1em',
+                            fontFamily: 'VT323, monospace',
+                            fontWeight: 'bold',
+                            cursor: 'pointer',
+                            borderRadius: '3px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '10px',
+                            transition: 'all 0.3s ease',
+                            boxShadow: followPlayer ? '0 0 15px rgba(0, 255, 0, 0.5)' : 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!followPlayer) {
+                                e.currentTarget.style.background = '#3a3a3a';
+                                e.currentTarget.style.color = '#888';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!followPlayer) {
+                                e.currentTarget.style.background = '#2a2a2a';
+                                e.currentTarget.style.color = '#666';
+                            }
+                        }}
+                    >
+                        <span style={{ fontSize: '1.3em' }}>
+                            {followPlayer ? '🔒' : '🔓'}
+                        </span>
+                        <span>
+                            {followPlayer ? 'Camera Locked' : 'Camera Unlocked'}
+                        </span>
+                    </div>
+                    <div style={{
+                        marginTop: '8px',
+                        padding: '8px',
+                        background: '#1a1a1a',
+                        border: '1px solid #333',
+                        borderRadius: '3px',
+                        color: '#888',
+                        fontSize: '0.9em',
+                        textAlign: 'center',
+                        fontFamily: 'VT323, monospace'
+                    }}>
+                        {followPlayer 
+                            ? '📍 Camera follows movement. Dragging unlocks.' 
+                            : '🗺️ Free camera - drag to explore'}
+                    </div>
                 </div>
 
                 {/* Mob Location Highlight Banner */}
