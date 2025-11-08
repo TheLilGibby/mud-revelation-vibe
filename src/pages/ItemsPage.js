@@ -2812,11 +2812,14 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        marginBottom: '20px',
+                        marginBottom: '0',
                         padding: '15px 20px',
                         background: 'linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%)',
                         border: '2px solid #00ff00',
-                        borderRadius: '8px',
+                        borderRadius: '0',
+                        borderTop: 'none',
+                        borderLeft: 'none',
+                        borderRight: 'none',
                         boxShadow: '0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(0, 255, 0, 0.1)'
                     }}>
                     <div style={{ fontSize: '1.3em' }}>
@@ -2906,7 +2909,10 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                     <div style={{
                         background: '#101010',
                         border: '2px solid #00ff00',
-                        borderRadius: '8px',
+                        borderRadius: '0',
+                        borderTop: 'none',
+                        borderLeft: 'none',
+                        borderRight: 'none',
                         boxShadow: '0 0 25px rgba(0, 255, 0, 0.15)'
                     }}>
                         <table style={{ 

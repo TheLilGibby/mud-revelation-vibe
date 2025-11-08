@@ -2064,11 +2064,14 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    marginBottom: '20px',
+                    marginBottom: '0',
                     padding: '15px',
                     background: '#1a1a1a',
                     border: '2px solid #00ff00',
-                    borderRadius: '5px'
+                    borderRadius: '0',
+                    borderTop: 'none',
+                    borderLeft: 'none',
+                    borderRight: 'none'
                 }}>
                     <div style={{ fontSize: '1.3em' }}>
                         Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredMobs.length)} of {filteredMobs.length}
@@ -2121,7 +2124,10 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                 <div style={{
                     background: '#101010',
                     border: '2px solid #00ff00',
-                    borderRadius: '8px',
+                    borderRadius: '0',
+                    borderTop: 'none',
+                    borderLeft: 'none',
+                    borderRight: 'none',
                     overflow: 'hidden',
                     boxShadow: '0 0 25px rgba(0, 255, 0, 0.15)'
                 }}>

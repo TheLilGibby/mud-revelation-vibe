@@ -153,7 +153,15 @@ The app features a nostalgic 90s MUD aesthetic:
 
 ## 📝 Contributing
 
-To contribute guides or report issues:
+We welcome contributions! You can help improve the Revelation Game Library in several ways:
+
+### Submit a Pull Request
+1. Visit the repository at [https://github.com/TheLilGibby/mud-revelation-vibe](https://github.com/TheLilGibby/mud-revelation-vibe)
+2. Fork the repository
+3. Make your changes and submit a pull request
+4. PRs for bug fixes, features, and improvements are welcome!
+
+### Submit Guides
 1. Use the in-app Guide Submission feature
 2. Follow the community guidelines
 3. Submit your content for review

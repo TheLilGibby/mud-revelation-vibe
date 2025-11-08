@@ -515,19 +515,21 @@ function QuestsPage({ isActive }) {
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '20px'
+                gap: '0'
             }}>
             <div style={{
                 display: 'flex',
                 flexWrap: 'wrap',
-                gap: '15px'
+                gap: '0'
             }}>
                 <div style={{
                     flex: '1 1 260px',
                     minWidth: '220px',
                     background: '#1a1a1a',
                     border: '2px solid #00ff00',
-                    borderRadius: '6px',
+                    borderRadius: '0',
+                    borderTop: 'none',
+                    borderLeft: 'none',
                     padding: '16px',
                     boxShadow: '0 0 15px rgba(0, 255, 0, 0.15)'
                 }}>
@@ -545,7 +547,9 @@ function QuestsPage({ isActive }) {
                     minWidth: '220px',
                     background: '#1a1a1a',
                     border: '2px solid #ffaa00',
-                    borderRadius: '6px',
+                    borderRadius: '0',
+                    borderTop: 'none',
+                    borderRight: 'none',
                     padding: '16px',
                     boxShadow: '0 0 15px rgba(255, 170, 0, 0.18)'
                 }}>
@@ -561,7 +565,10 @@ function QuestsPage({ isActive }) {
             <div style={{
                 background: '#101010',
                 border: '2px solid #00ff00',
-                borderRadius: '8px',
+                borderRadius: '0',
+                borderTop: 'none',
+                borderLeft: 'none',
+                borderRight: 'none',
                 boxShadow: '0 0 25px rgba(0, 255, 0, 0.15)'
             }}>
                 <table style={{ 
