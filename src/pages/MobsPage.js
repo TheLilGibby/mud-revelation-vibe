@@ -654,26 +654,20 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
         return cleaned.toLowerCase();
     };
 
-    // Get items dropped by a mob
-    const getDroppedItems = (mobName) => {
-        if (!items || items.length === 0) return [];
+    // Get items dropped by a mob (optimized using DroppedItemsIds)
+    const getDroppedItems = (mob) => {
+        if (!items || items.length === 0 || !mob) return [];
         
-        const normalizedMobName = normalizeMobNameForComparison(mobName);
+        // Use the preprocessed DroppedItemsIds array for instant lookup
+        const droppedItemsIds = mob.DroppedItemsIds || [];
         
-        const foundItems = items.filter(item => {
-            if (!item.DroppedBy || item.DroppedBy.trim() === '') return false;
-            
-            // Handle multiple mobs in DroppedBy field (comma-separated)
-            const droppedByMobs = item.DroppedBy.split(',').map(m => normalizeMobNameForComparison(m.trim()));
-            
-            // Check if any of the dropped by mobs match the current mob
-            return droppedByMobs.some(dropMob => dropMob === normalizedMobName);
-        });
+        if (droppedItemsIds.length === 0) return [];
         
-        // Debug logging
-        if (foundItems.length > 0) {
-            console.log(`[MobsPage] Found ${foundItems.length} items for mob "${mobName}" (normalized: "${normalizedMobName}")`);
-        }
+        // Create a Set for O(1) lookup instead of O(n) array.includes()
+        const itemIdsSet = new Set(droppedItemsIds);
+        
+        // Filter items by ID - much faster than string parsing
+        const foundItems = items.filter(item => itemIdsSet.has(item.Id));
         
         return foundItems;
     };
@@ -2563,7 +2557,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
 
                             {/* Dropped Items Section */}
                             {(() => {
-                                const droppedItems = getDroppedItems(selectedMob.Name);
+                                const droppedItems = getDroppedItems(selectedMob);
                                 if (droppedItems.length > 0) {
                                     return (
                                         <div style={{
@@ -2832,8 +2826,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                                                             e.target.style.transform = 'translateY(0)';
                                                         }}
                                                     >
-                                                        <span style={{ fontSize: '1.1em', marginRight: '4px' }}>🗺️</span>
-                                                        View on
+                                                        View
                                                     </button>
                                                 </div>
                                             )}

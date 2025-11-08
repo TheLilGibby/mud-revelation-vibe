@@ -91,6 +91,9 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
     const [minRequiredLevel, setMinRequiredLevel] = useState(0);
     const [maxRequiredLevel, setMaxRequiredLevel] = useState(100);
     const [absoluteMaxRequiredLevel, setAbsoluteMaxRequiredLevel] = useState(100); // Fixed max required level for slider
+    const [minMobLevel, setMinMobLevel] = useState(0);
+    const [maxMobLevel, setMaxMobLevel] = useState(200);
+    const [absoluteMaxMobLevel, setAbsoluteMaxMobLevel] = useState(200); // Fixed max mob level for slider
     const [showItemTypes, setShowItemTypes] = useState(() => {
         const saved = localStorage.getItem('revelationItemsShowItemTypes');
         return saved !== null ? JSON.parse(saved) : false;
@@ -479,6 +482,48 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
         };
     }, [minRequiredLevel, maxRequiredLevel, absoluteMaxRequiredLevel]);
 
+    // Handle slider z-index and pointer events for MOB LEVEL slider
+    useEffect(() => {
+        const minSlider = document.querySelector('.dual-range-min-mob-level');
+        const maxSlider = document.querySelector('.dual-range-max-mob-level');
+        
+        if (!minSlider || !maxSlider) return;
+
+        const handleMouseMove = (e) => {
+            if (!e.buttons) { // Only when not dragging
+                const rect = e.currentTarget.getBoundingClientRect();
+                const mouseX = e.clientX - rect.left;
+                const mousePercent = mouseX / rect.width;
+                const mouseValue = mousePercent * absoluteMaxMobLevel;
+                
+                // Calculate distance from mouse to each thumb
+                const distanceToMin = Math.abs(mouseValue - minMobLevel);
+                const distanceToMax = Math.abs(mouseValue - maxMobLevel);
+                
+                // Bring the closer slider to the front
+                if (distanceToMin < distanceToMax) {
+                    minSlider.style.zIndex = '5';
+                    maxSlider.style.zIndex = '4';
+                } else {
+                    minSlider.style.zIndex = '4';
+                    maxSlider.style.zIndex = '5';
+                }
+            }
+        };
+        
+        // Add mousemove listener to parent container
+        const sliderContainer = minSlider.parentElement;
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mousemove', handleMouseMove);
+        }
+
+        return () => {
+            if (sliderContainer) {
+                sliderContainer.removeEventListener('mousemove', handleMouseMove);
+            }
+        };
+    }, [minMobLevel, maxMobLevel, absoluteMaxMobLevel]);
+
     // Handle navigation from other pages (e.g., Guides, Mobs)
     useEffect(() => {
         // Only process navigation when page is active and we have data
@@ -667,6 +712,12 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
     // Filter and sort items
     useEffect(() => {
         let filtered = [...items];
+        
+        // Create a mob ID lookup map for efficient access
+        const mobIdMap = new Map();
+        mobs.forEach(mob => {
+            mobIdMap.set(mob.Id, mob);
+        });
 
         // Search filter
         if (searchTerm) {
@@ -754,6 +805,27 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
             return itemRequiredLevel >= minRequiredLevel && itemRequiredLevel <= maxRequiredLevel;
         });
 
+        // Mob level filter - filter by mob levels that drop the item
+        filtered = filtered.filter(item => {
+            // Use the preprocessed DroppedByIds array for efficient lookup
+            const droppedByIds = item.DroppedByIds || [];
+            
+            // If no mobs drop this item, only include if filter is at default (0 to max)
+            if (droppedByIds.length === 0) {
+                // Only show non-mob-dropped items when filter is at default range
+                return minMobLevel === 0 && maxMobLevel === absoluteMaxMobLevel;
+            }
+            
+            // Check if any of the dropping mobs are within the level range
+            // Using the mob ID map for O(1) lookups instead of O(n) finds
+            return droppedByIds.some(mobId => {
+                const mob = mobIdMap.get(mobId);
+                if (!mob) return false;
+                const mobLevel = mob.Level || 0;
+                return mobLevel >= minMobLevel && mobLevel <= maxMobLevel;
+            });
+        });
+
         // Mob filter - filter by items dropped by selected mob
         if (selectedMobForDrops) {
             filtered = filtered.filter(item => 
@@ -781,7 +853,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
 
         setFilteredItems(filtered);
         setCurrentPage(1);
-    }, [searchTerm, selectedTypes, selectedWeaponTypes, selectedArmorSlots, selectedEffects, allEffects, sortBy, minLevel, maxLevel, minValue, maxValue, minDamage, maxDamage, minWeight, maxWeight, minRequiredLevel, maxRequiredLevel, items, selectedMobForDrops]);
+    }, [searchTerm, selectedTypes, selectedWeaponTypes, selectedArmorSlots, selectedEffects, allEffects, sortBy, minLevel, maxLevel, minValue, maxValue, minDamage, maxDamage, minWeight, maxWeight, minRequiredLevel, maxRequiredLevel, minMobLevel, maxMobLevel, items, selectedMobForDrops, mobs]);
 
     // Get unique types, weapon types, and armor slots
     const itemTypes = [...new Set(items.map(item => item.Type).filter(Boolean))].sort();
@@ -861,30 +933,20 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
         return cleaned.toLowerCase();
     };
 
-    // Get mobs that drop this item
+    // Get mobs that drop this item (optimized using DroppedByIds)
     const getMobsThatDropItem = (item) => {
-        if (!item || !item.DroppedBy || !mobs || mobs.length === 0) return [];
+        if (!item || !mobs || mobs.length === 0) return [];
         
-        const droppedByText = item.DroppedBy.trim();
-        if (droppedByText === '') return [];
+        // Use the preprocessed DroppedByIds array for instant lookup
+        const droppedByIds = item.DroppedByIds || [];
         
-        // Split by comma to get individual mob names
-        const mobNamesFromItem = droppedByText.split(',').map(m => m.trim());
+        if (droppedByIds.length === 0) return [];
         
-        // Find matching mobs
-        const matchingMobs = [];
-        for (const mobNameFromItem of mobNamesFromItem) {
-            const normalizedItemMobName = normalizeMobNameForComparison(mobNameFromItem);
-            
-            // Find mob(s) that match this name
-            const foundMob = mobs.find(mob => 
-                normalizeMobNameForComparison(mob.Name) === normalizedItemMobName
-            );
-            
-            if (foundMob) {
-                matchingMobs.push(foundMob);
-            }
-        }
+        // Create a Set for O(1) lookup instead of O(n) array.includes()
+        const mobIdsSet = new Set(droppedByIds);
+        
+        // Filter mobs by ID - much faster than string parsing and matching
+        const matchingMobs = mobs.filter(mob => mobIdsSet.has(mob.Id));
         
         return matchingMobs;
     };
@@ -2718,31 +2780,139 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                     </div>
                 </div>
 
-                {/* Sort */}
+                {/* Mob Level Range Filter */}
                 <div style={{ marginBottom: '20px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '1.2em' }}>
-                        📊 Sort By:
+                    <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.2em' }}>
+                        👹 Mob Level (Drops): 
+                        <input 
+                            type="number"
+                            value={minMobLevel}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxMobLevel, parseInt(e.target.value) || 0));
+                                setMinMobLevel(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                marginLeft: '8px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #ff6600',
+                                borderRadius: '3px',
+                                color: '#ff6600',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                        <span style={{ color: '#ff6600', margin: '0 8px' }}>-</span>
+                        <input 
+                            type="number"
+                            value={maxMobLevel}
+                            onChange={(e) => {
+                                const value = Math.max(0, Math.min(absoluteMaxMobLevel, parseInt(e.target.value) || 0));
+                                setMaxMobLevel(value);
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            style={{
+                                width: '70px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #ff6600',
+                                borderRadius: '3px',
+                                color: '#ff6600',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
                     </label>
-                    <select
-                        value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
+                    
+                    {/* Dual Thumb Range Slider */}
+                    <div style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
+                        {/* Track Background */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: '0',
+                            right: '0',
+                            height: '8px',
                             background: '#2a2a2a',
-                            border: '2px solid #00ff00',
-                            color: '#00ff00',
-                            fontSize: '1.1em',
-                            fontFamily: 'VT323, monospace',
-                            cursor: 'pointer',
-                            borderRadius: '3px'
-                        }}
-                    >
-                        <option value="name">Name (A-Z)</option>
-                        <option value="level">Level (High-Low)</option>
-                        <option value="value">Value (High-Low)</option>
-                        <option value="damage">Damage (High-Low)</option>
-                    </select>
+                            border: '2px solid #555',
+                            borderRadius: '5px'
+                        }} />
+                        
+                        {/* Selected Range Highlight */}
+                        <div style={{
+                            position: 'absolute',
+                            top: '16px',
+                            left: `${(minMobLevel / absoluteMaxMobLevel) * 100}%`,
+                            width: `${((maxMobLevel - minMobLevel) / absoluteMaxMobLevel) * 100}%`,
+                            height: '8px',
+                            background: 'linear-gradient(90deg, #ff6600, #cc5200)',
+                            border: '2px solid #ff6600',
+                            borderRadius: '5px',
+                            boxShadow: '0 0 10px rgba(255, 102, 0, 0.5)'
+                        }} />
+                        
+                        {/* Max Mob Level Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-max-mob-level"
+                            min="0"
+                            max={absoluteMaxMobLevel}
+                            step="1"
+                            value={maxMobLevel}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value >= minMobLevel) {
+                                    setMaxMobLevel(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 4
+                            }}
+                        />
+                        
+                        {/* Min Mob Level Slider */}
+                        <input
+                            type="range"
+                            className="dual-range dual-range-min-mob-level"
+                            min="0"
+                            max={absoluteMaxMobLevel}
+                            step="1"
+                            value={minMobLevel}
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value <= maxMobLevel) {
+                                    setMinMobLevel(value);
+                                }
+                            }}
+                            style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                width: '100%',
+                                height: '40px',
+                                background: 'transparent',
+                                pointerEvents: 'auto',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                zIndex: 5
+                            }}
+                        />
+                    </div>
                 </div>
 
                 {/* Clear Filters */}
@@ -2765,6 +2935,8 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                         setMaxWeight(absoluteMaxWeight);
                         setMinRequiredLevel(0);
                         setMaxRequiredLevel(absoluteMaxRequiredLevel);
+                        setMinMobLevel(0);
+                        setMaxMobLevel(absoluteMaxMobLevel);
                     }}
                     style={{
                         width: '100%',
@@ -2825,6 +2997,52 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                     <div style={{ fontSize: '1.3em' }}>
                         Showing {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredItems.length)} of {filteredItems.length}
                     </div>
+                    
+                    {/* Sort By Buttons */}
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                        <span style={{ fontSize: '1.1em', color: '#00ff00', marginRight: '5px' }}>📊 Sort:</span>
+                        {['name', 'level', 'value', 'damage'].map((sort) => (
+                            <button
+                                key={sort}
+                                onClick={() => setSortBy(sort)}
+                                style={{
+                                    padding: '8px 16px',
+                                    background: sortBy === sort 
+                                        ? 'linear-gradient(135deg, #00ff00, #00cc00)' 
+                                        : 'linear-gradient(135deg, #2a2a2a, #1a1a1a)',
+                                    border: '2px solid #00ff00',
+                                    color: sortBy === sort ? '#000' : '#00ff00',
+                                    cursor: 'pointer',
+                                    fontSize: '1em',
+                                    fontFamily: 'VT323, monospace',
+                                    fontWeight: sortBy === sort ? 'bold' : 'normal',
+                                    borderRadius: '5px',
+                                    transition: 'all 0.2s',
+                                    boxShadow: sortBy === sort 
+                                        ? '0 0 10px rgba(0, 255, 0, 0.5)' 
+                                        : '0 2px 8px rgba(0, 0, 0, 0.3)',
+                                    textTransform: 'capitalize'
+                                }}
+                                onMouseEnter={(e) => {
+                                    if (sortBy !== sort) {
+                                        e.target.style.background = 'linear-gradient(135deg, #00ff00, #00cc00)';
+                                        e.target.style.color = '#000';
+                                        e.target.style.boxShadow = '0 0 10px rgba(0, 255, 0, 0.5)';
+                                    }
+                                }}
+                                onMouseLeave={(e) => {
+                                    if (sortBy !== sort) {
+                                        e.target.style.background = 'linear-gradient(135deg, #2a2a2a, #1a1a1a)';
+                                        e.target.style.color = '#00ff00';
+                                        e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.3)';
+                                    }
+                                }}
+                            >
+                                {sort === 'name' ? 'Name' : sort === 'level' ? 'Level' : sort === 'value' ? 'Value' : 'Damage'}
+                            </button>
+                        ))}
+                    </div>
+
                     <div style={{ display: 'flex', gap: '10px' }}>
                         <button
                             onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
