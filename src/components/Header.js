@@ -30,8 +30,11 @@ function Header({ activeMenu, onMenuChange, onMapViewChange }) {
         <header className="app-header">
             <div className="header-content">
                 <div className="header-title">
-                    <h1>REVELATION</h1>
-                    <p>*** Game Library & Map Explorer ***</p>
+                    <img src={`${process.env.PUBLIC_URL}/revelation_sword_book.ico`} alt="Revelation" className="header-logo" />
+                    <div className="header-text">
+                        <h1>REVELATION</h1>
+                        <p>*** Game Library & Map Explorer ***</p>
+                    </div>
                 </div>
 
 				<nav className="header-nav" aria-label="Main">

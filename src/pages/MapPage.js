@@ -3,7 +3,7 @@ import WorldMapGrid from '../components/WorldMapGrid';
 import UnifiedWorldMap from '../components/UnifiedWorldMap';
 import DetailedMapView from '../components/DetailedMapView';
 
-function MapPage({ mapView, onMapViewChange, navigationData, onClearNavigation }) {
+function MapPage({ mapView, onMapViewChange, navigationData, onClearNavigation, onNavigateToMob }) {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [detailedMapLocation, setDetailedMapLocation] = useState(null);
     const [highlightedZones, setHighlightedZones] = useState([]);
@@ -97,6 +97,7 @@ function MapPage({ mapView, onMapViewChange, navigationData, onClearNavigation }
                     onNavigateToZone={handleNavigateToZone}
                     onHighlightZones={handleHighlightZones}
                     onClearHighlight={handleClearHighlight}
+                    onNavigateToMob={onNavigateToMob}
                     highlightedMobName={highlightedMobName}
                 />
             )}

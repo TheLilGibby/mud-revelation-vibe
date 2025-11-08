@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { loadMobData, getMobsInZone, findMobByName, getMobTierColor, getMobDifficultyText, getMobZones } from '../utils/mobDataLoader';
+import { useGameData } from '../contexts/DataContext';
 
 // Helper function to get user-friendly mob type display
 function getMobTypeDisplay(mob) {
@@ -7,24 +8,24 @@ function getMobTypeDisplay(mob) {
     
     // Non-combat NPCs - Only specific NPC types
     if (type === 'PLAYER_GREETING' || type === 'OUT_OF_MONEY' || type === 'QUEST_GIVER' || type === 'MERCHANT') {
-        return '🗣️ NPC';
+        return 'NPC';
     }
     
     // Combat mobs (including Type "0" which are typically hostile creatures)
     if (type === 'NORMAL' || type === '0' || type === 0 || type === '') {
-        return '⚔️ Mob';
+        return 'Mob';
     }
     
     if (type === 'BOSS') {
-        return '👑 Boss';
+        return 'Boss';
     }
     
     if (type === 'ELITE') {
-        return '⭐ Elite';
+        return 'Elite';
     }
     
     // Default: treat as mob
-    return '⚔️ Mob';
+    return 'Mob';
 }
 
 // Helper function to get color for mob type
@@ -55,7 +56,8 @@ function getMobTypeColor(mob) {
     return '#FFFF00';
 }
 
-function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighlightMob, onClearHighlight, onShowMobPath, highlightedMob, currentFloor }) {
+function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighlightMob, onClearHighlight, onShowMobPath, onNavigateToMob, highlightedMob, currentFloor }) {
+    const { mobs: loadedMobs } = useGameData();
     const [mobData, setMobData] = useState(null);
     const [zoneMobs, setZoneMobs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -68,6 +70,17 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
     const [showBossOnly, setShowBossOnly] = useState(false);
     const [minLevel, setMinLevel] = useState(0); // Minimum level filter (0-200)
     const [maxLevel, setMaxLevel] = useState(200); // Maximum level filter (0-200)
+
+    // Auto-fill search when navigating from Mobs page
+    useEffect(() => {
+        if (highlightedMob && isVisible) {
+            // Clean the mob name for better search results
+            const cleanName = highlightedMob.replace(/\\cf\d+/gi, '').replace(/\\cf\w+/gi, '').trim().replace(/\.$/, '');
+            setMobSearchTerm(cleanName);
+            // Ensure filters are visible so user can see the search term
+            setShowFilters(true);
+        }
+    }, [highlightedMob, isVisible]);
 
     // Add CSS for range slider thumbs
     useEffect(() => {
@@ -298,10 +311,12 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
     return (
         <div className="wiki-sidebar">
             <div className="wiki-header">
-                <h3>📚 Wiki: {zoneName}</h3>
-                <button className="wiki-close" onClick={onClose} title="Close Wiki">
-                    ✕
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1 }}>
+                    <h3 style={{ margin: 0 }}>All Mobs in {zoneName}</h3>
+                    <span style={{ color: '#888', fontSize: '0.9em' }}>
+                        {sortedZoneMobs.length} / {zoneMobs.length}
+                    </span>
+                </div>
             </div>
 
             <div className="wiki-content">
@@ -311,13 +326,6 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                     </div>
                 ) : (
                     <div className="wiki-mob-list">
-                                <div className="wiki-section-header">
-                                    <h4>All Mobs in {zoneName}</h4>
-                                    <span className="mob-count">
-                                        {sortedZoneMobs.length} / {zoneMobs.length}
-                                    </span>
-                                </div>
-
                                 {/* Search Box */}
                                 <div style={{
                                     marginBottom: '10px'
@@ -326,7 +334,7 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                                         type="text"
                                         value={mobSearchTerm}
                                         onChange={(e) => setMobSearchTerm(e.target.value)}
-                                        placeholder="🔍 Search mobs..."
+                                        placeholder="Search mobs..."
                                         style={{
                                             width: '100%',
                                             padding: '10px',
@@ -369,7 +377,10 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                                         e.currentTarget.style.boxShadow = 'none';
                                     }}
                                 >
-                                    <span>{showFilters ? '🔽' : '▶️'} Filters</span>
+                                    <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                                        <span style={{ fontSize: '0.8em' }}>{showFilters ? '▼' : '▶'}</span>
+                                        Filters
+                                    </span>
                                     <span style={{ fontSize: '0.9em', opacity: 0.7 }}>
                                         {showFilters ? 'Hide' : 'Show'}
                                     </span>
@@ -873,6 +884,52 @@ function WikiSidebar({ zoneName, zoneData, roomNpcs, isVisible, onClose, onHighl
                                                                         }}>
                                                                             ✓ Here
                                                                         </div>
+                                                                    );
+                                                                }
+                                                                return null;
+                                                            })()}
+                                                            
+                                                            {/* View Mob Button */}
+                                                            {onNavigateToMob && (() => {
+                                                                // Find the mob data by matching name
+                                                                const cleanMobName = (name) => {
+                                                                    if (!name) return '';
+                                                                    return name.replace(/\\cf\d+/gi, '').replace(/\\cf\w+/gi, '').trim().replace(/\.$/, '');
+                                                                };
+                                                                
+                                                                const mobData = loadedMobs?.find(m => {
+                                                                    return cleanMobName(m.Name) === cleanMobName(mob.Name);
+                                                                });
+                                                                
+                                                                if (mobData) {
+                                                                    return (
+                                                                        <button
+                                                                            onClick={() => onNavigateToMob({ Id: mobData.Id })}
+                                                                            style={{
+                                                                                padding: '6px 10px',
+                                                                                background: '#00BFFF',
+                                                                                color: '#000',
+                                                                                border: '2px solid #1E90FF',
+                                                                                borderRadius: '3px',
+                                                                                fontWeight: 'bold',
+                                                                                cursor: 'pointer',
+                                                                                fontSize: '0.8em',
+                                                                                fontFamily: 'VT323, monospace',
+                                                                                transition: 'all 0.2s',
+                                                                                whiteSpace: 'nowrap'
+                                                                            }}
+                                                                            onMouseEnter={(e) => {
+                                                                                e.target.style.background = '#1E90FF';
+                                                                                e.target.style.transform = 'scale(1.05)';
+                                                                            }}
+                                                                            onMouseLeave={(e) => {
+                                                                                e.target.style.background = '#00BFFF';
+                                                                                e.target.style.transform = 'scale(1)';
+                                                                            }}
+                                                                            title="View in Mobs page"
+                                                                        >
+                                                                            📊 View
+                                                                        </button>
                                                                     );
                                                                 }
                                                                 return null;

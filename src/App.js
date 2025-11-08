@@ -130,6 +130,7 @@ function AppContent() {
                         onMapViewChange={setMapView}
                         navigationData={mapNavigationData}
                         onClearNavigation={() => setMapNavigationData(null)}
+                        onNavigateToMob={handleNavigateToMob}
                         isActive={activePage === 'map'}
                     />
                 </div>

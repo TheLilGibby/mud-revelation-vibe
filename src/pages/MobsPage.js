@@ -125,38 +125,44 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
     useEffect(() => {
         const minSlider = document.querySelector('.dual-range-min-level');
         const maxSlider = document.querySelector('.dual-range-max-level');
+        const sliderContainer = document.getElementById('level-slider-container');
         
-        if (!minSlider || !maxSlider) return;
+        if (!minSlider || !maxSlider || !sliderContainer) return;
+
+        const updateZIndex = (e) => {
+            const rect = sliderContainer.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mousePercent = mouseX / rect.width;
+            const mouseValue = mousePercent * 200;
+            
+            const distanceToMin = Math.abs(mouseValue - minLevel);
+            const distanceToMax = Math.abs(mouseValue - maxLevel);
+            
+            if (distanceToMin < distanceToMax) {
+                minSlider.style.zIndex = '5';
+                maxSlider.style.zIndex = '4';
+            } else {
+                minSlider.style.zIndex = '4';
+                maxSlider.style.zIndex = '5';
+            }
+        };
 
         const handleMouseMove = (e) => {
             if (!e.buttons) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mousePercent = mouseX / rect.width;
-                const mouseValue = mousePercent * 200;
-                
-                const distanceToMin = Math.abs(mouseValue - minLevel);
-                const distanceToMax = Math.abs(mouseValue - maxLevel);
-                
-                if (distanceToMin < distanceToMax) {
-                    minSlider.style.zIndex = '5';
-                    maxSlider.style.zIndex = '4';
-                } else {
-                    minSlider.style.zIndex = '4';
-                    maxSlider.style.zIndex = '5';
-                }
+                updateZIndex(e);
             }
         };
+
+        const handleMouseEnter = (e) => {
+            updateZIndex(e);
+        };
         
-        const sliderContainer = minSlider.parentElement;
-        if (sliderContainer) {
-            sliderContainer.addEventListener('mousemove', handleMouseMove);
-        }
+        sliderContainer.addEventListener('mousemove', handleMouseMove);
+        sliderContainer.addEventListener('mouseenter', handleMouseEnter);
 
         return () => {
-            if (sliderContainer) {
-                sliderContainer.removeEventListener('mousemove', handleMouseMove);
-            }
+            sliderContainer.removeEventListener('mousemove', handleMouseMove);
+            sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
         };
     }, [minLevel, maxLevel]);
 
@@ -167,34 +173,44 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
         
         if (!minSlider || !maxSlider) return;
 
+        const updateZIndex = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mousePercent = mouseX / rect.width;
+            const mouseValue = mousePercent * absoluteMaxHealth;
+            
+            const distanceToMin = Math.abs(mouseValue - minHealth);
+            const distanceToMax = Math.abs(mouseValue - maxHealth);
+            
+            if (distanceToMin < distanceToMax) {
+                minSlider.style.zIndex = '5';
+                maxSlider.style.zIndex = '4';
+            } else {
+                minSlider.style.zIndex = '4';
+                maxSlider.style.zIndex = '5';
+            }
+        };
+
         const handleMouseMove = (e) => {
             if (!e.buttons) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mousePercent = mouseX / rect.width;
-                const mouseValue = mousePercent * absoluteMaxHealth;
-                
-                const distanceToMin = Math.abs(mouseValue - minHealth);
-                const distanceToMax = Math.abs(mouseValue - maxHealth);
-                
-                if (distanceToMin < distanceToMax) {
-                    minSlider.style.zIndex = '5';
-                    maxSlider.style.zIndex = '4';
-                } else {
-                    minSlider.style.zIndex = '4';
-                    maxSlider.style.zIndex = '5';
-                }
+                updateZIndex(e);
             }
+        };
+
+        const handleMouseEnter = (e) => {
+            updateZIndex(e);
         };
         
         const sliderContainer = minSlider.parentElement;
         if (sliderContainer) {
             sliderContainer.addEventListener('mousemove', handleMouseMove);
+            sliderContainer.addEventListener('mouseenter', handleMouseEnter);
         }
 
         return () => {
             if (sliderContainer) {
                 sliderContainer.removeEventListener('mousemove', handleMouseMove);
+                sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
             }
         };
     }, [minHealth, maxHealth, absoluteMaxHealth]);
@@ -206,34 +222,44 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
         
         if (!minSlider || !maxSlider) return;
 
+        const updateZIndex = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mousePercent = mouseX / rect.width;
+            const mouseValue = mousePercent * absoluteMaxDamage;
+            
+            const distanceToMin = Math.abs(mouseValue - minDamage);
+            const distanceToMax = Math.abs(mouseValue - maxDamage);
+            
+            if (distanceToMin < distanceToMax) {
+                minSlider.style.zIndex = '5';
+                maxSlider.style.zIndex = '4';
+            } else {
+                minSlider.style.zIndex = '4';
+                maxSlider.style.zIndex = '5';
+            }
+        };
+
         const handleMouseMove = (e) => {
             if (!e.buttons) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mousePercent = mouseX / rect.width;
-                const mouseValue = mousePercent * absoluteMaxDamage;
-                
-                const distanceToMin = Math.abs(mouseValue - minDamage);
-                const distanceToMax = Math.abs(mouseValue - maxDamage);
-                
-                if (distanceToMin < distanceToMax) {
-                    minSlider.style.zIndex = '5';
-                    maxSlider.style.zIndex = '4';
-                } else {
-                    minSlider.style.zIndex = '4';
-                    maxSlider.style.zIndex = '5';
-                }
+                updateZIndex(e);
             }
+        };
+
+        const handleMouseEnter = (e) => {
+            updateZIndex(e);
         };
         
         const sliderContainer = minSlider.parentElement;
         if (sliderContainer) {
             sliderContainer.addEventListener('mousemove', handleMouseMove);
+            sliderContainer.addEventListener('mouseenter', handleMouseEnter);
         }
 
         return () => {
             if (sliderContainer) {
                 sliderContainer.removeEventListener('mousemove', handleMouseMove);
+                sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
             }
         };
     }, [minDamage, maxDamage, absoluteMaxDamage]);
@@ -710,7 +736,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                 maxWidth: '420px',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%)',
                 borderRight: '3px solid #00ff00',
-                padding: '20px',
+                padding: '10px',
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 flexShrink: 0,
@@ -1577,7 +1603,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                     </label>
                     
                     {/* Dual Thumb Range Slider */}
-                    <div style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
+                    <div id="level-slider-container" style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
                         {/* Track Background */}
                         <div style={{
                             position: 'absolute',
@@ -1656,20 +1682,6 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                                 zIndex: 5
                             }}
                         />
-                    </div>
-                    
-                    {/* Level Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>50</span>
-                        <span>100</span>
-                        <span>150</span>
-                        <span>200</span>
                     </div>
                 </div>
 
@@ -1816,20 +1828,6 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                             }}
                         />
                     </div>
-                    
-                    {/* Health Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>{Math.floor(absoluteMaxHealth * 0.25).toLocaleString()}</span>
-                        <span>{Math.floor(absoluteMaxHealth * 0.5).toLocaleString()}</span>
-                        <span>{Math.floor(absoluteMaxHealth * 0.75).toLocaleString()}</span>
-                        <span>{absoluteMaxHealth.toLocaleString()}</span>
-                    </div>
                 </div>
 
                 {/* Damage Range Filter */}
@@ -1975,20 +1973,6 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                             }}
                         />
                     </div>
-                    
-                    {/* Damage Labels */}
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        fontSize: '0.9em',
-                        color: '#888'
-                    }}>
-                        <span>0</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.25)}</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.5)}</span>
-                        <span>{Math.floor(absoluteMaxDamage * 0.75)}</span>
-                        <span>{absoluteMaxDamage}</span>
-                    </div>
                 </div>
 
                 {/* Sort */}
@@ -2070,7 +2054,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
             {/* Main Content - Mob Grid */}
             <div style={{
                 flex: 1,
-                padding: '20px',
+                padding: '0',
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 minWidth: 0
@@ -2363,6 +2347,65 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                         gap: '25px',
                         minWidth: 0
                     }}>
+                        {/* Share Button */}
+                        <button
+                            onClick={() => handleShareMob(selectedMob)}
+                            style={{
+                                position: 'absolute',
+                                top: '15px',
+                                right: '60px',
+                                background: 'transparent',
+                                border: '2px solid #00ff00',
+                                color: '#00ff00',
+                                width: '35px',
+                                height: '35px',
+                                borderRadius: '3px',
+                                cursor: 'pointer',
+                                fontSize: '1.4em',
+                                fontFamily: 'VT323, monospace',
+                                fontWeight: 'bold',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                transition: 'all 0.2s',
+                                zIndex: 100
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.background = '#00ff00';
+                                e.target.style.color = '#000';
+                                e.target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.8)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.background = 'transparent';
+                                e.target.style.color = '#00ff00';
+                                e.target.style.boxShadow = 'none';
+                            }}
+                            title="Share this mob"
+                        >
+                            🔗
+                        </button>
+                        
+                        {/* Share Tooltip */}
+                        {shareTooltip && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '60px',
+                                right: '60px',
+                                background: '#00ff00',
+                                color: '#000',
+                                padding: '8px 12px',
+                                borderRadius: '3px',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                fontWeight: 'bold',
+                                boxShadow: '0 0 15px rgba(0, 255, 0, 0.8)',
+                                zIndex: 1000,
+                                whiteSpace: 'nowrap'
+                            }}>
+                                {shareTooltip}
+                            </div>
+                        )}
+                        
                         {/* Close Button */}
                         <button
                             onClick={() => {
@@ -2544,30 +2587,15 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                                                 {droppedItems.map((item, idx) => (
                                                     <div 
                                                         key={idx} 
-                                                        onClick={() => {
-                                                            setSelectedItemToNavigate(item);
-                                                            setShowItemNavigationConfirm(true);
-                                                        }}
                                                         style={{
-                                                            padding: '10px',
+                                                            padding: '8px 12px',
                                                             background: '#0a0a0a',
                                                             borderRadius: '3px',
                                                             border: '1px solid #ffaa0040',
                                                             display: 'flex',
                                                             justifyContent: 'space-between',
                                                             alignItems: 'center',
-                                                            transition: 'all 0.2s',
-                                                            cursor: 'pointer'
-                                                        }}
-                                                        onMouseEnter={(e) => {
-                                                            e.currentTarget.style.background = '#1a1a0a';
-                                                            e.currentTarget.style.borderColor = '#ffaa00';
-                                                            e.currentTarget.style.transform = 'translateX(4px)';
-                                                        }}
-                                                        onMouseLeave={(e) => {
-                                                            e.currentTarget.style.background = '#0a0a0a';
-                                                            e.currentTarget.style.borderColor = '#ffaa0040';
-                                                            e.currentTarget.style.transform = 'translateX(0)';
+                                                            gap: '12px'
                                                         }}>
                                                         <div style={{ flex: 1, minWidth: 0 }}>
                                                             <div style={{ 
@@ -2604,13 +2632,39 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        <div style={{ 
-                                                            fontSize: '1.2em', 
-                                                            color: '#ffaa00',
-                                                            marginLeft: '8px'
-                                                        }}>
-                                                            👁️
-                                                        </div>
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedItemToNavigate(item);
+                                                                setShowItemNavigationConfirm(true);
+                                                            }}
+                                                            style={{
+                                                                padding: '6px 14px',
+                                                                background: 'linear-gradient(135deg, #ffaa00 0%, #cc8800 100%)',
+                                                                border: '2px solid #ffaa00',
+                                                                borderRadius: '4px',
+                                                                color: '#fff',
+                                                                fontSize: '1em',
+                                                                fontFamily: 'VT323, monospace',
+                                                                fontWeight: 'bold',
+                                                                cursor: 'pointer',
+                                                                transition: 'all 0.3s',
+                                                                boxShadow: '0 0 8px rgba(255, 170, 0, 0.3)',
+                                                                whiteSpace: 'nowrap',
+                                                                flexShrink: 0
+                                                            }}
+                                                            onMouseEnter={(e) => {
+                                                                e.target.style.background = 'linear-gradient(135deg, #ffcc00 0%, #ffaa00 100%)';
+                                                                e.target.style.boxShadow = '0 0 15px rgba(255, 170, 0, 0.6)';
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                            }}
+                                                            onMouseLeave={(e) => {
+                                                                e.target.style.background = 'linear-gradient(135deg, #ffaa00 0%, #cc8800 100%)';
+                                                                e.target.style.boxShadow = '0 0 8px rgba(255, 170, 0, 0.3)';
+                                                                e.target.style.transform = 'translateY(0)';
+                                                            }}
+                                                        >
+                                                            View
+                                                        </button>
                                                     </div>
                                                 ))}
                                             </div>
@@ -2621,164 +2675,166 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                             })()}
 
                             {/* Region Section */}
-                            {selectedMob.Location && selectedMob.Location.length > 0 && (
-                                <div style={{
-                                    background: '#1a1a1a',
-                                    border: '2px solid #00aaff',
-                                    borderRadius: '3px',
-                                    padding: '18px',
-                                    boxShadow: 'inset 0 0 20px rgba(0, 170, 255, 0.1)',
-                                    position: 'relative'
-                                }}>
-                                    {/* Share Button */}
-                                    <button
-                                        onClick={() => handleShareMob(selectedMob)}
-                                        style={{
-                                            position: 'absolute',
-                                            top: '15px',
-                                            right: '15px',
-                                            background: 'transparent',
-                                            border: '2px solid #00ff00',
-                                            color: '#00ff00',
-                                            width: '35px',
-                                            height: '35px',
-                                            borderRadius: '3px',
-                                            cursor: 'pointer',
-                                            fontSize: '1.4em',
-                                            fontFamily: 'VT323, monospace',
-                                            fontWeight: 'bold',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            transition: 'all 0.2s',
-                                            zIndex: 10
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = '#00ff00';
-                                            e.target.style.color = '#000';
-                                            e.target.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.8)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'transparent';
-                                            e.target.style.color = '#00ff00';
-                                            e.target.style.boxShadow = 'none';
-                                        }}
-                                        title="Share this mob"
-                                    >
-                                        🔗
-                                    </button>
-                                    
-                                    {/* Share Tooltip */}
-                                    {shareTooltip && (
-                                        <div style={{
-                                            position: 'absolute',
-                                            top: '60px',
-                                            right: '15px',
-                                            background: '#00ff00',
-                                            color: '#000',
-                                            padding: '8px 12px',
-                                            borderRadius: '3px',
-                                            fontSize: '1em',
-                                            fontFamily: 'VT323, monospace',
-                                            fontWeight: 'bold',
-                                            boxShadow: '0 0 15px rgba(0, 255, 0, 0.8)',
-                                            zIndex: 1000,
-                                            whiteSpace: 'nowrap'
-                                        }}>
-                                            {shareTooltip}
-                                        </div>
-                                    )}
-                                    
-                                    <h3 style={{ 
-                                        color: '#00aaff', 
-                                        marginBottom: '12px', 
-                                        fontSize: '1.6em',
-                                        borderBottom: '1px solid #00aaff40',
-                                        paddingBottom: '8px'
+                            {selectedMob.Location && selectedMob.Location.length > 0 && (() => {
+                                // Parse location - if it's a string with commas, split it into an array
+                                let locations = [];
+                                if (Array.isArray(selectedMob.Location)) {
+                                    locations = selectedMob.Location;
+                                } else if (typeof selectedMob.Location === 'string') {
+                                    // Check if the string contains commas (multiple regions)
+                                    if (selectedMob.Location.includes(',')) {
+                                        locations = selectedMob.Location.split(',').map(loc => loc.trim());
+                                    } else {
+                                        locations = [selectedMob.Location];
+                                    }
+                                }
+                                
+                                return (
+                                    <div style={{
+                                        background: '#1a1a1a',
+                                        border: '2px solid #00aaff',
+                                        borderRadius: '3px',
+                                        padding: '18px',
+                                        boxShadow: 'inset 0 0 20px rgba(0, 170, 255, 0.1)'
                                     }}>
-                                        Region{selectedMob.Location.length > 1 ? 's' : ''}:
-                                    </h3>
-                                    <div style={{ fontSize: '1.1em', lineHeight: '1.8', color: '#ccc' }}>
-                                        {Array.isArray(selectedMob.Location) ? (
-                                            selectedMob.Location.map((loc, idx) => (
-                                                <div key={idx} style={{
-                                                    padding: '8px',
+                                        <h3 style={{ 
+                                            color: '#00aaff', 
+                                            marginBottom: '12px', 
+                                            fontSize: '1.6em',
+                                            borderBottom: '1px solid #00aaff40',
+                                            paddingBottom: '8px'
+                                        }}>
+                                            Region{locations.length > 1 ? 's' : ''}:
+                                        </h3>
+                                        <div style={{ fontSize: '1.1em', lineHeight: '1.8', color: '#ccc' }}>
+                                            {locations.length > 1 ? (
+                                                // Multiple locations - show individual "View on" buttons for each
+                                                locations.map((loc, idx) => (
+                                                    <div key={idx} style={{
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-between',
+                                                        padding: '8px 12px',
+                                                        background: '#0a0a0a',
+                                                        borderRadius: '3px',
+                                                        marginBottom: '8px',
+                                                        border: '1px solid #00aaff40',
+                                                        gap: '12px'
+                                                    }}>
+                                                        <div style={{
+                                                            flex: 1,
+                                                            wordWrap: 'break-word',
+                                                            overflowWrap: 'break-word',
+                                                            minWidth: 0
+                                                        }}>
+                                                            🗺️ {loc}
+                                                        </div>
+                                                        <button
+                                                            onClick={() => {
+                                                                if (onNavigateToMap) {
+                                                                    onNavigateToMap({
+                                                                        searchLocation: loc,
+                                                                        mobName: selectedMob.Name,
+                                                                        mobLevel: selectedMob.Level
+                                                                    });
+                                                                }
+                                                            }}
+                                                            style={{
+                                                                padding: '6px 14px',
+                                                                background: 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)',
+                                                                border: '2px solid #00aaff',
+                                                                borderRadius: '4px',
+                                                                color: '#fff',
+                                                                fontSize: '1em',
+                                                                fontFamily: 'VT323, monospace',
+                                                                fontWeight: 'bold',
+                                                                cursor: 'pointer',
+                                                                transition: 'all 0.3s',
+                                                                boxShadow: '0 0 8px rgba(0, 170, 255, 0.3)',
+                                                                whiteSpace: 'nowrap',
+                                                                flexShrink: 0
+                                                            }}
+                                                            onMouseEnter={(e) => {
+                                                                e.target.style.background = 'linear-gradient(135deg, #00ddff 0%, #00aaff 100%)';
+                                                                e.target.style.boxShadow = '0 0 15px rgba(0, 170, 255, 0.6)';
+                                                                e.target.style.transform = 'translateY(-1px)';
+                                                            }}
+                                                            onMouseLeave={(e) => {
+                                                                e.target.style.background = 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)';
+                                                                e.target.style.boxShadow = '0 0 8px rgba(0, 170, 255, 0.3)';
+                                                                e.target.style.transform = 'translateY(0)';
+                                                            }}
+                                                        >
+                                                            View
+                                                        </button>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                // Single location - match the multiple locations layout
+                                                <div style={{
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    padding: '8px 12px',
                                                     background: '#0a0a0a',
                                                     borderRadius: '3px',
                                                     marginBottom: '8px',
                                                     border: '1px solid #00aaff40',
-                                                    wordWrap: 'break-word',
-                                                    overflowWrap: 'break-word'
+                                                    gap: '12px'
                                                 }}>
-                                                    🗺️ {loc}
+                                                    <div style={{
+                                                        flex: 1,
+                                                        wordWrap: 'break-word',
+                                                        overflowWrap: 'break-word',
+                                                        minWidth: 0
+                                                    }}>
+                                                        🗺️ {locations[0]}
+                                                    </div>
+                                                    <button
+                                                        onClick={() => {
+                                                            if (onNavigateToMap) {
+                                                                onNavigateToMap({
+                                                                    searchLocation: locations[0],
+                                                                    mobName: selectedMob.Name,
+                                                                    mobLevel: selectedMob.Level
+                                                                });
+                                                            }
+                                                        }}
+                                                        style={{
+                                                            padding: '6px 14px',
+                                                            background: 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)',
+                                                            border: '2px solid #00aaff',
+                                                            borderRadius: '4px',
+                                                            color: '#fff',
+                                                            fontSize: '1em',
+                                                            fontFamily: 'VT323, monospace',
+                                                            fontWeight: 'bold',
+                                                            cursor: 'pointer',
+                                                            transition: 'all 0.3s',
+                                                            boxShadow: '0 0 8px rgba(0, 170, 255, 0.3)',
+                                                            whiteSpace: 'nowrap',
+                                                            flexShrink: 0
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.target.style.background = 'linear-gradient(135deg, #00ddff 0%, #00aaff 100%)';
+                                                            e.target.style.boxShadow = '0 0 15px rgba(0, 170, 255, 0.6)';
+                                                            e.target.style.transform = 'translateY(-1px)';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.target.style.background = 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)';
+                                                            e.target.style.boxShadow = '0 0 8px rgba(0, 170, 255, 0.3)';
+                                                            e.target.style.transform = 'translateY(0)';
+                                                        }}
+                                                    >
+                                                        <span style={{ fontSize: '1.1em', marginRight: '4px' }}>🗺️</span>
+                                                        View on
+                                                    </button>
                                                 </div>
-                                            ))
-                                        ) : (
-                                            <div style={{
-                                                padding: '8px',
-                                                background: '#0a0a0a',
-                                                borderRadius: '3px',
-                                                border: '1px solid #00aaff40',
-                                                wordWrap: 'break-word',
-                                                overflowWrap: 'break-word'
-                                            }}>
-                                                🗺️ {selectedMob.Location}
-                                            </div>
-                                        )}
+                                            )}
+                                        </div>
                                     </div>
-                                    
-                                    {/* View on Map Button */}
-                                    <button
-                                        onClick={() => {
-                                            // Get the first location if it's an array
-                                            const location = Array.isArray(selectedMob.Location) 
-                                                ? selectedMob.Location[0] 
-                                                : selectedMob.Location;
-                                            
-                                            // Navigate to map page with mob data
-                                            if (onNavigateToMap) {
-                                                onNavigateToMap({
-                                                    searchLocation: location,
-                                                    mobName: selectedMob.Name,
-                                                    mobLevel: selectedMob.Level
-                                                });
-                                            }
-                                        }}
-                                        style={{
-                                            width: '100%',
-                                            padding: '12px',
-                                            marginTop: '12px',
-                                            background: 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)',
-                                            border: '2px solid #00aaff',
-                                            borderRadius: '5px',
-                                            color: '#fff',
-                                            fontSize: '1.2em',
-                                            fontFamily: 'VT323, monospace',
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer',
-                                            transition: 'all 0.3s',
-                                            boxShadow: '0 0 10px rgba(0, 170, 255, 0.3)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            gap: '10px'
-                                        }}
-                                        onMouseEnter={(e) => {
-                                            e.target.style.background = 'linear-gradient(135deg, #00ddff 0%, #00aaff 100%)';
-                                            e.target.style.boxShadow = '0 0 20px rgba(0, 170, 255, 0.6)';
-                                            e.target.style.transform = 'translateY(-2px)';
-                                        }}
-                                        onMouseLeave={(e) => {
-                                            e.target.style.background = 'linear-gradient(135deg, #00aaff 0%, #0088cc 100%)';
-                                            e.target.style.boxShadow = '0 0 10px rgba(0, 170, 255, 0.3)';
-                                            e.target.style.transform = 'translateY(0)';
-                                        }}
-                                    >
-                                        <span style={{ fontSize: '1.3em' }}>🗺️</span>
-                                        View on Map
-                                    </button>
-                                </div>
-                            )}
+                                );
+                            })()}
 
                             {/* Description Section */}
                             {selectedMob.Description && (

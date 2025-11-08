@@ -511,7 +511,7 @@ function QuestsPage({ isActive }) {
         }}>
             <div style={{
                 flex: 1,
-                padding: '20px',
+                padding: '0',
                 overflowY: 'auto',
                 display: 'flex',
                 flexDirection: 'column',
@@ -1394,7 +1394,7 @@ function QuestsPage({ isActive }) {
                 width: '420px',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%)',
                 borderRight: '3px solid #00ff00',
-                padding: '20px',
+                padding: '10px',
                 overflowY: 'auto',
                 flexShrink: 0,
                 boxShadow: '3px 0 15px rgba(0, 0, 0, 0.5)'

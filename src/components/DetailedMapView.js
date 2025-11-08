@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { loadWorldData, findZoneByLocationName, convertRoomDataForDisplay, getTerrainColor } from '../utils/worldDataLoader';
 import WikiSidebar from './WikiSidebar';
 import navigationData from '../navigationMapData.json';
+import { useGameData } from '../contexts/DataContext';
 
-function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones, onClearHighlight, highlightedMobName }) {
+function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones, onClearHighlight, onNavigateToMob, highlightedMobName }) {
+    const { mobs: loadedMobs } = useGameData();
     const [zoom, setZoom] = useState(1);
     const [zoneData, setZoneData] = useState(null);
     const [currentLevel, setCurrentLevel] = useState(0);
@@ -342,7 +344,8 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
         // Only start panning with left mouse button
         if (e.button !== 0) return;
         
-        setIsPanning(true);
+        // Don't set isPanning yet - wait for movement
+        // This allows clicks to work properly
         setIsDragging(false);
         setHoveredRoom(null); // Clear hover state when starting to pan
         setPanStart({ x: e.clientX, y: e.clientY });
@@ -350,23 +353,27 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
             x: e.currentTarget.scrollLeft, 
             y: e.currentTarget.scrollTop 
         });
-        e.currentTarget.style.cursor = 'grabbing';
     };
 
     const handleMouseMove = (e) => {
-        if (!isPanning) return;
+        // Check if we have a pan start position (mousedown occurred)
+        if (panStart.x === 0 && panStart.y === 0) return;
 
         const dx = e.clientX - panStart.x;
         const dy = e.clientY - panStart.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        // If moved more than 10px, consider it a drag (not a click)
-        if (distance > 10) {
-            setIsDragging(true);
+        // If moved more than 5px, start panning/dragging
+        if (distance > 5) {
+            if (!isPanning) {
+                setIsPanning(true);
+                setIsDragging(true);
+                e.currentTarget.style.cursor = 'grabbing';
+            }
         }
 
-        // Only actually pan if we're dragging
-        if (isDragging) {
+        // Only actually pan if we're panning
+        if (isPanning) {
             // Update scroll position
             e.currentTarget.scrollLeft = scrollStart.x - dx;
             e.currentTarget.scrollTop = scrollStart.y - dy;
@@ -380,6 +387,8 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
             // Reset dragging flag after a brief delay to allow click events to check it first
             setTimeout(() => setIsDragging(false), 10);
         }
+        // Reset pan start position
+        setPanStart({ x: 0, y: 0 });
     };
 
     const handleMouseLeave = (e) => {
@@ -388,6 +397,8 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
             setIsDragging(false);
             e.currentTarget.style.cursor = 'grab';
         }
+        // Reset pan start position
+        setPanStart({ x: 0, y: 0 });
     };
 
     // Handle room click - only if not dragging
@@ -1218,7 +1229,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                 }
                             }}
                         >
-                            🗺️ Zone
+                            Zone
                         </button>
                         <button
                             onClick={() => setLeftSidebarTab('room')}
@@ -1534,7 +1545,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                                         }}
                                                         title={`Show entrance${totalExitRooms > 1 ? 's' : ''} to ${zone.name}`}
                                                     >
-                                                        {isHighlighted ? '👁️ Hide' : '📍 Show'} ({totalExitRooms})
+                                                        {isHighlighted ? 'Hide' : 'Show'} ({totalExitRooms})
                                                     </button>
                                                 )}
                                             </div>
@@ -1774,7 +1785,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                             borderRadius: '5px'
                         }}>
                             <h4 style={{ color: '#00FFFF', marginTop: 0, marginBottom: '10px' }}>
-                                📍 Details:
+                                Details:
                             </h4>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.95em' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -1982,7 +1993,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                             borderRadius: '5px'
                         }}>
                             <h4 style={{ color: '#00ff00', marginTop: 0, marginBottom: '10px' }}>
-                                🗺️ Navigation:
+                                Navigation:
                             </h4>
                             <ul style={{ margin: 0, paddingLeft: '20px', color: '#ccc', lineHeight: '1.8' }}>
                                 <li>Click any room to view details</li>
@@ -2324,11 +2335,62 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                             paddingLeft: '20px',
                                             listStyle: 'none'
                                         }}>
-                                            {selectedRoom.npcs.map((npc, idx) => (
-                                                <li key={idx} style={{ fontSize: '0.9em', marginTop: '3px' }}>
-                                                    👹 {npc.name} (Respawn: {npc.respawnRate}s)
-                                                </li>
-                                            ))}
+                                            {selectedRoom.npcs.map((npc, idx) => {
+                                                // Clean NPC name to match mob data
+                                                const cleanNpcName = (name) => {
+                                                    if (!name) return '';
+                                                    return name.replace(/\\cf\d+/gi, '').replace(/\\cf\w+/gi, '').trim().replace(/\.$/, '');
+                                                };
+                                                
+                                                const cleanedName = cleanNpcName(npc.name);
+                                                const mobData = loadedMobs?.find(m => {
+                                                    const cleanMobName = (name) => {
+                                                        if (!name) return '';
+                                                        return name.replace(/\\cf\d+/gi, '').replace(/\\cf\w+/gi, '').trim().replace(/\.$/, '');
+                                                    };
+                                                    return cleanMobName(m.Name) === cleanedName;
+                                                });
+                                                
+                                                return (
+                                                    <li key={idx} style={{ 
+                                                        fontSize: '0.9em', 
+                                                        marginTop: '5px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-between',
+                                                        gap: '8px'
+                                                    }}>
+                                                        <span>👹 {npc.name} (Respawn: {npc.respawnRate}s)</span>
+                                                        {mobData && onNavigateToMob && (
+                                                            <button
+                                                                onClick={() => onNavigateToMob({ Id: mobData.Id })}
+                                                                style={{
+                                                                    padding: '2px 8px',
+                                                                    fontSize: '0.85em',
+                                                                    backgroundColor: '#ff6b6b',
+                                                                    color: '#fff',
+                                                                    border: '1px solid #ff4444',
+                                                                    borderRadius: '3px',
+                                                                    cursor: 'pointer',
+                                                                    whiteSpace: 'nowrap',
+                                                                    flexShrink: 0
+                                                                }}
+                                                                onMouseEnter={(e) => {
+                                                                    e.target.style.backgroundColor = '#ff4444';
+                                                                    e.target.style.transform = 'scale(1.05)';
+                                                                }}
+                                                                onMouseLeave={(e) => {
+                                                                    e.target.style.backgroundColor = '#ff6b6b';
+                                                                    e.target.style.transform = 'scale(1)';
+                                                                }}
+                                                                title="View in Mobs page"
+                                                            >
+                                                                View Mob
+                                                            </button>
+                                                        )}
+                                                    </li>
+                                                );
+                                            })}
                                         </ul>
                                     </div>
                                 )}
@@ -2506,7 +2568,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                                 {/* Right Column - Legend */}
                                 <div>
                                     <h5 style={{ color: '#00ff00', marginTop: 0, marginBottom: '10px', fontSize: '1em' }}>
-                                        🗺️ Legend:
+                                        Legend:
                                     </h5>
                                     <div style={{ 
                                         display: 'flex',
@@ -2802,36 +2864,36 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                 borderLeft: '3px solid #00ff00',
                 overflowX: 'hidden'
             }}>
-                {/* Toggle Button */}
+                {/* Toggle Button - Positioned at sidebar edge */}
                 {isWikiOpen ? (
                     <button
                         onClick={() => setIsWikiOpen(false)}
                         style={{
                             position: 'fixed',
-                            right: '365px',
-                            top: '120px',
+                            right: '400px',
+                            top: '110px',
                             background: '#00ff00',
                             color: '#000',
                             border: '2px solid #000',
-                            borderRadius: '5px',
-                            width: '40px',
-                            height: '40px',
+                            borderRadius: '5px 0 0 5px',
+                            width: '35px',
+                            height: '50px',
                             cursor: 'pointer',
-                            fontSize: '1.3em',
+                            fontSize: '1.2em',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             zIndex: 10002,
-                            boxShadow: '0 4px 12px rgba(0, 255, 0, 0.6)',
+                            boxShadow: '-2px 0 8px rgba(0, 255, 0, 0.5)',
                             transition: 'all 0.2s ease'
                         }}
                         onMouseEnter={(e) => {
-                            e.target.style.transform = 'scale(1.1)';
-                            e.target.style.boxShadow = '0 6px 16px rgba(0, 255, 0, 0.8)';
+                            e.target.style.transform = 'translateX(-3px)';
+                            e.target.style.boxShadow = '-4px 0 12px rgba(0, 255, 0, 0.8)';
                         }}
                         onMouseLeave={(e) => {
-                            e.target.style.transform = 'scale(1)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(0, 255, 0, 0.6)';
+                            e.target.style.transform = 'translateX(0)';
+                            e.target.style.boxShadow = '-2px 0 8px rgba(0, 255, 0, 0.5)';
                         }}
                         title="Collapse sidebar"
                     >
@@ -2842,30 +2904,30 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                         onClick={() => setIsWikiOpen(true)}
                         style={{
                             position: 'fixed',
-                            right: '15px',
-                            top: '120px',
+                            right: '0',
+                            top: '110px',
                             background: '#00ff00',
                             color: '#000',
                             border: '2px solid #000',
-                            borderRadius: '5px',
-                            width: '40px',
-                            height: '40px',
+                            borderRadius: '5px 0 0 5px',
+                            width: '35px',
+                            height: '50px',
                             cursor: 'pointer',
-                            fontSize: '1.3em',
+                            fontSize: '1.2em',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             zIndex: 10002,
-                            boxShadow: '0 4px 12px rgba(0, 255, 0, 0.6)',
+                            boxShadow: '-2px 0 8px rgba(0, 255, 0, 0.5)',
                             transition: 'all 0.2s ease'
                         }}
                         onMouseEnter={(e) => {
-                            e.target.style.transform = 'scale(1.1)';
-                            e.target.style.boxShadow = '0 6px 16px rgba(0, 255, 0, 0.8)';
+                            e.target.style.transform = 'translateX(-3px)';
+                            e.target.style.boxShadow = '-4px 0 12px rgba(0, 255, 0, 0.8)';
                         }}
                         onMouseLeave={(e) => {
-                            e.target.style.transform = 'scale(1)';
-                            e.target.style.boxShadow = '0 4px 12px rgba(0, 255, 0, 0.6)';
+                            e.target.style.transform = 'translateX(0)';
+                            e.target.style.boxShadow = '-2px 0 8px rgba(0, 255, 0, 0.5)';
                         }}
                         title="Expand sidebar"
                     >
@@ -2882,6 +2944,7 @@ function DetailedMapView({ location, onClose, onNavigateToZone, onHighlightZones
                     onHighlightMob={handleHighlightMob}
                     onClearHighlight={handleClearHighlight}
                     onShowMobPath={handleShowMobPath}
+                    onNavigateToMob={onNavigateToMob}
                     highlightedMob={highlightedMob}
                     currentFloor={currentLevel}
                 />

@@ -70,6 +70,10 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [selectedWeaponTypes, setSelectedWeaponTypes] = useState([]);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [compareItems, setCompareItems] = useState([]); // Items selected for comparison
+    const [showCompareView, setShowCompareView] = useState(false); // Show comparison modal
+    const [compareSearchTerm, setCompareSearchTerm] = useState(''); // Search within comparison modal
+    const [showCompareSearchResults, setShowCompareSearchResults] = useState(false); // Show search results dropdown
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(1);
     const [minLevel, setMinLevel] = useState(0);
@@ -180,6 +184,90 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
             setTimeout(() => setShareTooltip(''), 2000);
         }
     };
+
+    // Handle compare checkbox toggle
+    const handleCompareToggle = (item, event) => {
+        event.stopPropagation(); // Prevent row click from selecting item
+        
+        setCompareItems(prevItems => {
+            const isAlreadySelected = prevItems.some(i => i.Id === item.Id);
+            
+            if (isAlreadySelected) {
+                // Remove item from comparison
+                return prevItems.filter(i => i.Id !== item.Id);
+            } else {
+                // Add item to comparison (max 4 items)
+                if (prevItems.length >= 4) {
+                    alert('You can compare up to 4 items at a time');
+                    return prevItems;
+                }
+                return [...prevItems, item];
+            }
+        });
+    };
+
+    // Check if item is in compare list
+    const isItemInCompare = (itemId) => {
+        return compareItems.some(item => item.Id === itemId);
+    };
+
+    // Clear all comparison items
+    const handleClearCompare = () => {
+        setCompareItems([]);
+        setShowCompareView(false);
+        setCompareSearchTerm('');
+        setShowCompareSearchResults(false);
+    };
+
+    // Add item to comparison from search
+    const handleAddItemToCompare = (item) => {
+        if (compareItems.some(i => i.Id === item.Id)) {
+            // Item already in comparison
+            return;
+        }
+        
+        if (compareItems.length >= 4) {
+            alert('You can compare up to 4 items at a time');
+            return;
+        }
+        
+        setCompareItems([...compareItems, item]);
+        setCompareSearchTerm('');
+        setShowCompareSearchResults(false);
+    };
+
+    // Get filtered items for comparison search
+    const getCompareSearchResults = () => {
+        if (!compareSearchTerm || compareSearchTerm.length < 2) {
+            return [];
+        }
+        
+        return items
+            .filter(item => {
+                const cleanName = cleanItemName(item.Name);
+                return cleanName?.toLowerCase().includes(compareSearchTerm.toLowerCase()) ||
+                    item.Description?.toLowerCase().includes(compareSearchTerm.toLowerCase());
+            })
+            .filter(item => !compareItems.some(i => i.Id === item.Id)) // Exclude already compared items
+            .slice(0, 10); // Limit to 10 results
+    };
+
+    // Close search results when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showCompareSearchResults && !event.target.closest('.compare-search-container')) {
+                setShowCompareSearchResults(false);
+            }
+        };
+
+        if (showCompareSearchResults) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showCompareSearchResults]);
 
     // Handle slider z-index and pointer events for LEVEL slider
     useEffect(() => {
@@ -840,7 +928,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                 maxWidth: '420px',
                 background: 'linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%)',
                 borderRight: '3px solid #00ff00',
-                padding: '20px',
+                padding: '10px',
                 overflowY: 'auto',
                 overflowX: 'hidden',
                 flexShrink: 0,
@@ -878,6 +966,99 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                         }}
                     />
                 </div>
+
+                {/* Compare Button */}
+                {compareItems.length > 0 && (
+                    <div style={{ 
+                        marginBottom: '20px',
+                        padding: '15px',
+                        background: 'linear-gradient(135deg, #1a4d1a, #0a2a0a)',
+                        border: '2px solid #00ff00',
+                        borderRadius: '5px',
+                        boxShadow: '0 0 20px rgba(0, 255, 0, 0.3)'
+                    }}>
+                        <div style={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            marginBottom: '10px'
+                        }}>
+                            <span style={{ 
+                                color: '#00ff00', 
+                                fontSize: '1.2em',
+                                fontWeight: 'bold'
+                            }}>
+                                {compareItems.length} item{compareItems.length !== 1 ? 's' : ''} selected for comparison
+                            </span>
+                            <button
+                                onClick={handleClearCompare}
+                                style={{
+                                    background: 'transparent',
+                                    border: '2px solid #ff0000',
+                                    color: '#ff0000',
+                                    padding: '5px 12px',
+                                    borderRadius: '3px',
+                                    cursor: 'pointer',
+                                    fontSize: '1em',
+                                    fontFamily: 'VT323, monospace',
+                                    transition: 'all 0.2s'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.background = '#ff0000';
+                                    e.target.style.color = '#000';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.background = 'transparent';
+                                    e.target.style.color = '#ff0000';
+                                }}
+                            >
+                                Clear All
+                            </button>
+                        </div>
+                        <button
+                            onClick={() => setShowCompareView(true)}
+                            disabled={compareItems.length < 2}
+                            style={{
+                                width: '100%',
+                                padding: '12px',
+                                background: compareItems.length >= 2 ? 'linear-gradient(135deg, #00ff00, #00aa00)' : '#444',
+                                border: `2px solid ${compareItems.length >= 2 ? '#00ff00' : '#666'}`,
+                                color: compareItems.length >= 2 ? '#000' : '#888',
+                                fontSize: '1.3em',
+                                fontFamily: 'VT323, monospace',
+                                fontWeight: 'bold',
+                                borderRadius: '3px',
+                                cursor: compareItems.length >= 2 ? 'pointer' : 'not-allowed',
+                                transition: 'all 0.2s',
+                                boxShadow: compareItems.length >= 2 ? '0 4px 15px rgba(0, 255, 0, 0.4)' : 'none'
+                            }}
+                            onMouseEnter={(e) => {
+                                if (compareItems.length >= 2) {
+                                    e.target.style.transform = 'translateY(-2px)';
+                                    e.target.style.boxShadow = '0 6px 20px rgba(0, 255, 0, 0.6)';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (compareItems.length >= 2) {
+                                    e.target.style.transform = 'translateY(0)';
+                                    e.target.style.boxShadow = '0 4px 15px rgba(0, 255, 0, 0.4)';
+                                }
+                            }}
+                        >
+                            ⚖️ Compare Items
+                        </button>
+                        {compareItems.length < 2 && (
+                            <div style={{
+                                marginTop: '8px',
+                                color: '#ffaa00',
+                                fontSize: '1em',
+                                textAlign: 'center'
+                            }}>
+                                Select at least 2 items to compare
+                            </div>
+                        )}
+                    </div>
+                )}
 
                 {/* Type Filter - Collapsible */}
                 <div style={{ marginBottom: '20px' }}>
@@ -2623,8 +2804,8 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                 <div style={{
                     flex: 1,
                     overflow: 'auto',
-                    padding: '20px',
-                    paddingBottom: '40px'
+                    padding: '0',
+                    paddingBottom: '0'
                 }}>
                     {/* Pagination Info */}
                     <div style={{
@@ -2742,6 +2923,29 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 textTransform: 'uppercase',
                                 letterSpacing: '1px'
                             }}>
+                                <th style={{ padding: '12px 14px', width: '50px', textAlign: 'center', borderBottom: '2px solid #00ff00' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={compareItems.length === currentItems.length && currentItems.length > 0}
+                                        onChange={(e) => {
+                                            if (e.target.checked) {
+                                                // Select all current page items (up to 4)
+                                                const itemsToAdd = currentItems.slice(0, 4);
+                                                setCompareItems(itemsToAdd);
+                                            } else {
+                                                // Deselect all
+                                                setCompareItems([]);
+                                            }
+                                        }}
+                                        style={{
+                                            width: '18px',
+                                            height: '18px',
+                                            cursor: 'pointer',
+                                            accentColor: '#00ff00'
+                                        }}
+                                        title="Select items to compare"
+                                    />
+                                </th>
                                 <th style={{ padding: '12px 14px', width: '60px', textAlign: 'center', borderBottom: '2px solid #00ff00' }}>📦</th>
                                 <th style={{ padding: '12px 14px', width: '30%', textAlign: 'left', borderBottom: '2px solid #00ff00' }}>Item Name</th>
                                 <th style={{ padding: '12px 14px', width: '15%', textAlign: 'left', borderBottom: '2px solid #00ff00' }}>Type</th>
@@ -2756,7 +2960,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                             {filteredItems.length === 0 ?
                                 (
                                     <tr>
-                                        <td colSpan="8" style={{ 
+                                        <td colSpan="9" style={{ 
                                             textAlign: 'center', 
                                             padding: '40px', 
                                             color: '#888',
@@ -2794,6 +2998,28 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                                 e.currentTarget.style.boxShadow = 'none';
                                             }}
                                         >
+                                            {/* Compare Checkbox */}
+                                            <td style={{ 
+                                                padding: '12px 14px', 
+                                                textAlign: 'center',
+                                                borderBottom: '1px solid #00ff0015'
+                                            }}
+                                            onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={isItemInCompare(item.Id)}
+                                                    onChange={(e) => handleCompareToggle(item, e)}
+                                                    style={{
+                                                        width: '18px',
+                                                        height: '18px',
+                                                        cursor: 'pointer',
+                                                        accentColor: '#00ff00'
+                                                    }}
+                                                    title="Select for comparison"
+                                                />
+                                            </td>
+                                            
                                             {/* Item Icon */}
                                             <td style={{ 
                                                 padding: '12px 14px', 
@@ -3196,27 +3422,33 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                             </h3>
                             <div style={{ fontSize: '1.2em', lineHeight: '2', color: '#aaa' }}>
                                 {/* Item Effects Array */}
-                                {selectedItem.ItemEffects?.length > 0 && selectedItem.ItemEffects.map((effect, idx) => (
-                                    <div key={idx} style={{ 
-                                        marginBottom: '4px',
-                                        padding: '4px 6px',
-                                        background: '#0a0a0a',
-                                        borderRadius: '3px',
-                                        border: '1px solid #ff00ff40'
-                                    }}>
-                                        <div style={{ color: '#ff00ff', fontWeight: 'bold' }}>
-                                            Effect {idx + 1}:
+                                {selectedItem.ItemEffects?.length > 0 && selectedItem.ItemEffects.map((effect, idx) => {
+                                    // Remove "Item Effect:" prefix if present
+                                    let cleanEffect = typeof effect === 'string' ? effect : JSON.stringify(effect);
+                                    cleanEffect = cleanEffect.replace(/^Item Effect:\s*/i, '');
+                                    
+                                    return (
+                                        <div key={idx} style={{ 
+                                            marginBottom: '4px',
+                                            padding: '4px 6px',
+                                            background: '#0a0a0a',
+                                            borderRadius: '3px',
+                                            border: '1px solid #ff00ff40'
+                                        }}>
+                                            <div style={{ color: '#ff00ff', fontWeight: 'bold' }}>
+                                                Effect {idx + 1}:
+                                            </div>
+                                            <div style={{ color: '#ccc', fontSize: '0.95em', marginLeft: '10px' }}>
+                                                {cleanEffect}
+                                            </div>
                                         </div>
-                                        <div style={{ color: '#ccc', fontSize: '0.95em', marginLeft: '10px' }}>
-                                            {typeof effect === 'string' ? effect : JSON.stringify(effect)}
-                                        </div>
-                                    </div>
-                                ))}
+                                    );
+                                })}
                                 
                                 {/* Potion Effect */}
                                 {selectedItem.PotionEffect && (
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                        <span>🧪 Potion Effect:</span>
+                                        <span>Potion Effect:</span>
                                         <span style={{ color: '#00ffff', fontWeight: 'bold' }}>
                                             {selectedItem.PotionEffect}
                                             {selectedItem.PotionEffectValue > 0 && ` (${selectedItem.PotionEffectValue})`}
@@ -3227,7 +3459,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 {/* Poison Effect */}
                                 {selectedItem.PoisonEffect && (
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                        <span>☠️ Poison Effect:</span>
+                                        <span>Poison Effect:</span>
                                         <span style={{ color: '#00ff00', fontWeight: 'bold' }}>
                                             {selectedItem.PoisonEffect}
                                         </span>
@@ -3237,7 +3469,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 {/* Scroll Effect */}
                                 {selectedItem.ScrollEffect && (
                                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                                        <span>📜 Scroll Effect:</span>
+                                        <span>Scroll Effect:</span>
                                         <span style={{ color: '#ffaa00', fontWeight: 'bold' }}>
                                             {selectedItem.ScrollEffect}
                                         </span>
@@ -3248,7 +3480,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 {selectedItem.UsableSpell && (
                                     <div style={{ marginBottom: '5px' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <span>✨ Usable Spell:</span>
+                                            <span>Usable Spell:</span>
                                             <span style={{ color: '#6666ff', fontWeight: 'bold' }}>
                                                 {selectedItem.UsableSpell}
                                             </span>
@@ -3272,7 +3504,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 {selectedItem.ProcSpellName && (
                                     <div style={{ marginBottom: '5px' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                                            <span>⚡ Proc Spell:</span>
+                                            <span>Proc Spell:</span>
                                             <span style={{ color: '#ff6600', fontWeight: 'bold' }}>
                                                 {selectedItem.ProcSpellName}
                                             </span>
@@ -3347,7 +3579,7 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                         borderBottom: '1px solid #ff660040',
                                         paddingBottom: '8px'
                                     }}>
-                                        👹 Dropped By ({droppingMobs.length}):
+                                        Dropped By ({droppingMobs.length}):
                                     </h3>
                                     <div style={{ 
                                         display: 'flex',
@@ -3360,30 +3592,14 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                         {droppingMobs.map((mob, idx) => (
                                             <div 
                                                 key={idx}
-                                                onClick={() => {
-                                                    setSelectedMobToNavigate(mob);
-                                                    setShowMobNavigationConfirm(true);
-                                                }}
                                                 style={{
-                                                    padding: '10px',
+                                                    padding: '8px 12px',
                                                     background: '#0a0a0a',
                                                     borderRadius: '3px',
                                                     border: '1px solid #ff660040',
                                                     display: 'flex',
                                                     alignItems: 'center',
-                                                    gap: '12px',
-                                                    transition: 'all 0.2s',
-                                                    cursor: 'pointer'
-                                                }}
-                                                onMouseEnter={(e) => {
-                                                    e.currentTarget.style.background = '#1a1a0a';
-                                                    e.currentTarget.style.borderColor = '#ff6600';
-                                                    e.currentTarget.style.transform = 'translateX(4px)';
-                                                }}
-                                                onMouseLeave={(e) => {
-                                                    e.currentTarget.style.background = '#0a0a0a';
-                                                    e.currentTarget.style.borderColor = '#ff660040';
-                                                    e.currentTarget.style.transform = 'translateX(0)';
+                                                    gap: '12px'
                                                 }}>
                                                 {/* Mob Sprite */}
                                                 <div style={{ 
@@ -3455,20 +3671,46 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                                         )}
                                                         {mob.Location && (
                                                             <span style={{ color: '#00aaff' }}>
-                                                                📍 {Array.isArray(mob.Location) ? mob.Location[0] : mob.Location}
+                                                                {Array.isArray(mob.Location) ? mob.Location[0] : mob.Location}
                                                             </span>
                                                         )}
                                                     </div>
                                                 </div>
                                                 
-                                                {/* View icon */}
-                                                <div style={{ 
-                                                    fontSize: '1.2em', 
-                                                    color: '#ff6600',
-                                                    flexShrink: 0
-                                                }}>
-                                                    👁️
-                                                </div>
+                                                {/* View Button */}
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedMobToNavigate(mob);
+                                                        setShowMobNavigationConfirm(true);
+                                                    }}
+                                                    style={{
+                                                        padding: '6px 14px',
+                                                        background: 'linear-gradient(135deg, #ff6600 0%, #cc5200 100%)',
+                                                        border: '2px solid #ff6600',
+                                                        borderRadius: '4px',
+                                                        color: '#fff',
+                                                        fontSize: '1em',
+                                                        fontFamily: 'VT323, monospace',
+                                                        fontWeight: 'bold',
+                                                        cursor: 'pointer',
+                                                        transition: 'all 0.3s',
+                                                        boxShadow: '0 0 8px rgba(255, 102, 0, 0.3)',
+                                                        whiteSpace: 'nowrap',
+                                                        flexShrink: 0
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.target.style.background = 'linear-gradient(135deg, #ff8800 0%, #ff6600 100%)';
+                                                        e.target.style.boxShadow = '0 0 15px rgba(255, 102, 0, 0.6)';
+                                                        e.target.style.transform = 'translateY(-1px)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.target.style.background = 'linear-gradient(135deg, #ff6600 0%, #cc5200 100%)';
+                                                        e.target.style.boxShadow = '0 0 8px rgba(255, 102, 0, 0.3)';
+                                                        e.target.style.transform = 'translateY(0)';
+                                                    }}
+                                                >
+                                                    View
+                                                </button>
                                             </div>
                                         ))}
                                     </div>
@@ -3712,6 +3954,548 @@ function ItemsPage({ navigationData, onClearNavigation, onNavigateToMob, isActiv
                                 }}
                             >
                                 ✗ Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Item Comparison Modal */}
+            {showCompareView && (
+                <div
+                    style={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: 'rgba(0, 0, 0, 0.95)',
+                        zIndex: 10000,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '20px',
+                        overflow: 'auto'
+                    }}
+                    onClick={() => setShowCompareView(false)}
+                >
+                    <div
+                        style={{
+                            background: 'linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%)',
+                            border: '4px solid #00ff00',
+                            borderRadius: '10px',
+                            padding: '30px',
+                            maxWidth: '95vw',
+                            width: 'auto',
+                            maxHeight: '90vh',
+                            overflowY: 'auto',
+                            boxShadow: '0 0 40px rgba(0, 255, 0, 0.6), inset 0 0 30px rgba(0, 255, 0, 0.1)',
+                            position: 'relative'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => setShowCompareView(false)}
+                            style={{
+                                position: 'absolute',
+                                top: '10px',
+                                right: '10px',
+                                background: 'transparent',
+                                border: '2px solid #ff0000',
+                                color: '#ff0000',
+                                fontSize: '24px',
+                                cursor: 'pointer',
+                                width: '40px',
+                                height: '40px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                borderRadius: '5px',
+                                transition: 'all 0.2s',
+                                fontWeight: 'bold'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.currentTarget.style.background = '#ff0000';
+                                e.currentTarget.style.color = '#000';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.currentTarget.style.background = 'transparent';
+                                e.currentTarget.style.color = '#ff0000';
+                            }}
+                        >
+                            ×
+                        </button>
+
+                        {/* Title */}
+                        <h2 style={{
+                            color: '#00ff00',
+                            textAlign: 'center',
+                            marginBottom: '30px',
+                            fontSize: '2.5em',
+                            textShadow: '0 0 15px rgba(0, 255, 0, 0.8)',
+                            borderBottom: '3px solid #00ff0040',
+                            paddingBottom: '20px'
+                        }}>
+                            ⚖️ Item Comparison
+                        </h2>
+
+                        {/* Search to Add Items */}
+                        {compareItems.length < 4 && (
+                            <div 
+                                className="compare-search-container"
+                                style={{
+                                    marginBottom: '25px',
+                                    padding: '20px',
+                                    background: 'linear-gradient(135deg, #1a4d1a, #0a2a0a)',
+                                    border: '2px solid #00ff00',
+                                    borderRadius: '8px',
+                                    position: 'relative'
+                                }}
+                            >
+                                <label style={{
+                                    display: 'block',
+                                    marginBottom: '10px',
+                                    fontSize: '1.3em',
+                                    color: '#00ff00',
+                                    fontWeight: 'bold'
+                                }}>
+                                    🔍 Add More Items to Compare:
+                                </label>
+                                <input
+                                    type="text"
+                                    value={compareSearchTerm}
+                                    onChange={(e) => {
+                                        setCompareSearchTerm(e.target.value);
+                                        setShowCompareSearchResults(e.target.value.length >= 2);
+                                    }}
+                                    onFocus={() => {
+                                        if (compareSearchTerm.length >= 2) {
+                                            setShowCompareSearchResults(true);
+                                        }
+                                    }}
+                                    placeholder="Search for items to add..."
+                                    style={{
+                                        width: '100%',
+                                        padding: '12px',
+                                        background: '#2a2a2a',
+                                        border: '2px solid #00ff00',
+                                        color: '#00ff00',
+                                        fontSize: '1.1em',
+                                        fontFamily: 'VT323, monospace',
+                                        borderRadius: '5px'
+                                    }}
+                                />
+                                
+                                {/* Search Results Dropdown */}
+                                {showCompareSearchResults && compareSearchTerm.length >= 2 && (
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '100%',
+                                        left: '20px',
+                                        right: '20px',
+                                        marginTop: '5px',
+                                        background: '#1a1a1a',
+                                        border: '2px solid #00ff00',
+                                        borderRadius: '5px',
+                                        maxHeight: '300px',
+                                        overflowY: 'auto',
+                                        zIndex: 10001,
+                                        boxShadow: '0 4px 20px rgba(0, 255, 0, 0.4)'
+                                    }}>
+                                        {getCompareSearchResults().length === 0 ? (
+                                            <div style={{
+                                                padding: '20px',
+                                                textAlign: 'center',
+                                                color: '#888',
+                                                fontSize: '1.1em'
+                                            }}>
+                                                {compareSearchTerm.length < 2 
+                                                    ? 'Type at least 2 characters to search...'
+                                                    : 'No items found matching your search'
+                                                }
+                                            </div>
+                                        ) : (
+                                            getCompareSearchResults().map(item => (
+                                                <div
+                                                    key={item.Id}
+                                                    onClick={() => handleAddItemToCompare(item)}
+                                                    style={{
+                                                        padding: '12px 15px',
+                                                        borderBottom: '1px solid #00ff0020',
+                                                        cursor: 'pointer',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '12px',
+                                                        transition: 'all 0.2s'
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.currentTarget.style.background = '#00ff0020';
+                                                        e.currentTarget.style.boxShadow = `inset 0 0 15px ${getRarityColor(item)}30`;
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.currentTarget.style.background = 'transparent';
+                                                        e.currentTarget.style.boxShadow = 'none';
+                                                    }}
+                                                >
+                                                    <div style={{
+                                                        fontSize: '2em',
+                                                        filter: `drop-shadow(0 0 5px ${getRarityColor(item)})`
+                                                    }}>
+                                                        {getItemIcon(item)}
+                                                    </div>
+                                                    <div style={{ flex: 1 }}>
+                                                        <div style={{
+                                                            color: getRarityColor(item),
+                                                            fontWeight: 'bold',
+                                                            fontSize: '1.1em',
+                                                            marginBottom: '2px'
+                                                        }}>
+                                                            {cleanItemName(item.Name)}
+                                                        </div>
+                                                        <div style={{
+                                                            color: '#888',
+                                                            fontSize: '0.9em'
+                                                        }}>
+                                                            {item.Type} {item.WeaponType && `- ${item.WeaponType}`}
+                                                            {item.Level > 0 && ` • Lvl ${item.Level}`}
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        style={{
+                                                            background: 'transparent',
+                                                            border: '2px solid #00ff00',
+                                                            color: '#00ff00',
+                                                            padding: '6px 12px',
+                                                            borderRadius: '3px',
+                                                            cursor: 'pointer',
+                                                            fontSize: '1em',
+                                                            fontFamily: 'VT323, monospace',
+                                                            fontWeight: 'bold',
+                                                            transition: 'all 0.2s'
+                                                        }}
+                                                        onMouseEnter={(e) => {
+                                                            e.currentTarget.style.background = '#00ff00';
+                                                            e.currentTarget.style.color = '#000';
+                                                        }}
+                                                        onMouseLeave={(e) => {
+                                                            e.currentTarget.style.background = 'transparent';
+                                                            e.currentTarget.style.color = '#00ff00';
+                                                        }}
+                                                    >
+                                                        + Add
+                                                    </button>
+                                                </div>
+                                            ))
+                                        )}
+                                    </div>
+                                )}
+
+                                <div style={{
+                                    marginTop: '10px',
+                                    fontSize: '0.95em',
+                                    color: '#ffaa00',
+                                    textAlign: 'center'
+                                }}>
+                                    {compareItems.length}/4 items in comparison
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Items Comparison Grid */}
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: `repeat(${compareItems.length}, 1fr)`,
+                            gap: '20px',
+                            marginBottom: '20px'
+                        }}>
+                            {compareItems.map((item, index) => (
+                                <div
+                                    key={item.Id}
+                                    style={{
+                                        background: 'linear-gradient(180deg, #0f0f0f 0%, #050505 100%)',
+                                        border: `3px solid ${getRarityColor(item)}`,
+                                        borderRadius: '8px',
+                                        padding: '20px',
+                                        position: 'relative',
+                                        boxShadow: `0 0 20px ${getRarityColor(item)}40, inset 0 0 20px ${getRarityColor(item)}10`
+                                    }}
+                                >
+                                    {/* Remove from comparison button */}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            const newItems = compareItems.filter(i => i.Id !== item.Id);
+                                            setCompareItems(newItems);
+                                            if (newItems.length < 2) {
+                                                setShowCompareView(false);
+                                            }
+                                        }}
+                                        style={{
+                                            position: 'absolute',
+                                            top: '5px',
+                                            right: '5px',
+                                            background: 'transparent',
+                                            border: '2px solid #ff0000',
+                                            color: '#ff0000',
+                                            width: '25px',
+                                            height: '25px',
+                                            borderRadius: '3px',
+                                            cursor: 'pointer',
+                                            fontSize: '16px',
+                                            fontWeight: 'bold',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            transition: 'all 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            e.currentTarget.style.background = '#ff0000';
+                                            e.currentTarget.style.color = '#000';
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            e.currentTarget.style.background = 'transparent';
+                                            e.currentTarget.style.color = '#ff0000';
+                                        }}
+                                        title="Remove from comparison"
+                                    >
+                                        ✕
+                                    </button>
+
+                                    {/* Item Header */}
+                                    <div style={{
+                                        textAlign: 'center',
+                                        marginBottom: '20px',
+                                        paddingBottom: '15px',
+                                        borderBottom: `2px solid ${getRarityColor(item)}`
+                                    }}>
+                                        <div style={{
+                                            fontSize: '3em',
+                                            marginBottom: '10px',
+                                            filter: `drop-shadow(0 0 8px ${getRarityColor(item)})`
+                                        }}>
+                                            {getItemIcon(item)}
+                                        </div>
+                                        <h3 style={{
+                                            fontSize: '1.5em',
+                                            color: getRarityColor(item),
+                                            marginBottom: '5px',
+                                            textShadow: `0 0 8px ${getRarityColor(item)}80`,
+                                            fontWeight: 'bold',
+                                            wordBreak: 'break-word'
+                                        }}>
+                                            {cleanItemName(item.Name)}
+                                        </h3>
+                                        <div style={{
+                                            color: '#888',
+                                            fontSize: '1em',
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '1px'
+                                        }}>
+                                            {item.Type} {item.WeaponType && `- ${item.WeaponType}`}
+                                        </div>
+                                    </div>
+
+                                    {/* Stats */}
+                                    <div style={{
+                                        fontSize: '1.1em',
+                                        lineHeight: '2',
+                                        color: '#aaa'
+                                    }}>
+                                        {item.Level > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Level:</span>
+                                                <span style={{ color: '#00ff00', fontWeight: 'bold' }}>{item.Level}</span>
+                                            </div>
+                                        )}
+                                        {item.RequiredLevel > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Req. Level:</span>
+                                                <span style={{ color: '#ffaa00', fontWeight: 'bold' }}>{item.RequiredLevel}</span>
+                                            </div>
+                                        )}
+                                        {item.Damage > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Damage:</span>
+                                                <span style={{ color: '#ff6600', fontWeight: 'bold' }}>{item.Damage}</span>
+                                            </div>
+                                        )}
+                                        {item.Armor > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Armor:</span>
+                                                <span style={{ color: '#00aaff', fontWeight: 'bold' }}>{item.Armor}</span>
+                                            </div>
+                                        )}
+                                        {item.Health > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Health:</span>
+                                                <span style={{ color: '#ff0066', fontWeight: 'bold' }}>+{item.Health}</span>
+                                            </div>
+                                        )}
+                                        {item.Mana > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Mana:</span>
+                                                <span style={{ color: '#6666ff', fontWeight: 'bold' }}>+{item.Mana}</span>
+                                            </div>
+                                        )}
+                                        {item.Stamina > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Stamina:</span>
+                                                <span style={{ color: '#ffff00', fontWeight: 'bold' }}>+{item.Stamina}</span>
+                                            </div>
+                                        )}
+                                        {item.Value > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Value:</span>
+                                                <span style={{ color: '#ffd700', fontWeight: 'bold' }}>{item.Value} gold</span>
+                                            </div>
+                                        )}
+                                        {item.Weight > 0 && (
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #333', paddingBottom: '5px', marginBottom: '5px' }}>
+                                                <span>Weight:</span>
+                                                <span style={{ color: '#999', fontWeight: 'bold' }}>{item.Weight}</span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Item Effects */}
+                                    {(item.ItemEffects?.length > 0 || item.PotionEffect || item.PoisonEffect || item.ScrollEffect || item.UsableSpell || item.ProcSpellName) && (
+                                        <div style={{
+                                            marginTop: '15px',
+                                            paddingTop: '15px',
+                                            borderTop: '2px solid #333'
+                                        }}>
+                                            <h4 style={{
+                                                color: '#ff00ff',
+                                                fontSize: '1.2em',
+                                                marginBottom: '10px',
+                                                textShadow: '0 0 8px rgba(255, 0, 255, 0.6)'
+                                            }}>
+                                                ✨ Effects
+                                            </h4>
+                                            <div style={{ fontSize: '0.95em', color: '#ddd', lineHeight: '1.8' }}>
+                                                {item.ItemEffects?.map((effect, i) => effect && (
+                                                    <div key={i} style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • {effect}
+                                                    </div>
+                                                ))}
+                                                {item.PotionEffect && (
+                                                    <div style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • Potion: {item.PotionEffect}
+                                                    </div>
+                                                )}
+                                                {item.PoisonEffect && (
+                                                    <div style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • Poison: {item.PoisonEffect}
+                                                    </div>
+                                                )}
+                                                {item.ScrollEffect && (
+                                                    <div style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • Scroll: {item.ScrollEffect}
+                                                    </div>
+                                                )}
+                                                {item.UsableSpell && (
+                                                    <div style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • Spell: {item.UsableSpell}
+                                                    </div>
+                                                )}
+                                                {item.ProcSpellName && (
+                                                    <div style={{ marginBottom: '5px', paddingLeft: '10px', borderLeft: '2px solid #ff00ff40' }}>
+                                                        • Proc: {item.ProcSpellName}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Description */}
+                                    {item.Description && (
+                                        <div style={{
+                                            marginTop: '15px',
+                                            paddingTop: '15px',
+                                            borderTop: '2px solid #333'
+                                        }}>
+                                            <h4 style={{
+                                                color: '#00aaff',
+                                                fontSize: '1.2em',
+                                                marginBottom: '8px'
+                                            }}>
+                                                📜 Description
+                                            </h4>
+                                            <div style={{
+                                                color: '#ccc',
+                                                fontSize: '0.95em',
+                                                lineHeight: '1.6',
+                                                fontStyle: 'italic'
+                                            }}>
+                                                {item.Description}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div style={{
+                            display: 'flex',
+                            gap: '15px',
+                            justifyContent: 'center',
+                            paddingTop: '20px',
+                            borderTop: '2px solid #00ff0040'
+                        }}>
+                            <button
+                                onClick={handleClearCompare}
+                                style={{
+                                    padding: '12px 30px',
+                                    fontSize: '1.2em',
+                                    fontWeight: 'bold',
+                                    background: 'transparent',
+                                    color: '#ff0000',
+                                    border: '2px solid #ff0000',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    fontFamily: 'VT323, monospace'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.background = '#ff0000';
+                                    e.currentTarget.style.color = '#000';
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.background = 'transparent';
+                                    e.currentTarget.style.color = '#ff0000';
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                }}
+                            >
+                                Clear All & Close
+                            </button>
+                            <button
+                                onClick={() => setShowCompareView(false)}
+                                style={{
+                                    padding: '12px 30px',
+                                    fontSize: '1.2em',
+                                    fontWeight: 'bold',
+                                    background: 'linear-gradient(135deg, #00ff00, #00aa00)',
+                                    color: '#000',
+                                    border: '2px solid #00ff00',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    fontFamily: 'VT323, monospace',
+                                    boxShadow: '0 0 15px rgba(0, 255, 0, 0.5)'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1.05)';
+                                    e.currentTarget.style.boxShadow = '0 0 25px rgba(0, 255, 0, 0.8)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'scale(1)';
+                                    e.currentTarget.style.boxShadow = '0 0 15px rgba(0, 255, 0, 0.5)';
+                                }}
+                            >
+                                Close
                             </button>
                         </div>
                     </div>
