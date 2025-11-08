@@ -32,16 +32,7 @@ cd RevelationGameLibrary_v1.1_Client
 npm install
 ```
 
-3. **Copy game data to public folder** (required for first-time setup)
-```bash
-COPY_GAMEDATA_TO_PUBLIC.bat
-```
-Or manually run:
-```bash
-node copy-gamedata.js
-```
-
-4. **Start the development server**
+3. **Start the development server**
 ```bash
 npm start
 ```
@@ -49,6 +40,8 @@ npm start
 The app will automatically open at [http://localhost:3000](http://localhost:3000)
 
 ### 🎯 That's it! You're ready to explore Revelation!
+
+**Note:** Game data files are already included in the `public/GameData/` folder, so no additional setup is required.
 
 ## 📁 Project Structure
 
@@ -111,16 +104,13 @@ RevelationGameLibrary_v1.1_Client/
 
 ### Available Scripts
 
-- `npm start` - Start development server
+- `npm start` - Start development server (opens browser automatically)
 - `npm build` - Create production build
 - `npm test` - Run tests (if configured)
 
-### Utility Scripts
+### Additional Scripts
 
-- **GENERATE_MOB_IMAGES.bat** - Generate mob pixel art sprites
-- **GENERATE_SPRITESHEET.bat** - Create mob sprite sheet
-- **COPY_GAMEDATA_TO_PUBLIC.bat** - Copy game data to public folder
-- **PUSH_TO_GITHUB.bat** - Git commit and push helper
+- **PUSH_TO_GITHUB.bat** - Git commit and push helper (Windows only)
 
 ## 📊 Data Files
 
@@ -153,11 +143,13 @@ The app features a nostalgic 90s MUD aesthetic:
 ## 🔧 Technical Stack
 
 - **React** ^18.2.0
+- **React DOM** ^18.2.0
 - **React Scripts** 5.0.1
+- **React Markdown** ^9.0.1 - Guide rendering
+- **Remark GFM** ^4.0.0 - GitHub Flavored Markdown
 - **ES6 Modules** - Modern JavaScript
 - **SVG Graphics** - Scalable map rendering
 - **CSS3** - Animations and styling
-- **Canvas API** - Mob sprite generation (Python/Node.js)
 
 ## 📝 Contributing
 
@@ -172,7 +164,7 @@ Part of the Revelation Game Library project.
 
 ## 🎯 Version
 
-1.1 - Full Game Library Edition
+2.0.0 - Full Game Library Edition
 
 ---
 
