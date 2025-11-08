@@ -223,7 +223,8 @@
       "gridY": 3,
       "exits": {
         "west": "Epiach",
-        "east": "Eastern Epiach Plains"
+        "east": "Eastern Epiach Plains",
+        "north": "Subterranean Waterways"
       }
     },
     "Eastern Epiach Plains": {
@@ -233,6 +234,15 @@
       "gridY": 3,
       "exits": {
         "west": "East Epiach Highway"
+      }
+    },
+    "Subterranean Waterways": {
+      "name": "Subterranean Waterways",
+      "type": "Underground",
+      "gridX": 9,
+      "gridY": 2,
+      "exits": {
+        "south": "East Epiach Highway"
       }
     },
     "Western Epiach Foothills": {

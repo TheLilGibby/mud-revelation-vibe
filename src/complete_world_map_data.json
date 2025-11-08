@@ -385,7 +385,8 @@
       "description": "Major eastern road",
       "exits": {
         "west": "epiach",
-        "east": "coranin"
+        "east": "coranin",
+        "north": "SubWaterways"
       }
     },
     "coranin": {
@@ -658,10 +659,12 @@
       "displayName": "Subterranean Waterways",
       "type": "Underground",
       "region": "underground_realms",
-      "gridX": 8,
-      "gridY": 14,
+      "gridX": 17,
+      "gridY": 6,
       "description": "Underground river system",
-      "exits": {}
+      "exits": {
+        "south": "eastern_epiach_highway"
+      }
     },
     "grotto": {
       "name": "grotto",
