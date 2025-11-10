@@ -1,4 +1,5 @@
 import React from 'react';
+import GlobalSearch from './GlobalSearch';
 
 const menuItems = [
     { id: 'map', label: 'Map', icon: '🗺️' },
@@ -8,7 +9,7 @@ const menuItems = [
     { id: 'guides', label: 'Guides', icon: '📖' }
 ];
 
-function Header({ activeMenu, onMenuChange, onMapViewChange }) {
+function Header({ activeMenu, onMenuChange, onMapViewChange, onSearchNavigate }) {
 
     const handleMenuClick = (menuId) => {
         if (menuId === 'map') {
@@ -35,6 +36,10 @@ function Header({ activeMenu, onMenuChange, onMapViewChange }) {
                         <h1>REVELATION</h1>
                         <p>*** Game Library & Map Explorer ***</p>
                     </div>
+                </div>
+
+                <div className="header-search-section">
+                    <GlobalSearch onNavigate={onSearchNavigate} />
                 </div>
 
 				<nav className="header-nav" aria-label="Main">

@@ -125,12 +125,11 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
     useEffect(() => {
         const minSlider = document.querySelector('.dual-range-min-level');
         const maxSlider = document.querySelector('.dual-range-max-level');
-        const sliderContainer = document.getElementById('level-slider-container');
         
-        if (!minSlider || !maxSlider || !sliderContainer) return;
+        if (!minSlider || !maxSlider) return;
 
         const updateZIndex = (e) => {
-            const rect = sliderContainer.getBoundingClientRect();
+            const rect = e.currentTarget.getBoundingClientRect();
             const mouseX = e.clientX - rect.left;
             const mousePercent = mouseX / rect.width;
             const mouseValue = mousePercent * 200;
@@ -157,12 +156,17 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
             updateZIndex(e);
         };
         
-        sliderContainer.addEventListener('mousemove', handleMouseMove);
-        sliderContainer.addEventListener('mouseenter', handleMouseEnter);
+        const sliderContainer = minSlider.parentElement;
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mousemove', handleMouseMove);
+            sliderContainer.addEventListener('mouseenter', handleMouseEnter);
+        }
 
         return () => {
-            sliderContainer.removeEventListener('mousemove', handleMouseMove);
-            sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
+            if (sliderContainer) {
+                sliderContainer.removeEventListener('mousemove', handleMouseMove);
+                sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
+            }
         };
     }, [minLevel, maxLevel]);
 
@@ -1597,7 +1601,7 @@ function MobsPage({ onNavigateToMap, navigationData, onClearNavigation, onNaviga
                     </label>
                     
                     {/* Dual Thumb Range Slider */}
-                    <div id="level-slider-container" style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
+                    <div style={{ position: 'relative', height: '40px', marginBottom: '10px' }}>
                         {/* Track Background */}
                         <div style={{
                             position: 'absolute',

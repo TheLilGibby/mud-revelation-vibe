@@ -45,6 +45,38 @@ function AppContent() {
         console.log('[App] Switched to mobs page');
     };
 
+    const handleSearchNavigate = (result) => {
+        console.log('[App] Search navigation:', result);
+        
+        switch (result.type) {
+            case 'mob':
+                handleNavigateToMob(result.data);
+                break;
+            case 'item':
+                handleNavigateToItems(result.data);
+                break;
+            case 'zone':
+                // Navigate to map with zone data
+                handleNavigateToMap({
+                    zoneKey: result.id,
+                    zoneName: result.data.ZoneName
+                });
+                break;
+            case 'quest':
+                setActivePage('quests');
+                // Note: QuestsPage would need to be updated to accept navigation data
+                // For now, just navigate to the quests page
+                break;
+            case 'guide':
+                setActivePage('guides');
+                // Note: GuidesPage would need to be updated to accept navigation data
+                // For now, just navigate to the guides page
+                break;
+            default:
+                console.warn('Unknown search result type:', result.type);
+        }
+    };
+
     useEffect(() => {
         // Log initialization info
         console.log('Revelation Game Library (React) loaded successfully!');
@@ -76,6 +108,7 @@ function AppContent() {
                     activeMenu={activePage} 
                     onMenuChange={() => {}} // Disabled during loading
                     onMapViewChange={() => {}}
+                    onSearchNavigate={() => {}} // Disabled during loading
                 />
                 <main className="app-main" role="main">
                     <div className="loading-screen">
@@ -102,6 +135,7 @@ function AppContent() {
                     activeMenu={activePage} 
                     onMenuChange={handleMenuChange}
                     onMapViewChange={handleMapViewChange}
+                    onSearchNavigate={handleSearchNavigate}
                 />
                 <main className="app-main" role="main">
                     <div className="error-screen">
@@ -121,6 +155,7 @@ function AppContent() {
                 activeMenu={activePage} 
                 onMenuChange={handleMenuChange}
                 onMapViewChange={handleMapViewChange}
+                onSearchNavigate={handleSearchNavigate}
             />
 
             <main className="app-main" role="main">

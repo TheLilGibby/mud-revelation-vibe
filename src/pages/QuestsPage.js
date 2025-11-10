@@ -142,34 +142,44 @@ function QuestsPage({ isActive }) {
         
         if (!minSlider || !maxSlider) return;
 
+        const updateZIndex = (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mousePercent = mouseX / rect.width;
+            const mouseValue = mousePercent * 150;
+            
+            const distanceToMin = Math.abs(mouseValue - minLevel);
+            const distanceToMax = Math.abs(mouseValue - maxLevel);
+            
+            if (distanceToMin < distanceToMax) {
+                minSlider.style.zIndex = '5';
+                maxSlider.style.zIndex = '4';
+            } else {
+                minSlider.style.zIndex = '4';
+                maxSlider.style.zIndex = '5';
+            }
+        };
+
         const handleMouseMove = (e) => {
             if (!e.buttons) {
-                const rect = e.currentTarget.getBoundingClientRect();
-                const mouseX = e.clientX - rect.left;
-                const mousePercent = mouseX / rect.width;
-                const mouseValue = mousePercent * 150;
-                
-                const distanceToMin = Math.abs(mouseValue - minLevel);
-                const distanceToMax = Math.abs(mouseValue - maxLevel);
-                
-                if (distanceToMin < distanceToMax) {
-                    minSlider.style.zIndex = '5';
-                    maxSlider.style.zIndex = '4';
-                } else {
-                    minSlider.style.zIndex = '4';
-                    maxSlider.style.zIndex = '5';
-                }
+                updateZIndex(e);
             }
+        };
+
+        const handleMouseEnter = (e) => {
+            updateZIndex(e);
         };
         
         const sliderContainer = minSlider.parentElement;
         if (sliderContainer) {
             sliderContainer.addEventListener('mousemove', handleMouseMove);
+            sliderContainer.addEventListener('mouseenter', handleMouseEnter);
         }
 
         return () => {
             if (sliderContainer) {
                 sliderContainer.removeEventListener('mousemove', handleMouseMove);
+                sliderContainer.removeEventListener('mouseenter', handleMouseEnter);
             }
         };
     }, [minLevel, maxLevel]);
@@ -1911,24 +1921,102 @@ function QuestsPage({ isActive }) {
 
                 {/* Level Range Slider */}
                 <div style={{ marginBottom: '20px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '1.2em' }}>
+                    <label style={{ display: 'block', marginBottom: '15px', fontSize: '1.2em' }}>
                         🎚️ Level Range: 
-                        <span style={{ color: '#ffff00', marginLeft: '10px' }}>
-                            {minLevel} - {maxLevel}
-                        </span>
+                        <input 
+                            type="number"
+                            value={minLevel}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value === '' || value === '-') {
+                                    setMinLevel(0);
+                                } else {
+                                    const numValue = parseInt(value);
+                                    if (!isNaN(numValue)) {
+                                        setMinLevel(Math.max(0, Math.min(150, numValue)));
+                                    }
+                                }
+                            }}
+                            onBlur={(e) => {
+                                const value = parseInt(e.target.value) || 0;
+                                setMinLevel(Math.max(0, Math.min(150, value)));
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.target.blur();
+                                }
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            min="0"
+                            max="150"
+                            style={{
+                                width: '60px',
+                                marginLeft: '8px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #ffff00',
+                                borderRadius: '3px',
+                                color: '#ffff00',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
+                        <span style={{ color: '#ffff00', margin: '0 8px' }}>-</span>
+                        <input 
+                            type="number"
+                            value={maxLevel}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value === '' || value === '-') {
+                                    setMaxLevel(0);
+                                } else {
+                                    const numValue = parseInt(value);
+                                    if (!isNaN(numValue)) {
+                                        setMaxLevel(Math.max(0, Math.min(150, numValue)));
+                                    }
+                                }
+                            }}
+                            onBlur={(e) => {
+                                const value = parseInt(e.target.value) || 0;
+                                setMaxLevel(Math.max(0, Math.min(150, value)));
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                    e.target.blur();
+                                }
+                            }}
+                            onDoubleClick={(e) => e.target.select()}
+                            onFocus={(e) => e.target.select()}
+                            min="0"
+                            max="150"
+                            style={{
+                                width: '60px',
+                                padding: '4px 8px',
+                                background: '#2a2a2a',
+                                border: '2px solid #ffff00',
+                                borderRadius: '3px',
+                                color: '#ffff00',
+                                fontSize: '1em',
+                                fontFamily: 'VT323, monospace',
+                                textAlign: 'center'
+                            }}
+                        />
                     </label>
                     
+                    {/* Dual Thumb Range Slider */}
                     <div style={{ 
                         position: 'relative', 
                         height: '40px',
-                        marginBottom: '12px'
+                        marginBottom: '10px'
                     }}>
-                        {/* Track background */}
+                        {/* Track Background */}
                         <div style={{
                             position: 'absolute',
                             top: '16px',
                             left: '0',
-                            width: '100%',
+                            right: '0',
                             height: '8px',
                             background: '#2a2a2a',
                             border: '2px solid #555',
